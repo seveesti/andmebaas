@@ -1,0 +1,6 @@
+/node_modules/
+/assets/node_modules/
+/config/*.sqlite3
+/config/*.sqlite3-shm
+/config/*.sqlite3-wal
+/public/assets/*.css

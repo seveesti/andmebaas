@@ -1,0 +1,38 @@
+@font-face {
+	font-family: "Montserrat";
+	font-style: normal;
+	font-weight: normal;
+	text-rendering: optimizeLegibility;
+
+	src:
+		url("/assets/Montserrat-Regular.woff2") format("woff2"),
+		url("/assets/Montserrat-Regular.woff") format("woff"),
+		url("/assets/Montserrat-Regular.otf") format("opentype"),
+		url("/assets/Montserrat-Regular.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Montserrat";
+	font-style: normal;
+	font-weight: 500;
+	text-rendering: optimizeLegibility;
+
+	src:
+		url("/assets/Montserrat-Medium.woff2") format("woff2"),
+		url("/assets/Montserrat-Medium.woff") format("woff"),
+		url("/assets/Montserrat-Medium.otf") format("opentype"),
+		url("/assets/Montserrat-Medium.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Montserrat";
+	font-style: normal;
+	font-weight: 600;
+	text-rendering: optimizeLegibility;
+
+	src:
+		url("/assets/Montserrat-SemiBold.woff2") format("woff2"),
+		url("/assets/Montserrat-SemiBold.woff") format("woff"),
+		url("/assets/Montserrat-SemiBold.otf") format("opentype"),
+		url("/assets/Montserrat-SemiBold.ttf") format("truetype");
+}

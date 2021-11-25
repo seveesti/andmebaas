@@ -1,0 +1,5 @@
+--recursive
+--check-leaks
+--require must/register
+--require ./test
+--compilers jsx:j6pack/register

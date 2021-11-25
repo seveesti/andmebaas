@@ -1,0 +1,120 @@
+#!/usr/bin/env node
+process.title = "sev/web"
+if (process.env.ENV == null) process.env.ENV = "development"
+void require("j6pack/register")
+var _ = require("root/lib/underscore")
+var Fs = require("fs")
+var Url = require("url")
+var Http = require("http")
+var Express = require("express")
+var HttpError = require("standard-http-error")
+var Config = require("root/config")
+var ENV = process.env.ENV
+var PORT = process.env.PORT || 6090
+var logger = require("root").logger
+var outdent = require("root/lib/outdent")
+
+var app = module.exports = Express()
+app.enable("trust proxy", "loopback")
+app.engine(".jsx", require("j6pack/express"))
+app.set("views", __dirname + "/../views")
+app.set("env", ENV)
+
+// Handle static files in-app to ensure proper cache headers in the production
+// environment app server.
+app.use(Express.static(__dirname + "/../public", {
+	setHeaders: (res) => (
+		res.setHeader("Cache-Control", "max-age=0, public, must-revalidate")
+	)
+}))
+
+app.use((req, res, next) => { res.locals.req = req; next() })
+
+app.use(function(_req, res, next) {
+	res.setHeader("Cache-Control", "no-cache")
+  next()
+})
+
+app.use(require("cookie-parser")(Config.cookieSecret))
+app.use(require("body-parser").urlencoded({extended: true, limit: "1MB"}))
+app.use(require("root/lib/middleware/multipart_form_middleware"))
+app.use(require("root/lib/middleware/method_override_middleware"))
+app.use(require("root/lib/middleware/extension_middleware"))
+app.use(require("root/lib/middleware/csrf_middleware"))
+app.use(require("flash-fiction/express"))
+app.use(require("root/lib/middleware/session_middleware"))
+
+_.each({
+	"/": require("root/controllers/home_controller").router,
+	"/accounts": require("root/controllers/accounts_controller").router,
+	"/sessions": require("root/controllers/sessions_controller").router,
+	"/organizations": require("root/controllers/organizations_controller").router,
+	"/taxes": require("root/controllers/taxes_controller").router
+}, (router, path) => app.use(path, router))
+
+app.use((_req, _res, next) => next(new HttpError(404, "Not Found", {
+	title: "404 vabandust",
+
+	description: outdent`
+		Paistab, et siit aadressilt ei leia ühtegi lehte.
+		Kui arvad, et tegemist on veaga, palun anna sellest meile teada!
+	`
+})))
+
+app.use(function(err, req, res, _next) {
+	// Stop handling here if there was an error, but it's been responded to
+	// already.
+	if (res.headersSent) return
+
+	if (err instanceof HttpError) {
+		res.statusCode = err.code
+		res.statusMessage = err.message
+
+		return void res.render("error_page.jsx", {
+			title: err.title || err.code + " vabandust",
+			message: err.description || err.message
+		})
+	}
+
+	logger.error(require("util").inspect({
+		method: req.method,
+		path: req.url,
+		error: err
+	}, {depth: null}))
+
+	res.statusCode = 500
+
+	switch (ENV) {
+		case "development":
+		case "test":
+			res.setHeader("Content-Type", "text/plain")
+			return void res.end(err.stack)
+
+		default: res.render("error_page.jsx", {
+			title: "500 vabandust",
+
+			message: outdent`
+				Tundub, et me süsteemil on mingi viga.
+				Palun proovi korra uuesti, ja kui probleem kordub, võta meiega ühendust. Aitäh!
+			`
+		})
+	}
+})
+
+if (module.parent) return
+runServer(app, PORT)
+
+function runServer(app, port) {
+	if (!isFinite(port) && Fs.existsSync(port) && Fs.lstatSync(port).isSocket())
+		Fs.unlinkSync(port)
+
+	Http.createServer(app).listen(port, function() {
+		// Make world-writable to allow the web server to read and write to it.
+		if (!isFinite(port)) Fs.chmodSync(port, 0o777)
+		var addr = this.address()
+
+		logger.info("Listening on %s.", typeof addr == "string"
+			? addr
+			: Url.format({protocol: "http", hostname: addr.address, port: addr.port}))
+	})
+}

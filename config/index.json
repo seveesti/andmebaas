@@ -1,0 +1,14 @@
+{
+	"url": "https://sev.ee",
+	"cookieSecret": null,
+	"sessionCookieName": "session_token",
+
+	"email": {
+		"from": "SEV <andmebaas@sev.ee>",
+		"host": null,
+		"port": 25,
+		"secure": true,
+		"user": null,
+		"password": null
+	}
+}

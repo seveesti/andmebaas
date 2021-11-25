@@ -1,0 +1,949 @@
+@import "reset";
+@import "fonts";
+$page-padding: 8rem;
+$page-width: 128rem + $page-padding * 2;
+$body-font: Montserrat, Helvetica, Arial, sans-serif;
+$mono-font: monospace;
+$sev-blue: #3e00ff;
+$sev-black: #2b2b2b;
+$red: tomato;
+$nav-background: #f2f5ff;
+$table-horizontal-padding: 1.5rem;
+$table-header-background: $nav-background;
+$table-separator: $nav-background;
+$subtitle-grey: #878787;
+
+html,
+body {
+	min-height: 100%;
+}
+
+body {
+	background: white;
+	font-family: $body-font;
+	font-size: 1.6rem;
+	color: black;
+}
+
+main {
+	padding-bottom: 4rem;
+}
+
+strong { font-weight: bold; }
+
+.centered {
+	max-width: $page-width;
+	margin: 0 auto;
+	padding: 0 $page-padding;
+}
+
+.page-section {
+	& + .page-section { margin-top: 4rem; }
+	&.flash-section + .page-section { margin-top: 2rem; }
+}
+
+.page-section-heading {
+	font-size: 2.6rem;
+	font-weight: 500;
+	line-height: 1.5;
+
+	& + * { margin-top: 1rem; }
+}
+
+.page-paragraph + .page-paragraph,
+.page-paragraph + .page-table-wrapper,
+.page-paragraph + .page-table,
+.page-paragraph + .page-form { margin-top: 2rem; }
+
+.page-paragraph {
+	line-height: 1.5;
+	white-space: pre-wrap;
+
+	a { @extend .link-button; }
+}
+
+.page-table {
+	width: 100%;
+	line-height: 1.5;
+
+	& > caption {
+		text-align: left;
+		padding: 0.5rem $table-horizontal-padding;
+		color: $subtitle-grey;
+		font-weight: 500;
+	}
+
+	& > thead,
+	& > tbody,
+	& > tfoot {
+		td, th { padding: 1rem 1rem; }
+
+		th:first-child,
+		td:first-child { padding-left: $table-horizontal-padding; }
+		th:last-child,
+		td:last-child { padding-right: $table-horizontal-padding; }
+	}
+
+	& > .page-table-header {
+		position: sticky;
+		top: 0;
+
+		th {
+			color: $sev-black;
+			font-weight: 600;
+			background: $table-header-background;
+
+			.column-name {
+				& + .column-name { margin-left: 2rem; }
+			}
+
+			.sort-button {
+				background-image: url("/assets/sort.png");
+				background-position: right center;
+				background-repeat: no-repeat;
+				background-size: contain;
+				padding-right: 2rem;
+
+				&.asc,
+				&.desc {
+					font-weight: 600;
+				}
+
+				&.asc { background-image: url("/assets/sort-asc.png"); }
+				&.desc { background-image: url("/assets/sort-desc.png"); }
+
+				@extend .hover-link-button;
+			}
+
+			&:first-child { border-top-left-radius: 0.5rem; }
+			&:last-child { border-top-right-radius: 0.5rem; }
+		}
+	}
+
+	& > tbody {
+		background: white;
+		border-bottom: 0.1rem solid $table-separator;
+
+		tr + tr td { border-top: 0.1rem solid $table-separator; }
+	}
+
+	& > .page-table-footer {
+		td {
+			padding: 1rem 1rem;
+			background: $table-header-background;
+
+			&:first-child { border-bottom-left-radius: 0.5rem; }
+			&:last-child { border-bottom-right-radius: 0.5rem; }
+		}
+	}
+
+	&.has-form {
+		& > .page-table-footer td {
+			&:first-child { border-bottom-left-radius: 0; }
+			&:last-child { border-bottom-right-radius: 0; }
+		}
+	}
+}
+
+.page-form {
+	.page-form-label {
+		display: block;
+		color: $sev-black;
+		font-size: 1.3rem;
+		text-transform: uppercase;
+		font-weight: 600;
+		line-height: 1.5;
+		margin-bottom: 0.5rem;
+
+		& ~ .page-form-label,
+		& ~ .page-form-submit { margin-top: 1.5rem; }
+	}
+
+	.page-form-submit {
+		display: block;
+	}
+}
+
+.page-post-table-form {
+	background-color: $table-header-background;
+	padding: 1.5rem $table-horizontal-padding;
+	border-radius: 0.5rem;
+
+	fieldset {
+		display: inline-block;
+		margin-right: 2rem;
+		margin-bottom: 1rem;
+	}
+}
+
+.page-table + .page-post-table-form {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+%button {
+	display: inline-block;
+	padding: 1rem 1.5rem;
+	border: none;
+	border-radius: 0.8rem;
+	line-height: 1.2;
+	font-weight: 600;
+	text-transform: uppercase;
+	font-size: 1.3rem;
+
+	// Explicit center for when the buttons are displayed as blocks.
+	text-align: center;
+
+	outline-offset: 0.2rem;
+	-moz-outline-radius: 0.7rem;
+}
+
+.border-button {
+	@extend %button;
+
+	color: $sev-blue;
+	border: 1px solid $sev-blue;
+	border-radius: 0.8rem;
+
+	&:focus { outline: 1px dashed $sev-blue; }
+}
+
+.blue-button {
+	@extend %button;
+
+	background: $sev-blue;
+	color: white;
+
+	&:focus { outline: 1px dashed $sev-blue; }
+}
+
+.red-button {
+	@extend %button;
+
+	background: $red;
+	color: white;
+
+	&:focus { outline: 1px dashed $red; }
+}
+
+.link-button {
+	color: $sev-blue;
+	text-decoration: underline;
+	cursor: pointer;
+
+	border-radius: 0.2rem;
+	outline-offset: 0.2rem;
+	-moz-outline-radius: 0.2rem;
+
+	&:focus { outline: 1px dashed $sev-blue; }
+}
+
+.hover-link-button {
+	outline-offset: 0.2rem;
+
+	&:hover { color: $sev-blue; }
+	&:focus { outline: 1px dashed $sev-blue; }
+}
+
+.sev-checkbox {
+	display: inline-block;
+
+	input {
+		margin-right: 0.8rem;
+		vertical-align: sub;
+	}
+}
+
+.sev-radiobox {
+	display: inline-block;
+
+	input {
+		margin-right: 0.8rem;
+		vertical-align: middle;
+	}
+}
+
+.flash {
+	background-color: $table-header-background;
+	padding: 1.2rem 1.5rem;
+	font-weight: 500;
+	border-radius: 0.5rem;
+
+	&.notice { background: #CEECB7; }
+	&.error { color: white; background: tomato; }
+}
+
+#hero {
+	background: $nav-background;
+	background-repeat: no-repeat;
+	background-image: url("/assets/nav-background.svg");
+	background-position: right -150px;
+	background-position: calc(50% + 400px) -150px;
+}
+
+#nav {
+	line-height: 2.4rem;
+	color: black;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+	color: $sev-black;
+	text-align: right;
+	overflow: hidden;
+
+	.home {
+		float: left;
+		font-weight: bold;
+		font-size: 2rem;
+		display: inline-block;
+		margin-right: 1rem;
+
+		border-radius: 0.1rem;
+		-moz-outline-radius: 0.1rem;
+		outline-offset: 0.3rem;
+		&:focus { outline: 1px dashed white; }
+
+		img {
+			max-width: 14rem;
+			display: block;
+		}
+	}
+
+	ul {
+		padding-top: 1.5rem;
+		font-weight: 600;
+		font-size: 1.3rem;
+
+		li { display: inline-block; }
+
+		a:not(.border-button) {
+			text-transform: uppercase;
+
+			border-radius: 0.1rem;
+			-moz-outline-radius: 0.1rem;
+			outline-offset: 0.5rem;
+
+			&:hover { text-decoration: underline; }
+			&:focus { outline: 1px dashed $sev-black; }
+		}
+
+		.selected { font-weight: 600; }
+		li + li { margin-left: 2rem; }
+	}
+}
+
+#header {
+	@extend .centered;
+	padding-bottom: 4rem;
+
+	.page-heading {
+		font-size: 4rem;
+		font-weight: 600;
+		line-height: 1.5;
+
+		& + * { margin-top: 1rem; }
+	}
+
+	.page-paragraph { font-size: 1.5rem; }
+}
+
+#account-nav {
+	padding: 1.3rem 0;
+	line-height: 1.5;
+	background: $sev-blue;
+	color: white;
+
+	.centered {
+		display: flex;
+	}
+
+	.breadcrumbs {
+		.breadcrumb {
+			margin-right: 0.7rem;
+			display: inline-block;
+		}
+
+		.breadcrumb + .breadcrumb:before {
+			content: "➤";
+			margin-right: 0.7rem;
+		}
+
+		.pages {
+			display: inline-block;
+
+			.page {
+				display: inline-block;
+				margin-right: 0.7rem;
+
+				&:after { content: ","; }
+
+				&:last-child { margin-right: 0; }
+				&:last-child:after { content: ""; }
+			}
+
+			&:not(:empty):not(:first-child) {
+				margin-left: 1rem;
+
+				&:before { content: "("; }
+				&:after { content: ")"; }
+			}
+		}
+
+		a {
+			border-radius: 0.2rem;
+			outline-offset: 0.2rem;
+			-moz-outline-radius: 0.2rem;
+			text-decoration: underline;
+
+			&[href] { font-weight: 500; }
+			&[href]:focus { outline: 1px dashed white; }
+		}
+	}
+
+	.session {
+		flex-grow: 1;
+		text-align: right;
+	}
+
+	.account-name {
+		font-weight: 600;
+	}
+
+	.signout-form {
+		display: inline-block;
+		margin-left: 1rem;
+
+		button {
+			text-decoration: underline;
+			border-radius: 0.2rem;
+			outline-offset: 0.2rem;
+			-moz-outline-radius: 0.2rem;
+
+			&:focus { outline: 1px dashed white; }
+		}
+	}
+}
+
+main {
+	margin-top: 4rem;
+}
+
+#organizations-page main {
+	.business-models-column {
+		li { display: inline; }
+		li + li:before { content: ", "; }
+	}
+
+	#filters {
+		padding-left: $table-horizontal-padding;
+		padding-right: $table-horizontal-padding;
+		margin-bottom: 2rem;
+
+		h2 {
+			font-size: 1.3rem;
+			text-transform: uppercase;
+			font-weight: 600;
+			margin-bottom: 1rem;
+		}
+
+		.filter {
+			display: inline-block;
+			margin-right: 1.5rem;
+			margin-bottom: 1rem;
+			line-height: 1.5;
+
+			summary {
+				@extend %button;
+
+				color: $sev-blue;
+				border: 1px solid $sev-blue;
+				border-radius: 0.8rem;
+				cursor: pointer;
+
+				background-image: url("/assets/down-blue.png");
+				background-position: 1rem center;
+				background-repeat: no-repeat;
+				background-size: 1.2rem;
+				padding-left: 2.8rem;
+
+				// Without user-select clicking twice quickly ends up selecting text.
+				user-select: none;
+
+				&:focus-visible {
+					outline: 1px dashed $sev-blue;
+				}
+
+				&:hover:active {
+					background-color: $sev-blue;
+					background-image: url("/assets/up-white.png");
+					color: white;
+				}
+			}
+
+			&[open] summary {
+				background-color: $sev-blue;
+				background-image: url("/assets/up-white.png");
+				color: white;
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+		}
+
+		.submit-button {
+			// Margin for the reset button.
+			margin-right: 1.5rem;
+		}
+
+		.dropdown {
+			min-width: 16rem;
+			position: absolute;
+			background: white;
+			z-index: 100;
+			padding: 1.5rem 2rem;;
+			border-radius: 0.8rem;
+			border-top-left-radius: 0;
+			box-shadow: 0 0.5rem 0.7rem 0.1rem rgba(0, 0, 0, 0.2);
+			overflow: auto;
+		}
+
+		#sustainability-goals-filter {
+			img {
+				vertical-align: middle;
+				width: 1.6rem;
+				margin-right: 1rem;
+				border-radius: 0.2rem;
+			}
+		}
+
+		.current {
+			line-height: 1.5;
+
+			h3 {
+				display: inline;
+				font-weight: 600;
+				margin-right: 1rem;
+			}
+
+			ul {
+				display: inline;
+			}
+
+			li {
+				display: inline;
+
+				&:not(:last-child):after { content: ", "; }
+
+				img {
+					vertical-align: middle;
+					display: inline-block;
+					width: 1.6rem;
+					margin-right: 0.5rem;
+					border-radius: 0.2rem;
+				}
+			}
+		}
+	}
+
+	#organizations-table {
+		caption div {
+			display: flex;
+
+			.count,
+			.taxes-description { flex-grow: 1; }
+
+			.count { color: black; }
+			.taxes-description { text-align: right; }
+		}
+
+		td.name-column {
+			a {
+				font-size: 2rem;
+				font-weight: 500;
+				color: $sev-blue;
+
+				border-radius: 0.2rem;
+				outline-offset: 0.2rem;
+				-moz-outline-radius: 0.2rem;
+
+				&:focus { outline: 1px dashed $sev-blue; }
+			}
+		}
+
+		.organization.unpublished {
+			td.name-column {
+				font-style: italic;
+
+				.unpublished-icon { font-style: normal; }
+			}
+		}
+
+		td.business-models-column,
+		td.revenue-column,
+		td.employee-count-column {
+			font-size: 2rem;
+			font-weight: 500;
+		}
+
+		.goals {
+			li {
+				display: inline-block;
+				margin-right: 0.5rem;
+				margin-bottom: 0.5rem;
+			}
+
+			img {
+				width: 4.8rem;
+				border-radius: 0.5rem;
+				vertical-align: top;
+			}
+		}
+	}
+}
+
+.organization-page main {
+	#publish-bar  {
+		margin-top: -4rem;
+		margin-bottom: 4rem;
+		padding: 1rem 0;
+		color: white;
+		background-color: $sev-black;
+
+		.centered {
+			align-items: center;
+		}
+
+		.publishing-form {
+			display: inline-block;
+			margin-right: 2rem;
+
+			button {
+				padding-top: 0.8rem;
+				padding-bottom: 0.8rem;
+			}
+		}
+	}
+}
+
+#organization-page main {
+	header,
+	#details,
+	#long-description,
+	#sustainability-goals,
+	#board-members {
+		max-width: 85rem + $page-padding * 2;
+	}
+
+	header {
+		margin-top: 8rem;
+		line-height: 1.5;
+
+		#logo {
+			display: block;
+			max-width: 17rem;
+			max-height: 17rem;
+			margin-bottom: 1rem;
+			margin-left: 2rem;
+			margin-bottom: 2rem;
+		}
+
+		.official-name,
+		.registry-code {
+			font-weight: 600;
+		}
+
+		#short-description {
+			margin-top: 2rem;
+		}
+
+		#links {
+			margin-top: 2rem;
+			text-transform: uppercase;
+			font-size: 1.3rem;
+			font-weight: 600;
+
+			li {
+				display: inline-block;
+				margin-right: 2rem;
+			}
+
+			a {
+				display: inline-block;
+				padding-top: 0.7rem;
+				padding-bottom: 0.7rem;
+				padding-left: 3rem;
+				background-repeat: no-repeat;
+				background-position: left center;
+
+				border-radius: 0.2rem;
+				outline-offset: 0.2rem;
+				-moz-outline-radius: 0.2rem;
+
+				&:hover { color: $sev-blue; }
+				&:focus { outline: 1px dashed $sev-blue; }
+			}
+
+			.web-button { background-image: url("/assets/web.svg"); }
+			.email-button { background-image: url("/assets/email.svg"); }
+			.linkedin-button { background-image: url("/assets/linkedin.svg"); }
+			.facebook-button { background-image: url("/assets/facebook.svg"); }
+			.instagram-button { background-image: url("/assets/instagram.svg"); }
+		}
+	}
+
+	h2 {
+		font-size: 1.3rem;
+		text-transform: uppercase;
+		font-weight: 600;
+		margin-bottom: 1rem;
+	}
+
+	#short-description,
+	#long-description,
+	#board-members {
+		line-height: 1.5;
+
+		p { white-space: pre-wrap; }
+	}
+
+	#details {
+		margin-top: 4rem;
+		columns: 35rem 2;
+		column-gap: 2rem;
+
+		& > h2 {
+			margin-top: 4rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.fact {
+			vertical-align: top;
+			margin-right: 4rem;
+			margin-bottom: 2rem;
+
+			p, ul {
+				line-height: 1.5;
+				font-size: 1.6rem;
+				font-weight: 600;
+			}
+
+			h2 { margin-bottom: 0.5rem; }
+			& + .fact {}
+		}
+
+		@media screen and (max-width: 879px) {
+			columns: auto;
+
+			.fact { display: inline-block; }
+		}
+
+		#general {
+			#business-models {
+				li { display: inline; }
+				li + li:before { content: ", "; }
+			}
+		}
+	}
+
+	#sustainability-goals {
+		break-inside: avoid;
+
+		$image-size: 6rem;
+
+		line-height: 1.5;
+
+		ol { margin-top: 2rem; }
+
+		li {
+			clear: both;
+			padding-bottom: 2rem;
+			break-inside: avoid;
+		}
+
+		h3 {
+			font-weight: 600;
+			margin-bottom: 0.3rem;
+		}
+
+		p {
+			font-size: 1.6rem;
+			margin-left: $image-size + 1.5rem;
+		}
+
+		img {
+			width: $image-size;
+			margin-right: 1.5rem;
+			float: left;
+			border-radius: 0.5rem;
+		}
+	}
+
+	#taxes,
+	#updates {
+		h2 {
+			line-height: 1.3;
+			font-size: 1.6rem;
+			text-transform: none;
+			color: $sev-black;
+			font-weight: 600;
+			margin-bottom: 2rem;
+		}
+	}
+
+	#taxes {
+		tbody th { font-weight: 500; }
+	}
+}
+
+#update-organization-page main {
+	section + form {
+		margin-top: 2rem;
+	}
+
+	#back + .flash { margin-top: 1rem; }
+
+	header {
+		margin-bottom: 3rem;
+		line-height: 1.5;
+
+		h1 {
+			margin-bottom: 0.5rem;
+		}
+
+		h1 input {
+			padding: 0.8rem 0.8rem;
+			width: 100%;
+
+			font-weight: 600;
+			line-height: 1.1;
+			font-size: 4rem;
+			color: black;
+		}
+
+		.official-name,
+		.registry-code {
+			color: $subtitle-grey;
+			font-size: 2rem;
+			font-weight: 500;
+		}
+	}
+
+	.field-name {
+		display: block;
+		color: $subtitle-grey;
+		font-size: 1.4rem;
+		text-transform: uppercase;
+		font-weight: 600;
+		margin-bottom: 0.5rem;
+	}
+
+	.field-row {
+		line-height: 1.5;
+	}
+
+	#organization-logo-row {
+		img {
+			display: block;
+			max-width: 30rem;
+			margin-bottom: 1rem;
+		}
+
+		input { margin-top: 1rem; }
+	}
+
+	h3 {
+		font-weight: 600;
+
+		& ~ h3 { margin-top: 1.6rem; }
+	}
+
+	h4 {
+		font-size: 1.6rem;
+		font-weight: 500;
+
+		& ~ h4 { margin-top: 1.6rem; }
+	}
+
+	input[name=url] {
+		min-width: 35rem;
+		max-width: 100%;
+	}
+
+	textarea[name=short_description] { min-height: 10rem; }
+	textarea[name=long_description] { min-height: 16rem; }
+
+	textarea {
+		width: 100%;
+		resize: vertical;
+	}
+
+	.field-description + label {
+		margin-top: 1.6rem;
+	}
+
+	.sev-checkbox {
+		margin-bottom: 0.2rem;
+	}
+
+	.field-row + .field-row {
+		margin-top: 1.6rem;
+	}
+
+	#regions,
+	#sustainability-goals {
+		margin-top: 4rem;
+	}
+
+	#taxes-table {
+		tbody .year-column,
+		tbody .quarter-column {
+			font-weight: bold;
+		}
+
+		input {
+			width: 100%;
+		}
+
+		.original {
+			padding-left: 1rem;
+			margin-top: 0.5rem;
+
+			output {
+				font-family: $mono-font;
+				font-weight: 600;
+			}
+		}
+	}
+
+	#submit-section {
+		padding-top: 2rem;
+		padding-bottom: 2rem;
+		background-color: $table-header-background;
+		border-radius: 0.5rem;
+	}
+
+	#delete-section {
+		margin-top: 2rem;
+
+		form {
+			display: inline-block;
+			margin-left: 1rem;
+
+			button {
+				padding: 0.7rem 1rem;
+			}
+		}
+	}
+}
+
+#taxes-page main {
+	#upload-form {
+		select[name=quarter] { margin-left: 1rem; }
+	}
+}
+
+#accept-account-invite-page main {
+	form {
+		background-color: $table-header-background;
+		padding: 1.5rem $table-horizontal-padding;
+		border-radius: 0.5rem;
+	}
+}

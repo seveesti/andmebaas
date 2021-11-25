@@ -1,0 +1,74 @@
+{
+	"1": {
+		"name": "Kaotada kõikjal vaesus",
+		"title": "Kaotada kõikjal vaesus mis tahes kujul."
+	},
+	"2": {
+		"name": "Kaotada näljahäda",
+		"title": "Kaotada nälg, saavutada toiduga kindlustatus ja parem toitumine ning toetada säästvat põllumajandust."
+	},
+	"3": {
+		"name": "Tervis ja heaolu",
+		"title": "Tagada kõikidele vanuserühmadele hea tervis ja heaolu."
+	},
+	"4": {
+		"name": "Kvaliteetne haridus",
+		"title": "Tagada kõikidele kaasav ja õiglane kvaliteetne haridus ning elukestva õppe võimalused."
+	},
+	"5": {
+		"name": "Sooline võrdõiguslikkus",
+		"title": "Saavutada sooline võrdõiguslikkus ning suurendada naiste ja tütarlaste mõjuvõimu."
+	},
+	"6": {
+		"name": "Puhas vesi ja sanitaaria",
+		"title": "Tagada kõikidele joogivesi ja kanalisatsioon ning veevarude säästev majandamine."
+	},
+	"7": {
+		"name": "Jätkusuutlik energia",
+		"title": "Tagada taskukohane, usaldusväärne, säästev ja kaasaegne energia kõigile."
+	},
+	"8": {
+		"name": "Tööhõive ja majanduskasv",
+		"title": "Toetada säästvat, kaasavat ja jätkusuutlikku majandusarengut ning tagada kõigile inimestele inimväärne töö."
+	},
+	"9": {
+		"name": "Tööstus, uuendus ja taristu",
+		"title": "Ehitada vastupidav taristu, toetada kaasavat ja säästlikku industrialiseerimist ning innovatsiooni."
+	},
+	"10": {
+		"name": "Ebavõrdsuse vähendamine",
+		"title": "Vähendada ebavõrdsust nii riikide sees kui ka nende vahel."
+	},
+	"11": {
+		"name": "Jätkusuutlikud linnad ja asumid",
+		"title": "Muuta linnad ja asulad kaasavaks, turvaliseks, vastupidavaks ja säästvaks."
+	},
+	"12": {
+		"name": "Sääštev tootmine ja tarbimine",
+		"title": "Tagada säästev tarbimine ja tootmine."
+	},
+	"13": {
+		"name": "Kliimamuutuste vastased meetmed",
+		"title": "Võtta kiiresti meetmeid kliimamuutuste ja nende mõjuga võitlemiseks."
+	},
+	"14": {
+		"name": "Ookeanid ja mereressursid",
+		"title": "Kaitsta ja kasutada säästvalt ookeane, meresid ja mere elusressursse, et saavutada säästev areng."
+	},
+	"15": {
+		"name": "Maa ökosüsteemid",
+		"title": "Kaitsta ja taastada maismaa ökosüsteeme ning propageerida nende säästvat kasutamist; majandada metsi säästvalt, võidelda kõrbestumisega ning peatada ja pöörata ümber pinnase halvenemine ja bioloogilise mitmekesisuse hävimine."
+	},
+	"16": {
+		"name": "Rahumeelsed ja kaasavad institutsioonid",
+		"title": "Toetada rahumeelseid ja kaasavaid ühiskondi, et saavutada säästev areng; tagada kõikidele õiguskaitse kättesaadavus ning luua kõikidel tasanditel tõhusad, vastutustundlikud ja kaasavad institutsioonid."
+	},
+	"17": {
+		"name": "Üleilmne koostöö",
+		"title": "Tugevdada tegevuskava rakendamise meetodeid ja taaselustada säästva arengu alane ülemaailmne partnerlus."
+	},
+	"culture": {
+		"name": "Kultuuriruumi elujõulisus",
+		"title": "Kultuuriruumi elujõulisus"
+	}
+}

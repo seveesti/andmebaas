@@ -1,0 +1,98 @@
+ENV = development
+NODE = node
+NODE_OPTS = --use-strict --require j6pack/register
+NPM_REBUILD = npm --ignore-scripts false rebuild --build-from-source
+MOCHA = ./node_modules/.bin/_mocha
+TEST = $$(find test -name "*_test.js")
+SHANGE = vendor/shange -d db/migrations -f "config/$(ENV).sqlite3"
+LIVERELOAD_PORT = 35738
+
+export ENV
+export PORT
+export LIVERELOAD_PORT
+
+ifneq ($(filter test spec autotest autospec test/%, $(MAKECMDGOALS)),)
+	ENV = test
+endif
+
+RSYNC_OPTS = \
+	--compress \
+	--recursive \
+	--links \
+	--itemize-changes \
+	--omit-dir-times \
+	--times \
+	--prune-empty-dirs \
+	--delete
+
+love:
+	@$(MAKE) -C assets
+
+web: PORT = 6090
+web:
+	@$(NODE) $(NODE_OPTS) ./bin/$@
+
+livereload:
+	@$(NODE) \
+		./node_modules/.bin/livereload public --wait 50 --port $(LIVERELOAD_PORT)
+
+test:
+	@$(NODE) $(NODE_OPTS) $(MOCHA) -R dot $(TEST)
+
+spec:
+	@$(NODE) $(NODE_OPTS) $(MOCHA) -R spec $(TEST)
+
+autotest:
+	@$(NODE) $(NODE_OPTS) $(MOCHA) -R dot --watch $(TEST)
+
+autospec:
+	@$(NODE) $(NODE_OPTS) $(MOCHA) -R spec --watch $(TEST)
+
+shrinkwrap:
+	npm shrinkwrap --dev
+
+rebuild:
+	$(NPM_REBUILD) better-sqlite3
+	$(NPM_REBUILD) bcrypt
+
+config/%.sqlite3:
+	sqlite3 "$@" < db/schema.sql
+
+db/create: config/$(ENV).sqlite3
+
+db/status:
+	@$(SHANGE) status
+
+db/migrate:
+	@$(SHANGE) migrate
+	@$(SHANGE) schema > db/schema.sql
+
+db/migration: NAME = $(error "Please set NAME.")
+db/migration:
+	@$(SHANGE) create "$(NAME)"
+
+deploy:
+	@rsync $(RSYNC_OPTS) \
+		--exclude ".*" \
+		--exclude "config/*.sqlite3*" \
+		--exclude "/assets/***" \
+		--exclude "/test/***" \
+		--exclude "node_modules/mocha/***" \
+		--exclude "node_modules/must/***" \
+		--exclude "node_modules/livereload/***" \
+		--exclude "node_modules/better-sqlite3/***" \
+		--exclude "node_modules/jsdom/***" \
+		. \
+		"$(APP_HOST):$(or $(APP_PATH), $(error "APP_PATH"))/"
+
+staging: APP_HOST = dot.ee
+staging: APP_PATH = www/sev
+staging: deploy
+
+.PHONY: love
+.PHONY: web
+.PHONY: livereload
+.PHONY: test spec autotest autospec
+.PHONY: shrinkwrap rebuild
+.PHONY: db/create db/status db/migrate db/migration
+.PHONY: deploy staging
