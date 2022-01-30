@@ -21,6 +21,7 @@ var OTHER_URLS_PLACEHOLDER = [
 
 module.exports = function(attrs) {
 	var {req} = attrs
+	var {t} = req
 	var {account} = req
 	var org = attrs.organization
 	var orgPath = "/organizations/" + org.registry_code
@@ -187,21 +188,20 @@ module.exports = function(attrs) {
 							value="off"
 						/>
 
-						{_.map(SUSTAINABILITY_GOALS, function(goal, id) {
-							return <Fragment>
-								<label class="sev-checkbox">
-									<input
-										type="checkbox"
-										name={`sustainability_goals[${id}]`}
-										checked={org.sustainability_goals.has(id)}
-									/>
-									{/^\d+$/.test(id) ? <strong>Eesmärk {id}:</strong> : null}
-									{" "}
-									{goal.title}
-								</label>
-								<br />
-							</Fragment>
-						})}
+						{SUSTAINABILITY_GOALS.map((id) => <Fragment>
+							<label class="sev-checkbox">
+								<input
+									type="checkbox"
+									name={`sustainability_goals[${id}]`}
+									checked={org.sustainability_goals.has(id)}
+								/>
+								{/^\d+$/.test(id) ? <strong>Eesmärk {id}:</strong> : null}
+								{" "}
+								{t(`sdg.${id}.title`)}
+							</label>
+
+							<br />
+						</Fragment>)}
 					</li>
 
 					<li class="field-row">

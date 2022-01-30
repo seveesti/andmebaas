@@ -10,15 +10,16 @@ var {UntrustedLink} = Page
 var {MoneyElement} = Page
 var {FormButton} = Page
 var {Flash} = Page
+var {SdgImage} = Page
 var {isAdminOrMember} = require("root/controllers/organizations_controller")
 var BUSINESS_MODELS = require("root/lib/business_models")
 var EMTAK = require("root/lib/emtak")
 var REGIONS = require("root/lib/regions")
 var COUNTIES = require("root/lib/estonian_counties")
-var SUSTAINABILITY_GOALS = require("root/lib/sustainability_goals")
 
 module.exports = function(attrs) {
 	var {req} = attrs
+	var {t} = req
 	var {account} = req
 	var {members} = req
 	var {updates} = attrs
@@ -110,12 +111,12 @@ module.exports = function(attrs) {
 		<Section id="details">
 			<ul id="general">
 				{org.founded_on ? <li class="fact">
-					<h2>Asutamise aasta</h2>
+					<h2>{t("organization_page.founded_on")}</h2>
 					<p>{org.founded_on.getFullYear()}</p>
 				</li> : null}
 
 				{org.regions.size > 0 ? <li class="fact">
-					<h2>Regioon</h2>
+					<h2>{t("organization_page.region")}</h2>
 
 					<ul>{Array.from(org.regions, function(id) {
 						if (id in COUNTIES && org.regions.has("estonia")) return null
@@ -124,7 +125,7 @@ module.exports = function(attrs) {
 				</li> : null}
 
 				{org.business_models.size > 0 ? <li class="fact">
-					<h2>Ärimudel</h2>
+					<h2>{t("organization_page.business_model")}</h2>
 
 					<ul>{Array.from(org.business_models, (id) => <li>
 						{" "}<abbr title={BUSINESS_MODELS[id]}>{id.toUpperCase()}</abbr>
@@ -132,55 +133,53 @@ module.exports = function(attrs) {
 				</li> : null}
 
 				{org.emtak ? <li class="fact">
-					<h2>Sektor</h2>
+					<h2>{t("organization_page.sector")}</h2>
 					<p>{EMTAK[org.emtak]}</p>
 				</li> : null}
 			</ul>
-
-			{org.sustainability_goals.size > 0 ? <div id="sustainability-goals">
-				<h2>Säästva arengu eesmärgid</h2>
-
-				<ol>
-					{Array.from(org.sustainability_goals, function(id) {
-						var goal = SUSTAINABILITY_GOALS[id]
-
-						return <li>
-							<img
-								src={"/assets/sdg-" + id + ".svg"}
-								alt={SUSTAINABILITY_GOALS[id].name}
-								title={SUSTAINABILITY_GOALS[id].title}
-							/>
-
-							{/^\d+$/.test(id) ? <h3>Eesmärk {id}</h3> : null}
-							<p>{goal.title}</p>
-						</li>
-					})}
-				</ol>
-			</div> : null}
 		</Section>
 
+		{org.sustainability_goals.size > 0 ? <Section id="sustainability-goals">
+			<h2>{t("organization_page.goals")}</h2>
+
+			<ol>
+				{Array.from(org.sustainability_goals, function(id) {
+					return <li>
+						<SdgImage t={t} goal={id} />
+
+						<h3>
+							{/^\d+$/.test(id) ? [<strong>{id}.</strong>, " "] : null}
+							{t(`sdg.${id}.title`)}
+						</h3>
+
+						<p>{t(`sdg.${id}.description`)}</p>
+					</li>
+				})}
+			</ol>
+		</Section> : null}
+
 		{org.long_description ? <Section id="long-description">
-			<h2>Kirjeldus</h2>
+			<h2>{t("organization_page.long_description")}</h2>
 			<p>{org.long_description}</p>
 		</Section> : null}
 
 		{org.board_members.length > 0 ? <Section id="board-members">
-			<h2>Juhatuse liikmed</h2>
+			<h2>{t("organization_page.board_members")}</h2>
 			<ul>{org.board_members.map((name) => <li>{name}</li>)}</ul>
 		</Section> : null}
 
 		{org.taxes.length > 0 ? <Section id="taxes">
-			<h2>Finantsinfo</h2>
+			<h2>{t("organization_page.financials")}</h2>
 
 			<table id="taxes-table" class="page-table">
 				<thead class="page-table-header">
 					<tr>
-						<th>Aasta</th>
-						<th>Kvartal</th>
-						<th>Käive</th>
-						<th>Töötajate arv</th>
-						<th>Riiklikud maksud</th>
-						<th>Tööjõumaksud</th>
+						<th>{t("organization_page.financials.year")}</th>
+						<th>{t("organization_page.financials.quarter")}</th>
+						<th>{t("organization_page.financials.revenue")}</th>
+						<th>{t("organization_page.financials.employee_count")}</th>
+						<th>{t("organization_page.financials.taxes")}</th>
+						<th>{t("organization_page.financials.employment_taxes")}</th>
 					</tr>
 				</thead>
 

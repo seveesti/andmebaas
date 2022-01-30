@@ -24,7 +24,7 @@ var concat = Array.prototype.concat.bind(Array.prototype)
 var flatten = Function.apply.bind(Array.prototype.concat, Array.prototype)
 var BUSINESS_MODELS = new Set(_.keys(require("root/lib/business_models")))
 var REGIONS = new Set(_.keys(require("root/lib/regions")))
-var SUSTAINABILITY_GOALS = require("root/lib/sustainability_goals")
+var GOALS = require("root/lib/sustainability_goals")
 exports.router = Router({mergeParams: true})
 exports.isAdminOrMember = isAdminOrMember
 
@@ -474,7 +474,7 @@ function parseBusinessModels(models) {
 }
 
 function parseSustainabilityGoals(goals) {
-	return new Set(_.keys(goals).filter(_.hasOwn.bind(_, SUSTAINABILITY_GOALS)))
+	return new Set(_.keys(goals).filter((goal)=> GOALS.includes(goal)))
 }
 
 function parseRegions(regions) {

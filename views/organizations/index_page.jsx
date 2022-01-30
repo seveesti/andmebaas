@@ -8,12 +8,14 @@ var {Section} = Page
 var {Form} = Page
 var {MoneyElement} = Page
 var {FlashSection} = Page
+var {SdgImage} = Page
 var {javascript} = require("root/lib/jsx")
 var SUSTAINABILITY_GOALS = require("root/lib/sustainability_goals")
 var BUSINESS_MODELS = require("root/lib/business_models")
 
 module.exports = function(attrs) {
 	var {req} = attrs
+	var {t} = req
 	var {account} = req
 	var {filters} = attrs
 	var {organizations} = attrs
@@ -23,7 +25,7 @@ module.exports = function(attrs) {
 
 	return <Page
 		page="organizations"
-		title="Andmebaas"
+		title={t("organizations_page.title")}
 		req={attrs.req}
 
 		nav={account && [{pages: [
@@ -33,15 +35,14 @@ module.exports = function(attrs) {
 		].filter(Boolean)}]}
 
 		header={<Fragment>
-			<h1 class="page-heading">Andmebaas</h1>
-
-			<p class="page-paragraph">Sotsiaalse ettevõtte lühidefinitsioon: ühiskondliku eesmärgiga organisatsioon, mis kasutab oma sihi saavutamiseks ettevõtlust. Ühiskondliku eesmärgi olemasolu tähendab, et see on püsivalt fikseeritud organisatsiooni põhikirjas. Ettevõte tegutseb majandusüksusena ehk pakub kaupu või teenuseid tasu eest püsiva tegevusena.</p>
+			<h1 class="page-heading">{t("organizations_page.title")}</h1>
+			<p class="page-paragraph">{t("organizations_page.description")}</p>
 		</Fragment>}
 	>
 		<FlashSection flash={req.flash} />
 
 		<Section>
-			<Filters path={path} filters={filters} />
+			<Filters t={t} path={path} filters={filters} />
 
 			<table
 				id="organizations-table"
@@ -52,8 +53,12 @@ module.exports = function(attrs) {
 				<caption><div>
 					<span class="count">
 						{organizations.length == 1
-							? "1 sotsiaalne ettevõte"
-							: organizations.length + " sotsiaalset ettevõtet"
+							? t("organizations_page.organization_count_1", {
+								count: organizations.length
+							})
+							: t("organizations_page.organization_count_n", {
+								count: organizations.length
+							})
 						}.
 						{" "}
 
@@ -67,7 +72,10 @@ module.exports = function(attrs) {
 					{" "}
 
 					{taxQuarter ? <span class="taxes-description">
-						Finantsandmed {taxQuarter.year} {taxQuarter.quarter}. kvartalist.
+						{t("organizations_page.financials_from", {
+							year: taxQuarter.year,
+							quarter:taxQuarter.quarter
+						})}
 					</span> : null}
 				</div></caption>
 
@@ -80,12 +88,12 @@ module.exports = function(attrs) {
 								name="name"
 								sorted={orderName == "name" ? orderDirection : null}
 							>
-								Ettevõte
+								{t("organizations_page.table.organization")}
 							</SortButton>
 						</th>
 
 						<th>
-							Eesmärgid
+							{t("organizations_page.table.goals")}
 						</th>
 
 						<th class="revenue-column">
@@ -96,7 +104,7 @@ module.exports = function(attrs) {
 								sorted={orderName == "revenue" ? orderDirection : null}
 								direction="desc"
 							>
-								Käive
+								{t("organizations_page.table.revenue")}
 							</SortButton>
 						</th>
 
@@ -108,12 +116,12 @@ module.exports = function(attrs) {
 								sorted={orderName == "employee-count" ? orderDirection : null}
 								direction="desc"
 							>
-								Töötajaid
+								{t("organizations_page.table.employees")}
 							</SortButton>
 						</th>
 
 						<th class="business-models-column">
-							Ärimudel
+							{t("organizations_page.table.business_model")}
 						</th>
 					</tr>
 				</thead>
@@ -138,11 +146,7 @@ module.exports = function(attrs) {
 
 							<td class="goals">
 								<ul>{Array.from(org.sustainability_goals, (id) => <li>
-									<img
-										src={"/assets/sdg-" + id + ".svg"}
-										alt={SUSTAINABILITY_GOALS[id].name}
-										title={SUSTAINABILITY_GOALS[id].title}
-									/>
+									<SdgImage t={t} goal={id} />
 								</li>)}</ul>
 							</td>
 
@@ -166,11 +170,10 @@ module.exports = function(attrs) {
 				<tfoot class="page-table-footer">
 					<tr>
 						<td colspan="5">
-							Lae organisatsioonide avaandmed
+							{Jsx.html(t("organizations_page.download_in_csv", {
+								url: path + ".csv",
+							}))}
 							{" "}
-							<a href={path + ".csv"} class="link-button">CSV</a>
-							{" "}
-							formaadis.
 						</td>
 					</tr>
 				</tfoot>
@@ -212,13 +215,14 @@ module.exports = function(attrs) {
 function Filters(attrs) {
 	var {path} = attrs
 	var {filters} = attrs
+	var {t} = attrs
 
 	var employeeCount = filters.employeeCount && filters.employeeCount.join("-")
 	var {businessModels} = filters
 	var {sustainabilityGoals} = filters
 
 	return <div id="filters">
-		<h2>Filtreeri organisatsioone</h2>
+		<h2>{t("organizations_page.filters.title")}</h2>
 
 		<form
 			id="filters-form"
@@ -226,7 +230,7 @@ function Filters(attrs) {
 			action={path}
 		>
 			<details class="filter">
-				<summary>Töötajate arv</summary>
+				<summary>{t("organizations_page.filters.employee_count")}</summary>
 
 				<div class="dropdown">
 					<ol>
@@ -237,7 +241,7 @@ function Filters(attrs) {
 									name="employee-count"
 									value=""
 									checked={employeeCount == null}
-								/> Kõik
+								/> {t("organizations_page.filters.all_employees")}
 							</label>
 						</li>
 
@@ -290,7 +294,7 @@ function Filters(attrs) {
 			</details>
 
 			<details class="filter">
-				<summary>Ärimudel</summary>
+				<summary>{t("organizations_page.filters.business_model")}</summary>
 
 				<div class="dropdown">
 					<ul>{_.map(BUSINESS_MODELS, (name, id) => <li>
@@ -307,19 +311,15 @@ function Filters(attrs) {
 			</details>
 
 			<details class="filter" id="sustainability-goals-filter">
-				<summary>Eesmärgid</summary>
+				<summary>{t("organizations_page.filters.goals")}</summary>
 
 				<div class="dropdown">
 					<input type="hidden" name="sdg[_]" value="off" />
 
-					<ol>{_.map(SUSTAINABILITY_GOALS, function(goal, id) {
+					<ol>{SUSTAINABILITY_GOALS.map(function(id) {
 						return <li>
 							<label class="sev-checkbox">
-								<img
-									src={"/assets/sdg-" + id + ".svg"}
-									alt={SUSTAINABILITY_GOALS[id].name}
-									title={SUSTAINABILITY_GOALS[id].title}
-								/>
+								<SdgImage t={t} goal={id} />
 
 								<input
 									type="checkbox"
@@ -331,7 +331,7 @@ function Filters(attrs) {
 								/>
 
 								{/^\d+$/.test(id) ? [<strong>{id}.</strong>, " "] : null}
-								{goal.name}
+								{t(`sdg.${id}.title`)}
 							</label>
 						</li>
 					})}</ol>
@@ -339,35 +339,36 @@ function Filters(attrs) {
 			</details>
 
 			<noscript>
-				<button class="submit-button blue-button">Filtreeri</button>
+				<button class="submit-button blue-button">
+					{t("organizations_page.filters.filter")}
+				</button>
 			</noscript>
 
 			{_.any(filters) ? <Fragment>
 				<a href={path} class="reset-button link-button">
-					või eemalda filtrid
+					{t("organizations_page.filters.remove")}
 				</a>.
 			</Fragment> : null}
 		</form>
 
 		{_.any(filters) ? <div class="current">
-			<h3>Filter hetkel:</h3>
+			<h3>{t("organizations_page.filters.current")}:</h3>
 
 			<ul>
-				{employeeCount ? <li>{employeeCount} töötajat</li> : null}
+				{employeeCount ? <li>
+					{employeeCount}
+					{" "}
+					{t("organizations_page.filters.current_filter_employee_count")}
+				</li> : null}
 
 				{businessModels ? Array.from(businessModels).map((id) => <li>
 					{id.toUpperCase()}
 				</li>) : null}
 
 				{sustainabilityGoals ? Array.from(sustainabilityGoals).map((id) => <li>
-					<img
-						src={"/assets/sdg-" + id + ".svg"}
-						alt={SUSTAINABILITY_GOALS[id].name}
-						title={SUSTAINABILITY_GOALS[id].title}
-					/>
-
+					<SdgImage t={t} goal={id} />
 					{/^\d+$/.test(id) ? [<strong>{id}.</strong>, " "] : null}
-					{SUSTAINABILITY_GOALS[id].name}
+					{t(`sdg.${id}.title`)}
 				</li>) : null}
 			</ul>
 		</div> : null}

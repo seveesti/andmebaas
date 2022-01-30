@@ -3,9 +3,11 @@ NODE = node
 NODE_OPTS = --use-strict --require j6pack/register
 NPM_REBUILD = npm --ignore-scripts false rebuild --build-from-source
 MOCHA = ./node_modules/.bin/_mocha
+JQ_OPTS = --tab
 TEST = $$(find test -name "*_test.js")
 SHANGE = vendor/shange -d db/migrations -f "config/$(ENV).sqlite3"
 LIVERELOAD_PORT = 35738
+TRANSLATIONS_URL = https://docs.google.com/spreadsheets/d/1ExuFguyrBhKchO__tm1hbppHVayoYIMFuGTSMbHE-PU/gviz/tq?tqx=out:json&tq&gid=0
 
 export ENV
 export PORT
@@ -71,6 +73,21 @@ db/migration: NAME = $(error "Please set NAME.")
 db/migration:
 	@$(SHANGE) create "$(NAME)"
 
+translations: lib/i18n/en.json
+translations: lib/i18n/et.json
+
+tmp:; mkdir -p tmp
+
+tmp/translations.json: tmp
+	curl -H "X-DataSource-Auth: true" "$(TRANSLATIONS_URL)" | sed -e 1d > "$@"
+
+lib/i18n/en.json: JQ_OPTS += --sort-keys --arg lang English
+lib/i18n/et.json: JQ_OPTS += --sort-keys --arg lang Estonian
+lib/i18n/en.json \
+lib/i18n/et.json \
+lib/i18n/ru.json: tmp/translations.json
+	jq $(JQ_OPTS) -f scripts/translation.jq "$<" > "$@"
+
 deploy:
 	@rsync $(RSYNC_OPTS) \
 		--exclude ".*" \
@@ -93,6 +110,7 @@ staging: deploy
 .PHONY: web
 .PHONY: livereload
 .PHONY: test spec autotest autospec
+.PHONY: translations
 .PHONY: shrinkwrap rebuild
 .PHONY: db/create db/status db/migrate db/migration
 .PHONY: deploy staging

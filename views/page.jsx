@@ -3,6 +3,7 @@ var _ = require("root/lib/underscore")
 var Jsx = require("j6pack")
 var {Fragment} = Jsx
 var LIVERELOAD_PORT = process.env.LIVERELOAD_PORT || 35738
+var LANGS = require("root/config").languages
 var ENV = process.env.ENV
 var HTTP_URL = /^https?:\/\//
 var EMAIL_URL = /^mailto:/
@@ -19,9 +20,11 @@ exports.FormButton = FormButton
 exports.Table = Table
 exports.UntrustedLink = UntrustedLink
 exports.MoneyElement = MoneyElement
+exports.SdgImage = SdgImage
 
 function Page(attrs, children) {
 	var {req} = attrs
+	var {t} = req
 	var {account} = req
 	var {title} = attrs
 	var {page} = attrs
@@ -32,7 +35,7 @@ function Page(attrs, children) {
 			<meta charset="utf-8" />
 			<meta name="viewport" content="width=device-width" />
 			<link rel="stylesheet" href="/assets/page.css" type="text/css" />
-			<title>{title == null ? "" : title + " - "} Sotsiaalsete Ettevõtete Võrgustik</title>
+			<title>{title == null ? "" : title + " - "} {t("title")}</title>
 			<LiveReload req={req} />
 
 			<link rel="shortcut icon" href="/favicon.ico" />
@@ -62,26 +65,37 @@ function Page(attrs, children) {
 			<div id="hero">
 				<nav id="nav"><Centered>
 					<a href="/" class="home">
-						<img
-							src="/assets/sev-logo.png"
-							alt="SEV"
-							title="Sotsiaalsete Ettevõtete Võrgustik"
-						/>
+						<img src="/assets/sev-logo.png" alt="SEV" title={t("title")} />
 					</a>
 
 					<ul>
-						<li><a href="/" class="selected">Andmebaas</a></li>
+						<li><a href="/" class="selected">{t("nav.home")}</a></li>
+						<li><a href="https://sev.ee">{t("nav.services")}</a></li>
+						<li><a href="https://sev.ee/meist/">{t("nav.about")}</a></li>
+						<li><a href="https://sev.ee/noored/">{t("nav.useful")}</a></li>
 
-						<li><a href="https://sev.ee">Teenused</a></li>
-						<li><a href="https://sev.ee/meist/">Meist</a></li>
-						<li><a href="https://sev.ee/noored/">Kasulikku</a></li>
-						<li><a href="https://sev.ee/category/blogi/">Blogi</a></li>
-						<li><a href="https://sev.ee">Kontakt</a></li>
+						<li><a href="https://sev.ee/category/blogi/">
+							{t("nav.blog")}
+						</a></li>
+
+						<li><a href="https://sev.ee">{t("nav.contact")}</a></li>
 
 						<li>
 							<a href="https://sev.ee/astu-liikmeks/" class="border-button">
-								Liitu kogukonnga
+								{t("nav.join")}
 							</a>
+						</li>
+
+						<li>
+							<Form action="/language" method="put" class="languages" req={req}>
+								<ol class="languages">{LANGS.map((lang) => <li><button
+									name="language"
+									class="language"
+									value={lang}
+									disabled={t.lang === lang}
+								>{t("nav." + lang)}
+								</button></li>)}</ol>
+							</Form>
 						</li>
 					</ul>
 				</Centered></nav>
@@ -115,7 +129,7 @@ function Page(attrs, children) {
 						action={"/sessions/" + req.session.id}
 						name="_method"
 						value="delete"
-					>Logi välja</FormButton>
+					>{t("nav.signout")}</FormButton>
 				</div>
 			</Centered></nav> : null}
 
@@ -247,4 +261,15 @@ function MoneyElement(attrs) {
 	return <span class="sev-money" title={_.formatPrice(currency, amount)}>
 		{major}{cents ? <sup>.{cents}</sup> : null}
 	</span>
+}
+
+function SdgImage(attrs) {
+	var {t} = attrs
+	var {goal} = attrs
+
+	return <img
+		src={"/assets/sdg-" + goal + "-" + t.lang +".svg"}
+		alt={t(`sdg.${goal}.title`)}
+		title={t(`sdg.${goal}.description`)}
+	/>
 }

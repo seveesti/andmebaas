@@ -2,6 +2,8 @@
 	"url": "https://sev.ee",
 	"cookieSecret": null,
 	"sessionCookieName": "session_token",
+	"languageCookieName": "wp-wpml_current_language",
+	"languages": ["et", "en"],
 
 	"email": {
 		"from": "SEV <andmebaas@sev.ee>",
