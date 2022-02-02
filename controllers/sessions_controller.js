@@ -11,6 +11,10 @@ var csrf = require("root/lib/middleware/csrf_middleware")
 exports.router = Router({mergeParams: true})
 exports.signIn = signIn
 
+exports.router.get("/", function(req, res) {
+	res.redirect(302, req.baseUrl + "/new")
+})
+
 exports.router.get("/new", function(_req, res) {
 	res.render("sessions/create_page.jsx")
 })
