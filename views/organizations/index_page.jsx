@@ -343,7 +343,8 @@ function Filters(attrs) {
 									}
 								/>
 
-								{/^\d+$/.test(id) ? [<strong>{id}.</strong>, " "] : null}
+								{/^\d+$/.test(id) ? <strong>{id}.</strong> : null}
+								{" "}
 								{t(`sdg.${id}.title`)}
 							</label>
 						</li>

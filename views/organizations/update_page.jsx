@@ -7,6 +7,7 @@ var {Section} = Page
 var {Form} = Page
 var {FlashSection} = Page
 var {FormButton} = Page
+var {SdgImage} = Page
 var {confirm} = require("root/lib/jsx")
 var SUSTAINABILITY_GOALS = require("root/lib/sustainability_goals")
 var COUNTIES = require("root/lib/estonian_counties")
@@ -210,11 +211,14 @@ module.exports = function(attrs) {
 
 						{SUSTAINABILITY_GOALS.map((id) => <Fragment>
 							<label class="sev-checkbox">
+								<SdgImage t={t} goal={id} />
+
 								<input
 									type="checkbox"
 									name={`sustainability_goals[${id}]`}
 									checked={org.sustainability_goals.has(id)}
 								/>
+
 								{/^\d+$/.test(id) ? <strong>
 									{t("organization_update_page.sdg_goal")} {id}:
 								</strong> : null}

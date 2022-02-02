@@ -176,6 +176,8 @@
 	"sdg.9.title": "Tööstus, uuendus ja taristu",
 	"sdg.culture.description": "Eesmärk keskendub Eesti kui rahvusriigi järjepidevuse ja elujõulisuse tagamisele kultuuri kaudu. Jätkusuutliku arengu väärtushinnangud, põhimõtted, meetodid, käitumismudelid, meele- ja elulaad on omamoodi sotsiaalne innovatsioon, ühiskonnaelu põhimõtteline uuendus, mida on võimalik edukalt ellu viia ainult kultuuri kaudu.",
 	"sdg.culture.title": "Kultuuriruumi elujõulisus",
+	"sdg.other.description": " ",
+	"sdg.other.title": "Muu",
 	"taxes_page.created": "${year} ${quarter}. kvartal imporditud",
 	"taxes_page.delete": "Kustuta",
 	"taxes_page.delete_confirmation": "Kindel, et soovid ${year} ${quarter}. kvartali maksuandmed eemaldada?",

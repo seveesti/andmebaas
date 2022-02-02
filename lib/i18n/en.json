@@ -170,6 +170,8 @@
 	"sdg.9.title": "Industry, Innovation and Infrastructure",
 	"sdg.culture.description": "Ensuring the sustainability and viability of Estonia as a nation state through culture.",
 	"sdg.culture.title": "Viability of Cultural Space",
+	"sdg.other.description": " ",
+	"sdg.other.title": "Other",
 	"taxes_page.created": "${year} quarter ${quarter} imported.",
 	"taxes_page.delete": "Remove",
 	"taxes_page.delete_confirmation": "Sure you want to remove the ${year} quarter ${quarter} tax data?",
