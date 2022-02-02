@@ -5,7 +5,8 @@ var Page = require("./page")
 var {Section} = Page
 
 module.exports = function(attrs) {
-	var title = attrs.title || "Vabandust!"
+	var {req} = attrs
+	var title = attrs.title || req.t("error_page.sorry")
 	var {message} = attrs
 
 	return <Page

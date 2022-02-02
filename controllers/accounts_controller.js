@@ -1,4 +1,5 @@
 var _ = require("root/lib/underscore")
+var I18n = require("root/lib/i18n")
 var Config = require("root/config")
 var Crypto = require("crypto")
 var Router = require("express").Router
@@ -6,7 +7,7 @@ var accountsDb = require("root/db/accounts_db")
 var sql = require("sqlate")
 var {assertAdmin} = require("root/lib/middleware/session_middleware")
 var sendEmail = require("root").sendEmail
-var outdent = require("root/lib/outdent")
+var DEFAULT_LANG = require("root/config").languages[0]
 
 exports.router = Router({mergeParams: true})
 
@@ -40,10 +41,6 @@ exports.router.get("/", assertAdmin, function(_req, res) {
 	res.render("accounts/index_page.jsx", {accounts})
 })
 
-exports.router.get("/new", assertAdmin, function(_req, res) {
-	res.render("accounts/create_page.jsx")
-})
-
 exports.router.post("/", assertAdmin, _.next(async function(req, res) {
 	var {name, email} = parse(req.body)
 	var inviteToken = Crypto.randomBytes(8)
@@ -59,34 +56,29 @@ exports.router.post("/", assertAdmin, _.next(async function(req, res) {
 	catch (err) {
 		if (err.code == "SQLITE_CONSTRAINT_UNIQUE") {
 			res.statusMessage = "Account Already Exists"
-			res.flash("error", "Selle meiliaadressiga konto juba eksisteerib.")
-			res.redirect(303, req.baseUrl)
+			res.flash("error", req.t("accounts_page.account_already_exists"))
+			return void res.redirect(303, req.baseUrl)
 		}
 
 		throw err
 	}
 
-	var inviteUrl = Config.url
-	inviteUrl += "/accounts/invites/" + inviteToken.toString("hex")
+	var siteUrl = Config.url
+	var inviteUrl = siteUrl + "/accounts/invites/" + inviteToken.toString("hex")
+	var signinUrl = siteUrl + "/sessions/new"
 
 	await sendEmail({
 		to: email,
-		subject: "Oled kutsutud täiendama SEV andmebaasi",
+		subject: I18n.t(DEFAULT_LANG, "organization_admin_invite_email.subject"),
 
-		text: outdent`
-			Tere
-
-			Sind kutsuti administreerima SEV andmebaasi.
-			Alustamiseks loo endale konto ${inviteUrl} lehel.
-
-			Tervitades
-
-			SEV
-		`
+		text: I18n.t(DEFAULT_LANG, "organization_admin_invite_email.body", {
+			inviteUrl,
+			signinUrl
+		})
 	})
 
 	res.statusMessage = "Account Created"
-	res.flash("notice", "Administraator lisatud.")
+	res.flash("notice", req.t("accounts_page.created"))
 	res.redirect(303, req.baseUrl)
 }))
 
@@ -94,7 +86,7 @@ exports.router.delete("/:id", assertAdmin, function(req, res) {
 	accountsDb.delete(Number(req.params.id))
 
 	res.statusMessage = "Account Deleted"
-	res.flash("notice", "Konto kustutatud")
+	res.flash("notice", req.t("accounts_page.deleted"))
 	res.redirect(303, req.baseUrl)
 })
 

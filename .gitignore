@@ -4,3 +4,4 @@
 /config/*.sqlite3-shm
 /config/*.sqlite3-wal
 /public/assets/*.css
+/tmp/

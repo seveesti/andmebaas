@@ -29,9 +29,14 @@ module.exports = function(attrs) {
 		req={attrs.req}
 
 		nav={account && [{pages: [
-			{name: "Organisatsioonid", path: "/organizations"},
-			account.administrative && {name: "Kontod", path: "/accounts"},
-			account.administrative && {name: "Maksuandmed", path: "/taxes"}
+			{name: t("admin_nav.organizations"), path: "/organizations"},
+
+			account.administrative && {
+				name: t("admin_nav.accounts"),
+				path: "/accounts"
+			},
+
+			account.administrative && {name: t("admin_nav.taxes"), path: "/taxes"}
 		].filter(Boolean)}]}
 
 		header={<Fragment>
@@ -64,7 +69,7 @@ module.exports = function(attrs) {
 
 						{account && account.administrative ?
 							<a class="link-button" href="#new-organization-form">
-								Lisa uus
+								{t("organizations_page.create_new_link")}
 							</a>
 						: null}
 					</span>
@@ -140,7 +145,7 @@ module.exports = function(attrs) {
 
 								{org.published_at ? "" : <span
 									class="unpublished-icon"
-									title="Avalikustamata"
+									title={t("organizations_page.unpublished")}
 								> 🕵</span>}
 							</td>
 
@@ -187,25 +192,33 @@ module.exports = function(attrs) {
 				action={req.baseUrl}
 			>
 				<fieldset>
-					<label class="page-form-label">Nimi</label>
+					<label class="page-form-label">
+						{t("organizations_page.create_organization.name")}
+					</label>
+
 					<input
 						name="name"
 						required
-						placeholder="Organisatsiooni nimi"
+						placeholder={
+							t("organizations_page.create_organization.name_placeholder")
+						}
 					/>
 				</fieldset>
 
 				<fieldset>
-					<label class="page-form-label">Registrikood</label>
+					<label class="page-form-label">
+						{t("organizations_page.create_organization.registry_code")}
+					</label>
 					<input
+
 						name="registry_code"
 						required
-						placeholder="Registrikood"
+						placeholder={t("organizations_page.create_organization.registry_code_placeholder")}
 					/>
 				</fieldset>
 
 				<button type="submit" class="blue-button">
-					Lisa uus organisatsioon
+					{t("organizations_page.create_organization.create")}
 				</button>
 			</Form> : null}
 		</Section>

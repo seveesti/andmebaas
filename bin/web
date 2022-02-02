@@ -12,7 +12,6 @@ var Config = require("root/config")
 var ENV = process.env.ENV
 var PORT = process.env.PORT || 6090
 var logger = require("root").logger
-var outdent = require("root/lib/outdent")
 
 var app = module.exports = Express()
 app.enable("trust proxy", "loopback")
@@ -53,13 +52,9 @@ _.each({
 	"/taxes": require("root/controllers/taxes_controller").router
 }, (router, path) => app.use(path, router))
 
-app.use((_req, _res, next) => next(new HttpError(404, "Not Found", {
-	title: "404 vabandust",
-
-	description: outdent`
-		Paistab, et siit aadressilt ei leia ühtegi lehte.
-		Kui arvad, et tegemist on veaga, palun anna sellest meile teada!
-	`
+app.use((req, _res, next) => next(new HttpError(404, "Not Found", {
+	title: req.t("error_page.404_title"),
+	description: req.t("error_page.404_description")
 })))
 
 app.use(function(err, req, res, _next) {
@@ -72,7 +67,7 @@ app.use(function(err, req, res, _next) {
 		res.statusMessage = err.message
 
 		return void res.render("error_page.jsx", {
-			title: err.title || err.code + " vabandust",
+			title: err.title || req.t("error_page.xxx_title", {code: err.code}),
 			message: err.description || err.message
 		})
 	}
@@ -93,11 +88,7 @@ app.use(function(err, req, res, _next) {
 
 		default: res.render("error_page.jsx", {
 			title: "500 vabandust",
-
-			message: outdent`
-				Tundub, et me süsteemil on mingi viga.
-				Palun proovi korra uuesti, ja kui probleem kordub, võta meiega ühendust. Aitäh!
-			`
+			message: req.t("error_page.500_description")
 		})
 	}
 })

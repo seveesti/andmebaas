@@ -42,8 +42,8 @@ exports.router.post("/", _.next(async function(req, res) {
 	catch (ex) { taxesDb.execute(sql`ROLLBACK`); throw ex }
 
 	res.statusMessage = "Tax Info Imported"
-	res.flash("notice", `${year} ${quarter}. kvartal imporditud`)
-	res.redirect(302, req.baseUrl)
+	res.flash("notice", req.t("taxes_page.created", {year, quarter}))
+	res.redirect(303, req.baseUrl)
 }))
 
 exports.router.delete("/:quarter", function(req, res) {
@@ -54,8 +54,8 @@ exports.router.delete("/:quarter", function(req, res) {
 	`)
 
 	res.statusMessage = "Tax Info Deleted"
-	res.flash("notice", `${year} ${quarter}. kvartal eemaldatud`)
-	res.redirect(302, req.baseUrl)
+	res.flash("notice", req.t("taxes_page.deleted", {year, quarter}))
+	res.redirect(303, req.baseUrl)
 })
 
 function parse(obj, files) {

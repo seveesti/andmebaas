@@ -27,10 +27,18 @@ exports.router.post("/", function(req, res) {
 		WHERE email = ${attrs.email}
 	`)
 
-	if (account == null) throw new HttpError(422, "No Such Account")
+	if (account == null) {
+		res.statusCode = 422
+		res.statusMessage = "No Such Account"
+		res.flash("error", req.t("create_session_page.no_such_account"))
+		return void res.render("sessions/create_page.jsx")
+	}
 
 	if (!Bcrypt.compareSync(attrs.password, account.encrypted_password)) {
-		throw new HttpError(422, "Invalid Password")
+		res.statusCode = 422
+		res.statusMessage = "Invalid Password"
+		res.flash("error", req.t("create_session_page.invalid_password"))
+		return void res.render("sessions/create_page.jsx")
 	}
 
 	signIn(account, req, res)

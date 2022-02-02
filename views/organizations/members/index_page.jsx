@@ -11,6 +11,7 @@ var {confirm} = require("root/lib/jsx")
 
 module.exports = function(attrs) {
 	var {req} = attrs
+	var {t} = req
 	var org = attrs.organization
 	var {members} = attrs
 	var orgPath = "/organizations/" + org.registry_code
@@ -19,32 +20,31 @@ module.exports = function(attrs) {
 	return <Page
 		page="organization-members"
 		req={req}
+		title={t("organization_members_page.title", {name: org.name})}
 
 		nav={[
-			{name: "Organisatsioonid", path: "/organizations"},
+			{name: t("admin_nav.organizations"), path: "/organizations"},
 			{name: org.name, path: orgPath},
-			{name: "Liikmed"}
+			{name: t("organization_page.admin_nav.members")}
 		]}
 
 		header={<Fragment>
-			<h1 class="page-heading">{org.name} liikmed</h1>
+			<h1 class="page-heading">
+				{t("organization_members_page.title", {name: org.name})}
+			</h1>
 		</Fragment>}
 	>
 		<FlashSection flash={req.flash} />
 
 		<Section>
-			<p class="page-paragraph">
-				Liikmed saavad muuta organisatsiooni andmeid ning avalikustamata
-				organisatsiooni avalikuks teha. Liikmeid saavad lisada vaid SEV
-				andmebaasi administraatorid.
-			</p>
+			<p class="page-paragraph">{t("organization_members_page.description")}</p>
 
 			{members.length > 0 ? <table class="page-table">
 				<thead class="page-table-header">
 					<tr>
-						<th>Lisatud</th>
-						<th>Nimi</th>
-						<th>Meiliaadress</th>
+						<th>{t("organization_members_page.added_column")}</th>
+						<th>{t("organization_members_page.name_column")}</th>
+						<th>{t("organization_members_page.email_column")}</th>
 						<th />
 					</tr>
 				</thead>
@@ -69,8 +69,13 @@ module.exports = function(attrs) {
 								class="link-button"
 								name="_method"
 								value="delete"
-								onclick={confirm(`Kindel, et soovid eemaldada ${member.email} organisatsiooni esindajate seast?`)}
-							>Eemalda</FormButton>
+
+								onclick={
+									confirm(t("organization_members_page.remove_confirmation", {
+										email: member.email
+									}))
+								}
+							>{t("organization_members_page.remove")}</FormButton>
 						</td>
 					</tr>
 				})}</tbody>
@@ -84,18 +89,23 @@ module.exports = function(attrs) {
 				method="post"
 			>
 				<fieldset>
-					<label class="page-form-label">Nimi</label>
+					<label class="page-form-label">
+						{t("organization_members_page.form.name")}
+					</label>
 					<input name="name" />
 				</fieldset>
 
 				<fieldset>
-					<label class="page-form-label">Meiliaadress</label>
+					<label class="page-form-label">
+						{t("organization_members_page.form.email")}
+					</label>
+
 					<input name="email" type="email" />
 				</fieldset>
 
 				<fieldset>
 					<button type="submit" class="blue-button page-form-submit">
-						Kutsu
+						{t("organization_members_page.form.invite")}
 					</button>
 				</fieldset>
 			</Form>

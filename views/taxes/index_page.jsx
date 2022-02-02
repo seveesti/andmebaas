@@ -11,6 +11,7 @@ var {FlashSection} = Page
 
 module.exports = function(attrs) {
 	var {req} = attrs
+	var {t} = req
 	var {quarters} = attrs
 	var path = req.baseUrl
 
@@ -21,30 +22,29 @@ module.exports = function(attrs) {
 	return <Page
 		page="taxes"
 		req={attrs.req}
+		title={t("taxes_page.title")}
 
 		nav={[
-			{name: "Andmebaas", path: "/"},
-			{name: "Maksuandmed"}
+			{name: t("admin_nav.organizations"), path: "/organizations"},
+			{name: t("admin_nav.taxes")}
 		]}
 
 		header={<Fragment>
-			<h1 class="page-heading">Maksuandmed</h1>
+			<h1 class="page-heading">{t("taxes_page.title")}</h1>
 		</Fragment>}
 	>
 		<FlashSection flash={req.flash} />
 
 		<Section>
 			<p class="page-paragraph">
-				Maksuinfo CSV failid leiad
-				{" "}
-				<a href="https://www.emta.ee/ariklient/amet-uudised-ja-kontakt/uudised-pressiinfo-statistika/statistika-ja-avaandmed" class="link-button">Maksuameti statistika ja avaandmete lehelt</a>
+				{Jsx.html(t("taxes_page.description"))}
 			</p>
 
 			{quarters.length > 0 ? <table class="page-table">
 				<thead class="page-table-header">
 					<tr>
-						<th>Aasta</th>
-						<th>Kvartal</th>
+						<th>{t("taxes_page.year_column")}</th>
+						<th>{t("taxes_page.quarter_column")}</th>
 						<th />
 					</tr>
 				</thead>
@@ -63,8 +63,15 @@ module.exports = function(attrs) {
 								class="link-button"
 								name="_method"
 								value="delete"
-								onclick={confirm(`Kindel, et soovid ${year} ${quarter}. kvartali maksuandmed eemaldada?`)}
-							>Eemalda</FormButton>
+
+								onclick={
+									confirm(t("taxes_page.delete_confirmation", {
+										year,
+										quarter
+									}))
+								}
+							>{t("taxes_page.delete")}
+							</FormButton>
 						</td>
 					</tr>
 				})}</tbody>
@@ -79,7 +86,9 @@ module.exports = function(attrs) {
 				enctype="multipart/form-data"
 			>
 				<fieldset>
-					<label class="page-form-label">Aasta ja kvartal</label>
+					<label class="page-form-label">
+						{t("taxes_page.form.year_and_quarter")}
+					</label>
 
 					<select name="year" required>{_.times(20).map(function(i) {
 						var year = currentYear - 10 + i
@@ -99,13 +108,16 @@ module.exports = function(attrs) {
 				</fieldset>
 
 				<fieldset>
-					<label class="page-form-label">CSV fail maksuandmetega</label>
+					<label class="page-form-label">
+						{t("taxes_page.form.csv_file")}
+					</label>
+
 					<input type="file" name="csv" required />
 				</fieldset>
 
 				<fieldset>
 					<button type="submit" class="blue-button page-form-submit">
-						Lisa maksuandmed
+						{t("taxes_page.form.create")}
 					</button>
 				</fieldset>
 			</Form>

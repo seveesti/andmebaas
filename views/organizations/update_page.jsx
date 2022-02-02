@@ -29,15 +29,18 @@ module.exports = function(attrs) {
 	return <Page
 		page="update-organization"
 		req={attrs.req}
+		title={t("organization_update_page.title", {name: org.name})}
 
 		nav={[
-			{name: "Organisatsioonid", path: "/organizations"},
+			{name: t("admin_nav.organizations"), path: "/organizations"},
 			{name: org.name, path: orgPath},
-			{name: "Muuda"}
+			{name: t("organization_page.admin_nav.update")}
 		]}
 
 		header={<Fragment>
-			<h1 class="page-heading">{org.name}</h1>
+			<h1 class="page-heading">
+				{t("organization_update_page.title", {name: org.name})}
+			</h1>
 		</Fragment>}
 	>
 		<FlashSection flash={req.flash} />
@@ -54,7 +57,7 @@ module.exports = function(attrs) {
 						name="name"
 						value={org.name}
 						required
-						placeholder="Organisatsiooni nimi"
+						placeholder={t("organization_update_page.name_placeholder")}
 					/>
 				</h1>
 
@@ -66,7 +69,9 @@ module.exports = function(attrs) {
 			<Section>
 				<ul>
 					<li class="field-row">
-						<label class="field-name">Lühikirjeldus</label>
+						<label class="field-name">
+							{t("organization_update_page.short_description")}
+						</label>
 
 						<textarea name="short_description">
 							{org.short_description}
@@ -74,7 +79,9 @@ module.exports = function(attrs) {
 					</li>
 
 					<li class="field-row">
-						<label class="field-name">Kirjeldus</label>
+						<label class="field-name">
+							{t("organization_update_page.long_description")}
+						</label>
 
 						<textarea name="long_description">
 							{org.long_description}
@@ -82,33 +89,43 @@ module.exports = function(attrs) {
 					</li>
 
 					<li id="organization-logo-row" class="field-row">
-						<label class="field-name">Logo</label>
+						<label class="field-name">
+							{t("organization_update_page.logo")}
+						</label>
 
 						<p>
 							{org.logo_type ? <img src={orgPath + "/logo"} /> : null}
-
-							JPEG, PNG või GIF formaadis pilt.
+							{t("organization_update_page.logo_formats")}
 						</p>
 
 						<input
 							type="file"
 							name="logo"
-						accept="image/jpeg, image/png, image/gif, image/svg+xml"
+							accept="image/jpeg, image/png, image/gif, image/svg+xml"
 						/>
 					</li>
 
 					<li class="field-row">
-						<label class="field-name">Veebileht</label>
+						<label class="field-name">
+							{t("organization_update_page.url")}
+						</label>
+
 						<input name="url" type="url" value={org.url} />
 					</li>
 
 					<li class="field-row">
-						<label class="field-name">Meiliaadress</label>
+						<label class="field-name">
+							{t("organization_update_page.email")}
+						</label>
+
 						<input name="email" type="email" value={org.email} />
 					</li>
 
 					<li class="field-row">
-						<label class="field-name">Sotsiaalmeedia aadressid</label>
+						<label class="field-name">
+							{t("organization_update_page.social_media")}
+						</label>
+
 						<textarea
 							name="other_urls"
 							placeholder={OTHER_URLS_PLACEHOLDER}
@@ -116,7 +133,10 @@ module.exports = function(attrs) {
 					</li>
 
 					<li class="field-row">
-						<label class="field-name">Ärimudel</label>
+						<label class="field-name">
+							{t("organization_update_page.business_model")}
+						</label>
+
 						<input type="hidden" name="business_models[none]" value="off" />
 
 						<ul>{_.map(BUSINESS_MODELS, (name, id) => <li>
@@ -133,7 +153,7 @@ module.exports = function(attrs) {
 
 					<li id="regions" class="field-row">
 						<label class="field-name">
-							Tegutsemisala
+							{t("organization_update_page.region")}
 						</label>
 
 						<input type="hidden" name="regions[none]" value="off" />
@@ -145,7 +165,7 @@ module.exports = function(attrs) {
 								name="regions[global]"
 								checked={org.regions.has("global")}
 							/>
-								Globaalne
+								{t("organization_update_page.regions.global")}
 							</label>
 						<br />
 
@@ -155,11 +175,11 @@ module.exports = function(attrs) {
 								name="regions[estonia]"
 								checked={org.regions.has("estonia")}
 							/>
-								Kogu Eesti
-						</label>
+								{t("organization_update_page.regions.estonia")}
+							</label>
 						<br />
 
-						<h3>Eesti maakonnad</h3>
+						<h3>{t("organization_update_page.regions.estonian_counties")}</h3>
 
 						<ul>{_.map(COUNTIES, (name, id) => <li>
 							<label class="sev-checkbox">
@@ -175,11 +195,11 @@ module.exports = function(attrs) {
 
 					<li id="sustainability-goals" class="field-row">
 						<label class="field-name">
-							Ülemaailmsed säästva arengu eesmärgid
+							{t("organization_update_page.sdgs")}
 						</label>
 
 						<p class="field-description">
-							<a href="https://www.riigikantselei.ee/valitsuse-too-planeerimine-ja-korraldamine/valitsuse-too-toetamine/saastev-areng#item-3" class="link-button">Loe säästva arengu kohta lähemalt</a> Riigikantselei lehelt.
+							{Jsx.html(t("organization_update_page.sdgs_description"))}
 						</p>
 
 						<input
@@ -195,7 +215,10 @@ module.exports = function(attrs) {
 									name={`sustainability_goals[${id}]`}
 									checked={org.sustainability_goals.has(id)}
 								/>
-								{/^\d+$/.test(id) ? <strong>Eesmärk {id}:</strong> : null}
+								{/^\d+$/.test(id) ? <strong>
+									{t("organization_update_page.sdg_goal")} {id}:
+								</strong> : null}
+
 								{" "}
 								{t(`sdg.${id}.title`)}
 							</label>
@@ -205,7 +228,9 @@ module.exports = function(attrs) {
 					</li>
 
 					<li class="field-row">
-						<label class="field-name">Ligipääs</label>
+						<label class="field-name">
+							{t("organization_update_page.access")}
+						</label>
 
 						<label id="publish-checkbox" class="sev-checkbox">
 							<input type="hidden" name="published" value="off" />
@@ -216,24 +241,32 @@ module.exports = function(attrs) {
 								checked={org.published_at != null}
 							/>
 
-							Organisatsioon on avalik ja nähtav kõigile külastajatele.
+							{t("organization_update_page.public")}
 						</label>
 					</li>
 				</ul>
 			</Section>
 
 			{org.taxes.length > 0 ? <Section>
-				<h2 class="page-section-heading">Maksuandmed</h2>
+				<h2 class="page-section-heading">
+					{t("organization_update_page.taxes")}
+				</h2>
 
 				<table id="taxes-table" class="page-table">
 					<thead class="page-table-header">
 						<tr>
-							<th class="year-column">Aasta</th>
-							<th class="quarter-column">Kvartal</th>
-							<th>Käive</th>
-							<th>Riiklikud maksud</th>
-							<th>Töötajate arv</th>
-							<th>Tööjõumaksud</th>
+							<th class="year-column">
+								{t("organization_page.financials.year")}
+							</th>
+
+							<th class="quarter-column">
+								{t("organization_page.financials.quarter")}
+							</th>
+
+							<th>{t("organization_page.financials.revenue")}</th>
+							<th>{t("organization_page.financials.taxes")}</th>
+							<th>{t("organization_page.financials.employee_count")}</th>
+							<th>{t("organization_page.financials.employment_taxes")}</th>
 						</tr>
 					</thead>
 
@@ -313,7 +346,7 @@ module.exports = function(attrs) {
 		</Form>
 
 		{account.administrative ? <Section id="delete-section">
-			<span>Soovid organisatsioni hoopis kustutada?</span>
+			<span>{t("organization_update_page.delete?")}</span>
 
 			<FormButton
 				req={req}
@@ -321,8 +354,9 @@ module.exports = function(attrs) {
 				class="red-button"
 				name="_method"
 				value="delete"
-				onclick={confirm(`Kindel, et soovid organisatsiooni kustutada?`)}
-			>Kustuta organisatsioon</FormButton>
+				onclick={confirm(t("organization_update_page.delete_confirmation"))}
+				>{t("organization_update_page.delete")}
+			</FormButton>
 		</Section> : null}
 	</Page>
 }

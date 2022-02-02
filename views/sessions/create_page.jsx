@@ -4,9 +4,11 @@ var Page = require("../page")
 var {Fragment} = Jsx
 var {Section} = Page
 var {Form} = Page
+var {FlashSection} = Page
 
 module.exports = function(attrs) {
 	var {req} = attrs
+	var {t} = attrs
 	var {email} = attrs
 	var {password} = attrs
 	var path = req.baseUrl
@@ -14,11 +16,14 @@ module.exports = function(attrs) {
 	return <Page
 		page="create-session"
 		req={req}
+		title={t("create_session_page.title")}
 
 		header={<Fragment>
-			<h1 class="page-heading">Logi sisse</h1>
+			<h1 class="page-heading">{t("create_session_page.title")}</h1>
 		</Fragment>}
 	>
+		<FlashSection flash={req.flash} />
+
 		<Section>
 			<Form
 				id="signin-form"
@@ -27,7 +32,10 @@ module.exports = function(attrs) {
 				action={path}
 				method="post"
 			>
-				<label class="page-form-label">Meiliaadress</label>
+				<label class="page-form-label">
+					{t("create_session_page.form.email")}
+				</label>
+
 				<input
 					name="email"
 					type="email"
@@ -36,7 +44,10 @@ module.exports = function(attrs) {
 					required
 				/>
 
-				<label class="page-form-label">Parool</label>
+				<label class="page-form-label">
+					{t("create_session_page.form.password")}
+				</label>
+
 				<input
 					name="password"
 					type="password"
@@ -46,7 +57,7 @@ module.exports = function(attrs) {
 				/>
 
 				<button type="submit" class="page-form-submit blue-button">
-					Logi sisse
+					{t("create_session_page.form.create")}
 				</button>
 			</Form>
 		</Section>

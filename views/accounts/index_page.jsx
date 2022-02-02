@@ -10,6 +10,7 @@ var {FlashSection} = Page
 
 module.exports = function(attrs) {
 	var {req} = attrs
+	var {t} = req
 	var currentAccount = req.account
 	var {accounts} = attrs
 	var path = req.baseUrl
@@ -17,14 +18,15 @@ module.exports = function(attrs) {
 	return <Page
 		page="accounts"
 		req={attrs.req}
+		title={t("accounts_page.title")}
 
 		nav={[
-			{name: "Andmebaas", path: "/"},
-			{name: "Kontod"}
+			{name: t("admin_nav.organizations"), path: "/organizations"},
+			{name: t("accounts_page.title")}
 		]}
 
 		header={<Fragment>
-			<h1 class="page-heading">Kasutajakontod</h1>
+			<h1 class="page-heading">{t("accounts_page.title")}</h1>
 		</Fragment>}
 	>
 		<FlashSection flash={req.flash} />
@@ -33,9 +35,9 @@ module.exports = function(attrs) {
 			<table class="page-table">
 				<thead class="page-table-header">
 					<tr>
-						<th>Nimi</th>
-						<th>Meiliaadress</th>
-						<th>Organisatsioonid</th>
+						<th>{t("accounts_page.name_column")}</th>
+						<th>{t("accounts_page.email_column")}</th>
+						<th>{t("accounts_page.access_column")}</th>
 						<th />
 					</tr>
 				</thead>
@@ -47,7 +49,7 @@ module.exports = function(attrs) {
 						<td>{account.name}</td>
 						<td>{account.email}</td>
 						<td>{account.administrative
-							? <span class="administrative">Administraator</span>
+							? <span class="administrative">{t("accounts_page.admin")}</span>
 							: <ul>{account.memberships.map((membership) => <li>
 									<a
 										href={"/organizations/" + membership.registry_code}
@@ -66,8 +68,8 @@ module.exports = function(attrs) {
 								class="link-button"
 								name="_method"
 								value="delete"
-								onclick={confirm(`Kindel, et soovid konto eemaldada?`)}
-							>Eemalda</FormButton>}
+								onclick={confirm(t("accounts_page.delete_confirmation"))}
+							>{t("accounts_page.delete")}</FormButton>}
 						</td>
 					</tr>
 				})}</tbody>
@@ -81,22 +83,24 @@ module.exports = function(attrs) {
 				action={req.baseUrl}
 			>
 				<fieldset>
-					<label class="page-form-label">Nimi</label>
+					<label class="page-form-label">
+						<th>{t("accounts_page.form.name")}</th>
+					</label>
+
 					<input name="name" />
 				</fieldset>
 
 				<fieldset>
-					<label class="page-form-label">Meiliaadress</label>
-					<input
-						name="email"
-						type="email"
-						required
-					/>
+					<label class="page-form-label">
+						<th>{t("accounts_page.form.email")}</th>
+					</label>
+
+					<input name="email" type="email" required />
 				</fieldset>
 
 				<fieldset>
 					<button type="submit" class="blue-button page-form-submit">
-						Lisa uus administraator
+						<th>{t("accounts_page.form.create")}</th>
 					</button>
 				</fieldset>
 			</Form>

@@ -1,4 +1,5 @@
 var _ = require("root/lib/underscore")
+var I18n = require("root/lib/i18n")
 var Router = require("express").Router
 var HttpError = require("standard-http-error")
 var Crypto = require("crypto")
@@ -19,12 +20,12 @@ var parseRegistryCardHtml = require("root/lib/registry_card").parseHtml
 var {assertAdmin} = require("root/lib/middleware/session_middleware")
 var logger = require("root").logger
 var sendEmail = require("root").sendEmail
-var outdent = require("root/lib/outdent")
 var concat = Array.prototype.concat.bind(Array.prototype)
 var flatten = Function.apply.bind(Array.prototype.concat, Array.prototype)
 var BUSINESS_MODELS = new Set(_.keys(require("root/lib/business_models")))
 var REGIONS = new Set(_.keys(require("root/lib/regions")))
 var GOALS = require("root/lib/sustainability_goals")
+var DEFAULT_LANG = require("root/config").languages[0]
 exports.router = Router({mergeParams: true})
 exports.isAdminOrMember = isAdminOrMember
 
@@ -180,7 +181,7 @@ exports.router.post("/", assertAdmin, _.next(async function(req, res) {
 
 	res.statusCode = 302
 	res.statusMessage = "Organization Created"
-	res.flash("notice", "Organisatsioon loodud.")
+	res.flash("notice", req.t("organization_create_page.created"))
 	res.redirect("/organizations/" + org.registry_code)
 }))
 
@@ -191,7 +192,9 @@ exports.router.use("/:registryCode", function(req, res, next) {
 		WHERE registry_code = ${req.params.registryCode}
 	`)
 
-	if (org == null) throw new HttpError(404, "Organization Not Found")
+	if (org == null) throw new HttpError(404, "Organization Not Found", {
+		description: req.t("organization_page.404_description")
+	})
 
 	var members = membersDb.search(sql`
 		SELECT * FROM organization_members
@@ -279,7 +282,7 @@ exports.router.put("/:registryCode", assertMember, function(req, res) {
 
 	res.statusCode = 302
 	res.statusMessage = "Organization Updated"
-	res.flash("notice", "Organisatsioon uuendatud.")
+	res.flash("notice", req.t("organization_update_page.updated"))
 	res.redirect(303, "/organizations/" + org.registry_code)
 })
 
@@ -297,7 +300,7 @@ exports.router.delete("/:registryCode", assertAdmin, function(req, res) {
 
 	res.statusCode = 302
 	res.statusMessage = "Organization Deleted"
-	res.flash("notice", "Organisatsioon kustutatud.")
+	res.flash("notice", req.t("organization_update_page.deleted"))
 	res.redirect(303, "/organizations")
 })
 
@@ -350,34 +353,49 @@ exports.router.post("/:registryCode/members",
 			invite_token_sha256: _.sha256(inviteToken)
 		})
 
-		var inviteUrl = Config.url + "/accounts/invites/" + inviteToken.toString("hex")
+		var siteUrl = Config.url
+		var inviteUrl = siteUrl + "/accounts/invites/" + inviteToken.toString("hex")
+		var signinUrl = siteUrl + "/sessions/new"
 
 		await sendEmail({
 			to: email,
-			subject: "Oled kutsutud täiendama SEV andmebaasi",
+			subject: I18n.t(DEFAULT_LANG, "organization_member_invite_email.subject"),
 
-			text: outdent`
-				Tere
-
-				Sind kutsuti täiendama SEV andmebaasis ${org.name} profiili.
-				Alustamiseks loo endale konto ${inviteUrl} lehel.
-
-				Tervitades
-
-				SEV
-			`
+			text: I18n.t(DEFAULT_LANG, "organization_member_invite_email.body", {
+				organizationName: org.name,
+				inviteUrl,
+				signinUrl
+			})
 		})
 	}
 
-	membersDb.create({
-		registry_code: org.registry_code,
-		account_id: invitee.id,
-		created_at: new Date,
-		created_by_id: account.id
-	})
+	try {
+		membersDb.create({
+			registry_code: org.registry_code,
+			account_id: invitee.id,
+			created_at: new Date,
+			created_by_id: account.id
+		})
+	}
+	catch (err) {
+		if (err.code == "SQLITE_CONSTRAINT_PRIMARYKEY") {
+			res.statusMessage = "Member Already Exists"
+			res.flash("error", req.t("organization_members_page.already_exists"))
+			return void res.redirect(303, req.baseUrl + req.path)
+		}
 
-	res.statusMessage = "Member Created"
-	res.flash("notice", "Kutsutud.")
+		throw err
+	}
+
+	if (invitee == null) {
+		res.statusMessage = "Member Created and Invited"
+		res.flash("notice", req.t("organization_members_page.created_and_invited"))
+	}
+	else {
+		res.statusMessage = "Member Created"
+		res.flash("notice", req.t("organization_members_page.created"))
+	}
+
 	res.redirect(303, "/organizations/" + org.registry_code + "/members")
 }))
 
@@ -392,7 +410,7 @@ exports.router.delete("/:registryCode/members/:memberId", assertAdmin,
 	`)
 
 	res.statusMessage = "Member Deleted"
-	res.flash("notice", "Liige eemaldatud.")
+	res.flash("notice", req.t("organization_members_page.removed"))
 	res.redirect(303, "/organizations/" + org.registry_code + "/members")
 })
 
@@ -545,7 +563,7 @@ function assertMember(req, _res, next) {
 	if (isAdminOrMember(members, account)) return void next()
 
 	throw new HttpError(403, "Not An Organization Member", {
-		description: "Organisatsiooni andmete muutmiseks pead olema organisatsiooni liige. Palun võta selleks meiega ühendust."
+		description: req.t("organization_page.403_description")
 	})
 }
 

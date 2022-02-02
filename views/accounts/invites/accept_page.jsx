@@ -7,6 +7,7 @@ var {Form} = Page
 
 module.exports = function(attrs) {
 	var {req} = attrs
+	var {t} = req
 	var {account} = attrs
 	var organizations = attrs.organizations || []
 	var path = req.baseUrl + "/" + attrs.token.toString("hex")
@@ -14,29 +15,34 @@ module.exports = function(attrs) {
 	return <Page
 		page="accept-account-invite"
 		req={req}
+		title={t("invite_accept_page.title")}
 
 		header={<Fragment>
-			<h1 class="page-heading">Uus konto</h1>
+			<h1 class="page-heading">{t("invite_accept_page.title")}</h1>
 		</Fragment>}
 	>
 		<Section>
 			<p class="page-paragraph">
-				Sind on kutsutud SEVi andmebaasi täiendama.
-				<br />
-				Konto luukakse meiliaadressiga <a href={"mailto:" + account.email}>{account.email}</a>, kuid seda saad hiljem profiilist muuta.
+				{t("invite_accept_page.description", {email: account.email})}
 			</p>
 
 			{organizations.length > 0 ? <Fragment>
-				<p>
-					Peale parooli määramist saad hallata järgmisi ettevõtteid:
+				<p class="page-paragraph">
+					{t("invite_accept_page.organization_list")}:
 				</p>
 
-				<ul>{organizations.map(function(org) {
+				<ul id="organizations">{organizations.map(function(org) {
 					return <li>{org.name}</li>
 				})}</ul>
 			</Fragment> : null}
 
-			<Form req={req} action={path} method="put" class="page-form">
+			<Form
+				req={req}
+				action={path}
+				method="put"
+				id="account-form"
+				class="page-form"
+			>
 				<input
 					name="email"
 					type="email"
@@ -45,7 +51,9 @@ module.exports = function(attrs) {
 					hidden
 				/>
 
-				<label class="page-form-label">Parool</label>
+				<label class="page-form-label">
+					{t("invite_accept_page.password")}
+				</label>
 
 				<input
 					name="password"
@@ -55,7 +63,7 @@ module.exports = function(attrs) {
 				/>
 
 				<button type="submit" class="blue-button page-form-submit">
-					Loo konto
+					{t("invite_accept_page.create")}
 				</button>
 			</Form>
 		</Section>

@@ -18,10 +18,10 @@ exports.router.get("/:token", function(req, res) {
 	var token = req.params.token
 
 	if (token == null) throw new HttpError(400, "Invite Token Missing", {
-		description: "Kutse link ei paista olevat õige."
+		description: req.t("invite_accept_page.invalid_invite_link")
 	})
 
-	var account = readInvitedUnacceptedAccount(Buffer.from(token, "hex"))
+	var account = readInvitedUnacceptedAccount(req.t, Buffer.from(token, "hex"))
 
 	var organizations = organizationsDb.search(sql`
 		SELECT org.* FROM organizations AS org
@@ -39,10 +39,15 @@ exports.router.get("/:token", function(req, res) {
 
 exports.router.put("/:token", function(req, res) {
 	var token = Buffer.from(req.params.token, "hex")
-	var account = readInvitedUnacceptedAccount(token)
+	var account = readInvitedUnacceptedAccount(req.t, token)
+	var password = String(req.body.password)
+
+	if (!password) throw new HttpError(422, "Empty Password", {
+		description: req.t("invite_accept_page.empty_password")
+	})
 
 	account = accountsDb.update(account, {
-		encrypted_password: Bcrypt.hashSync(String(req.body.password), 10),
+		encrypted_password: Bcrypt.hashSync(password, 10),
 		invite_accepted_at: new Date,
 		updated_at: new Date
 	})
@@ -52,7 +57,7 @@ exports.router.put("/:token", function(req, res) {
 	res.redirect(303, "/")
 })
 
-function readInvitedUnacceptedAccount(token) {
+function readInvitedUnacceptedAccount(t, token) {
 	var inviteTokenSha256 = _.sha256(token)
 
 	var account = accountsDb.read(sql`
@@ -61,12 +66,12 @@ function readInvitedUnacceptedAccount(token) {
 	`)
 
 	if (account == null) throw new HttpError(404, "No Invite Found", {
-		description: "Kutse link ei paista olevat õige."
+		description: t("invite_accept_page.invalid_invite_link")
 	})
 
 	if (account.invite_accepted_at)
 		throw new HttpError(409, "Account Already Created", {
-			description: "Kutsega on juba konto tehtud. Nüüd võid sisse logida."
+			description: t("invite_accept_page.invite_used_already")
 		})
 
 	return account

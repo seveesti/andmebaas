@@ -33,19 +33,19 @@ module.exports = function(attrs) {
 		req={req}
 
 		nav={account && [
-			{name: "Organisatsioonid", path: "/organizations"},
+			{name: t("admin_nav.organizations"), path: "/organizations"},
 
 			{
 				name: org.name,
 
 				pages: [
 					isAdminOrMember(members, account) && {
-						name: "Muuda",
+						name: t("organization_page.admin_nav.update"),
 						path: orgPath + "/edit"
 					},
 
 					account.administrative && {
-						name: "Liikmed",
+						name: t("organization_page.admin_nav.members"),
 						path: orgPath + "/members"
 					}
 				].filter(Boolean)
@@ -65,9 +65,9 @@ module.exports = function(attrs) {
 					class="blue-button"
 					name="published"
 					value="true"
-				>Avalikusta</FormButton>
+				>{t("organization_page.publish")}</FormButton>
 
-				Organisatsioon on peidetud ja ei ole nähtav külastajatele.
+				{t("organization_page.unpublished")}
 			</Centered>
 		</div> : null}
 
@@ -208,13 +208,13 @@ module.exports = function(attrs) {
 
 		{account && isAdminOrMember(members, account) && updates.length > 0 ?
 			<Section id="updates">
-			<h2>Muudatused</h2>
+			<h2>{t("organization_page.updates.title")}</h2>
 
 			<table class="page-table">
 				<thead class="page-table-header">
 					<tr>
-						<th>Kellaaeg</th>
-						<th>Muutja</th>
+						<th>{t("organization_page.updates.time")}</th>
+						<th>{t("organization_page.updates.updater")}</th>
 					</tr>
 				</thead>
 
