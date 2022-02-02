@@ -408,9 +408,16 @@ strong { font-weight: bold; }
 			border-radius: 0.2rem;
 			outline-offset: 0.2rem;
 			-moz-outline-radius: 0.2rem;
-			text-decoration: underline;
 
-			&[href] { font-weight: 500; }
+			&:not([href]) {
+				cursor: auto;
+			}
+
+			&[href] {
+				font-weight: 500;
+				text-decoration: underline;
+			}
+
 			&[href]:focus { outline: 1px dashed white; }
 		}
 	}
