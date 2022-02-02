@@ -29,7 +29,7 @@ module.exports = function(attrs) {
 		req={attrs.req}
 
 		nav={account && [{pages: [
-			{name: t("admin_nav.organizations"), path: "/organizations"},
+			{name: t("admin_nav.organizations"), path: "/enterprises"},
 
 			account.administrative && {
 				name: t("admin_nav.accounts"),
@@ -132,7 +132,7 @@ module.exports = function(attrs) {
 				</thead>
 
 				<tbody>{organizations.map(function(org) {
-					var orgPath = "/organizations/" + org.registry_code
+					var orgPath = "/enterprises/" + org.registry_code
 					var taxes = org.taxes[0]
 
 					var klass = ["organization"]

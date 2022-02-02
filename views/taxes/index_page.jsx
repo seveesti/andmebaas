@@ -25,7 +25,7 @@ module.exports = function(attrs) {
 		title={t("taxes_page.title")}
 
 		nav={[
-			{name: t("admin_nav.organizations"), path: "/organizations"},
+			{name: t("admin_nav.organizations"), path: "/enterprises"},
 			{name: t("admin_nav.taxes")}
 		]}
 

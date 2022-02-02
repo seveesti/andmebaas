@@ -24,7 +24,7 @@ module.exports = function(attrs) {
 	var {members} = req
 	var {updates} = attrs
 	var org = attrs.organization
-	var orgPath = "/organizations/" + org.registry_code
+	var orgPath = "/enterprises/" + org.registry_code
 
 	return <Page
 		page="organization"
@@ -33,7 +33,7 @@ module.exports = function(attrs) {
 		req={req}
 
 		nav={account && [
-			{name: t("admin_nav.organizations"), path: "/organizations"},
+			{name: t("admin_nav.organizations"), path: "/enterprises"},
 
 			{
 				name: org.name,

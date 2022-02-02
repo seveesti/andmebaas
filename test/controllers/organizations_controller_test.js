@@ -14,7 +14,7 @@ describe("OrganizationsController", function() {
 
 	describe("GET /", function() {
 		it("must render given no organizations", async function() {
-			var res = await this.request("/organizations")
+			var res = await this.request("/enterprises")
 			res.statusCode.must.equal(200)
 
 			var dom = parseHtml(res.body)
@@ -39,7 +39,7 @@ describe("OrganizationsController", function() {
 		]
 
 		it("must respond with empty CSV given no organizations", async function() {
-			var res = await this.request("/organizations.csv")
+			var res = await this.request("/enterprises.csv")
 			res.statusCode.must.equal(200)
 			res.headers["content-type"].must.equal("text/csv")
 			res.body.must.equal(CSV_HEADERS.join(","))
@@ -51,7 +51,7 @@ describe("OrganizationsController", function() {
 				name: "Example OÜ"
 			})
 
-			var res = await this.request("/organizations.csv")
+			var res = await this.request("/enterprises.csv")
 			res.statusCode.must.equal(200)
 			res.headers["content-type"].must.equal("text/csv")
 			res.body.must.equal(CSV_HEADERS.join(","))
@@ -64,7 +64,7 @@ describe("OrganizationsController", function() {
 				published_at: new Date
 			})
 
-			var res = await this.request("/organizations.csv")
+			var res = await this.request("/enterprises.csv")
 			res.statusCode.must.equal(200)
 			res.headers["content-type"].must.equal("text/csv")
 
@@ -109,7 +109,7 @@ describe("OrganizationsController", function() {
 				employment_taxes: 44
 			})
 
-			var res = await this.request("/organizations.csv")
+			var res = await this.request("/enterprises.csv")
 			res.statusCode.must.equal(200)
 			res.headers["content-type"].must.equal("text/csv")
 
@@ -150,7 +150,7 @@ describe("OrganizationsController", function() {
 				published_at: new Date
 			})))
 
-			var res = await this.request("/organizations.csv")
+			var res = await this.request("/enterprises.csv")
 			res.statusCode.must.equal(200)
 			res.headers["content-type"].must.equal("text/csv")
 
@@ -197,7 +197,7 @@ describe("OrganizationsController", function() {
 				employment_taxes: 88
 			})
 
-			var res = await this.request("/organizations.csv")
+			var res = await this.request("/enterprises.csv")
 			res.statusCode.must.equal(200)
 			res.headers["content-type"].must.equal("text/csv")
 
@@ -238,7 +238,7 @@ describe("OrganizationsController", function() {
 				published_at: new Date
 			})
 
-			var res = await this.request("/organizations/" + org.registry_code)
+			var res = await this.request("/enterprises/" + org.registry_code)
 			res.statusCode.must.equal(200)
 		})
 	})
@@ -252,7 +252,7 @@ describe("OrganizationsController", function() {
 				name: "Example OÜ"
 			})
 
-			var res = await this.request("/organizations/" + org.registry_code, {
+			var res = await this.request("/enterprises/" + org.registry_code, {
 				method: "PUT",
 
 				form: {
@@ -281,7 +281,7 @@ describe("OrganizationsController", function() {
 
 			res.statusCode.must.equal(303)
 			res.statusMessage.must.equal("Organization Updated")
-			res.headers.location.must.equal("/organizations/" + org.registry_code)
+			res.headers.location.must.equal("/enterprises/" + org.registry_code)
 
 			organizationsDb.read(org).must.eql(_.assign({}, org, {
 				name: "Example Now OÜ",
@@ -309,7 +309,7 @@ describe("OrganizationsController", function() {
 				email: "now@example.com",
 			})
 
-			var res = await this.request("/organizations/" + org.registry_code, {
+			var res = await this.request("/enterprises/" + org.registry_code, {
 				method: "PUT",
 
 				form: {
@@ -321,7 +321,7 @@ describe("OrganizationsController", function() {
 
 			res.statusCode.must.equal(303)
 			res.statusMessage.must.equal("Organization Updated")
-			res.headers.location.must.equal("/organizations/" + org.registry_code)
+			res.headers.location.must.equal("/enterprises/" + org.registry_code)
 
 			var update = updatesDb.read(sql`SELECT * FROM organization_updates`)
 
@@ -346,7 +346,7 @@ describe("OrganizationsController", function() {
 				]
 			})
 
-			var res = await this.request("/organizations/" + org.registry_code, {
+			var res = await this.request("/enterprises/" + org.registry_code, {
 				method: "PUT",
 				form: {
 					name: "Example OÜ",
@@ -361,7 +361,7 @@ describe("OrganizationsController", function() {
 
 			res.statusCode.must.equal(303)
 			res.statusMessage.must.equal("Organization Updated")
-			res.headers.location.must.equal("/organizations/" + org.registry_code)
+			res.headers.location.must.equal("/enterprises/" + org.registry_code)
 
 			var update = updatesDb.read(sql`SELECT * FROM organization_updates`)
 

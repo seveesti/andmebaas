@@ -21,7 +21,7 @@ module.exports = function(attrs) {
 		title={t("accounts_page.title")}
 
 		nav={[
-			{name: t("admin_nav.organizations"), path: "/organizations"},
+			{name: t("admin_nav.organizations"), path: "/enterprises"},
 			{name: t("accounts_page.title")}
 		]}
 
@@ -52,7 +52,7 @@ module.exports = function(attrs) {
 							? <span class="administrative">{t("accounts_page.admin")}</span>
 							: <ul>{account.memberships.map((membership) => <li>
 									<a
-										href={"/organizations/" + membership.registry_code}
+										href={"/enterprises/" + membership.registry_code}
 										class="link-button"
 									>
 										{membership.name}

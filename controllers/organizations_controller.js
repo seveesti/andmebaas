@@ -182,7 +182,7 @@ exports.router.post("/", assertAdmin, _.next(async function(req, res) {
 	res.statusCode = 302
 	res.statusMessage = "Organization Created"
 	res.flash("notice", req.t("organization_create_page.created"))
-	res.redirect("/organizations/" + org.registry_code)
+	res.redirect("/enterprises/" + org.registry_code)
 }))
 
 exports.router.use("/:registryCode", function(req, res, next) {
@@ -283,7 +283,7 @@ exports.router.put("/:registryCode", assertMember, function(req, res) {
 	res.statusCode = 302
 	res.statusMessage = "Organization Updated"
 	res.flash("notice", req.t("organization_update_page.updated"))
-	res.redirect(303, "/organizations/" + org.registry_code)
+	res.redirect(303, "/enterprises/" + org.registry_code)
 })
 
 exports.router.delete("/:registryCode", assertAdmin, function(req, res) {
@@ -301,7 +301,7 @@ exports.router.delete("/:registryCode", assertAdmin, function(req, res) {
 	res.statusCode = 302
 	res.statusMessage = "Organization Deleted"
 	res.flash("notice", req.t("organization_update_page.deleted"))
-	res.redirect(303, "/organizations")
+	res.redirect(303, "/enterprises")
 })
 
 exports.router.get("/:registryCode/logo", function(req, res) {
@@ -396,7 +396,7 @@ exports.router.post("/:registryCode/members",
 		res.flash("notice", req.t("organization_members_page.created"))
 	}
 
-	res.redirect(303, "/organizations/" + org.registry_code + "/members")
+	res.redirect(303, "/enterprises/" + org.registry_code + "/members")
 }))
 
 exports.router.delete("/:registryCode/members/:memberId", assertAdmin,
@@ -411,7 +411,7 @@ exports.router.delete("/:registryCode/members/:memberId", assertAdmin,
 
 	res.statusMessage = "Member Deleted"
 	res.flash("notice", req.t("organization_members_page.removed"))
-	res.redirect(303, "/organizations/" + org.registry_code + "/members")
+	res.redirect(303, "/enterprises/" + org.registry_code + "/members")
 })
 
 function parseFilters(query) {

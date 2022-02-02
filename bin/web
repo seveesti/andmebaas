@@ -44,11 +44,15 @@ app.use(require("root/lib/middleware/csrf_middleware"))
 app.use(require("flash-fiction/express"))
 app.use(require("root/lib/middleware/session_middleware"))
 
+app.use("/organizations", function(req, res) {
+	res.redirect(307, "/enterprises" + req.url.replace(/^\/(?=\?|$)/, ""))
+})
+
 _.each({
 	"/": require("root/controllers/home_controller").router,
 	"/accounts": require("root/controllers/accounts_controller").router,
 	"/sessions": require("root/controllers/sessions_controller").router,
-	"/organizations": require("root/controllers/organizations_controller").router,
+	"/enterprises": require("root/controllers/organizations_controller").router,
 	"/taxes": require("root/controllers/taxes_controller").router
 }, (router, path) => app.use(path, router))
 

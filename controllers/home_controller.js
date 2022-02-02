@@ -4,7 +4,7 @@ var LANG_COOKIE = require("root/config").languageCookieName
 
 exports.router = Router({mergeParams: true})
 
-exports.router.get("/", usePath.bind(null, "/organizations"))
+exports.router.get("/", usePath.bind(null, "/enterprises"))
 
 exports.router.put("/language", function(req, res) {
 	var lang = req.body.language

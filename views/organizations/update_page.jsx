@@ -24,7 +24,7 @@ module.exports = function(attrs) {
 	var {t} = req
 	var {account} = req
 	var org = attrs.organization
-	var orgPath = "/organizations/" + org.registry_code
+	var orgPath = "/enterprises/" + org.registry_code
 
 	return <Page
 		page="update-organization"
@@ -32,7 +32,7 @@ module.exports = function(attrs) {
 		title={t("organization_update_page.title", {name: org.name})}
 
 		nav={[
-			{name: t("admin_nav.organizations"), path: "/organizations"},
+			{name: t("admin_nav.organizations"), path: "/enterprises"},
 			{name: org.name, path: orgPath},
 			{name: t("organization_page.admin_nav.update")}
 		]}
