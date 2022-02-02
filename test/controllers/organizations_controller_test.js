@@ -78,8 +78,8 @@ describe("OrganizationsController", function() {
 			var org = organizationsDb.create({
 				registry_code: "31337121",
 				name: "Example OÜ",
-				short_description: "Good company.",
-				long_description: "Really good company.",
+				short_descriptions: {et: "Good company."},
+				long_descriptions: {et: "Really good company."},
 				url: "http://example.com",
 				email: "now@example.com",
 				regions: new Set(["harju", "tartu"]),
@@ -120,8 +120,8 @@ describe("OrganizationsController", function() {
 				business_models: "b2b\nb2g",
 				url: "http://example.com",
 				email: "now@example.com",
-				short_description: org.short_description,
-				long_description: org.long_description,
+				short_description: org.short_descriptions.et,
+				long_description: org.long_descriptions.et,
 				regions: "harju\ntartu",
 
 				board_members: outdent`
@@ -259,8 +259,10 @@ describe("OrganizationsController", function() {
 					name: "Example Now OÜ",
 					url: "http://example.com",
 					email: "now@example.com",
-					short_description: "Good company.",
-					long_description: "Really good company.",
+					"short_descriptions[et]": "Hea firma!",
+					"short_descriptions[en]": "Good company.",
+					"long_descriptions[et]": "Tõesti hea firma!",
+					"long_descriptions[en]": "Really good company.",
 					"business_models[none]": "off",
 					"business_models[b2c]": "on",
 					"regions[none]": "off",
@@ -285,8 +287,17 @@ describe("OrganizationsController", function() {
 
 			organizationsDb.read(org).must.eql(_.assign({}, org, {
 				name: "Example Now OÜ",
-				short_description: "Good company.",
-				long_description: "Really good company.",
+
+				short_descriptions: {
+					et: "Hea firma!",
+					en: "Good company."
+				},
+
+				long_descriptions: {
+					et: "Tõesti hea firma!",
+					en: "Really good company."
+				},
+
 				url: "http://example.com",
 				email: "now@example.com",
 				business_models: new Set(["b2c"]),

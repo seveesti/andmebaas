@@ -29,8 +29,8 @@ CREATE TABLE organizations (
 	url TEXT,
 	other_urls TEXT NOT NULL DEFAULT '[]',
 	email TEXT,
-	short_description TEXT,
-	long_description TEXT,
+	short_descriptions TEXT NOT NULL DEFAULT '{}',
+	long_descriptions TEXT NOT NULL DEFAULT '{}',
 	board_members TEXT NOT NULL DEFAULT '[]',
 	business_models TEXT NOT NULL DEFAULT '[]',
 	regions TEXT NOT NULL DEFAULT '[]',
@@ -48,8 +48,8 @@ CREATE TABLE organizations (
 	CONSTRAINT official_name_length CHECK (length(official_name) > 0),
 	CONSTRAINT url_length CHECK (length(url) > 0),
 	CONSTRAINT email_length CHECK (length(email) > 0),
-	CONSTRAINT short_description_length CHECK (length(short_description) > 0),
-	CONSTRAINT long_description_length CHECK (length(long_description) > 0),
+	CONSTRAINT short_descriptions_json CHECK (json_valid(short_descriptions)),
+	CONSTRAINT long_descriptions_json CHECK (json_valid(long_descriptions)),
 	CONSTRAINT other_urls_json CHECK (json_valid(other_urls) > 0),
 	CONSTRAINT board_members_json CHECK (json_valid(board_members) > 0),
 	CONSTRAINT business_models_json CHECK (json_valid(business_models) > 0),
@@ -182,4 +182,5 @@ INSERT INTO migrations VALUES('20211010133750');
 INSERT INTO migrations VALUES('20211010133760');
 INSERT INTO migrations VALUES('20211010133770');
 INSERT INTO migrations VALUES('20211010133780');
+INSERT INTO migrations VALUES('20220202181447');
 COMMIT;

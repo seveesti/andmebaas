@@ -12,11 +12,14 @@ exports.parse = function(attrs) {
 		published_at: attrs.published_at && new Date(attrs.published_at),
 		other_urls: attrs.other_urls && JSON.parse(attrs.other_urls),
 		board_members: attrs.board_members && JSON.parse(attrs.board_members),
+		regions: attrs.regions && new Set(JSON.parse(attrs.regions)),
 
+		short_descriptions: attrs.short_descriptions &&
+			JSON.parse(attrs.short_descriptions),
+		long_descriptions: attrs.long_descriptions &&
+			JSON.parse(attrs.long_descriptions),
 		business_models:
 			attrs.business_models && new Set(JSON.parse(attrs.business_models)),
-
-		regions: attrs.regions && new Set(JSON.parse(attrs.regions)),
 
 		sustainability_goals:
 			attrs.sustainability_goals &&
@@ -30,6 +33,10 @@ exports.serialize = function(attrs) {
 	if (obj.founded_on) obj.founded_on = _.formatDate("iso", obj.founded_on)
 	if ("other_urls" in obj) obj.other_urls = JSON.stringify(obj.other_urls)
 
+	if ("short_descriptions" in obj)
+		obj.short_descriptions = JSON.stringify(obj.short_descriptions)
+	if ("long_descriptions" in obj)
+		obj.long_descriptions = JSON.stringify(obj.long_descriptions)
 	if ("board_members" in obj)
 		obj.board_members = JSON.stringify(obj.board_members)
 	if ("business_models" in obj)

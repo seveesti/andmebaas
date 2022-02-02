@@ -12,6 +12,8 @@ var {confirm} = require("root/lib/jsx")
 var SUSTAINABILITY_GOALS = require("root/lib/sustainability_goals")
 var COUNTIES = require("root/lib/estonian_counties")
 var BUSINESS_MODELS = require("root/lib/business_models")
+var LANGS = require("root/config").languages
+var DEFAULT_LANG = LANGS[0]
 
 var OTHER_URLS_PLACEHOLDER = [
 	"https://facebook.com/…",
@@ -69,32 +71,44 @@ module.exports = function(attrs) {
 
 			<Section>
 				<ul>
-					<li class="field-row">
+					{LANGS.map((lang) => <li class="field-row">
 						<label class="field-name">
 							{t("organization_update_page.short_description")}
+							{" "}
+							({t("organization_update_page.in_" + lang)})
 						</label>
 
-						<textarea name="short_description">
-							{org.short_description}
-						</textarea>
-					</li>
+						{lang != DEFAULT_LANG ? <p class="field-description">
+							{t("organization_update_page.description_translation_empty")}
+						</p> : null}
 
-					<li class="field-row">
+						<textarea name={`short_descriptions[${lang}]`}>
+							{org.short_descriptions[lang]}
+						</textarea>
+					</li>)}
+
+					{LANGS.map((lang) => <li class="field-row">
 						<label class="field-name">
 							{t("organization_update_page.long_description")}
+							{" "}
+							({t("organization_update_page.in_" + lang)})
 						</label>
 
-						<textarea name="long_description">
-							{org.long_description}
+						{lang != DEFAULT_LANG ? <p class="field-description">
+							{t("organization_update_page.description_translation_empty")}
+						</p> : null}
+
+						<textarea name={`long_descriptions[${lang}]`}>
+							{org.long_descriptions[lang]}
 						</textarea>
-					</li>
+					</li>)}
 
 					<li id="organization-logo-row" class="field-row">
 						<label class="field-name">
 							{t("organization_update_page.logo")}
 						</label>
 
-						<p>
+						<p class="field-description">
 							{org.logo_type ? <img src={orgPath + "/logo"} /> : null}
 							{t("organization_update_page.logo_formats")}
 						</p>

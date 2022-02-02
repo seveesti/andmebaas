@@ -176,7 +176,7 @@ module.exports = function(attrs) {
 					<tr>
 						<td colspan="5">
 							{Jsx.html(t("organizations_page.download_in_csv", {
-								url: path + ".csv",
+								url: path + ".csv"
 							}))}
 							{" "}
 						</td>

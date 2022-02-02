@@ -857,7 +857,7 @@ main {
 		font-size: 1.4rem;
 		text-transform: uppercase;
 		font-weight: 600;
-		margin-bottom: 0.5rem;
+		margin-bottom: 0.8rem;
 	}
 
 	.field-row {
@@ -900,8 +900,9 @@ main {
 		resize: vertical;
 	}
 
-	.field-description + label {
-		margin-top: 1.6rem;
+	.field-description {
+		margin-top: 0.5rem;
+		margin-bottom: 0.8rem;
 	}
 
 	.sev-checkbox {

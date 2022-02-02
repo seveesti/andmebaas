@@ -25,7 +25,8 @@ var flatten = Function.apply.bind(Array.prototype.concat, Array.prototype)
 var BUSINESS_MODELS = new Set(_.keys(require("root/lib/business_models")))
 var REGIONS = new Set(_.keys(require("root/lib/regions")))
 var GOALS = require("root/lib/sustainability_goals")
-var DEFAULT_LANG = require("root/config").languages[0]
+var LANGS = require("root/config").languages
+var DEFAULT_LANG = LANGS[0]
 exports.router = Router({mergeParams: true})
 exports.isAdminOrMember = isAdminOrMember
 
@@ -35,27 +36,9 @@ var ORDER_COLUMNS = {
 	"employee-count": sql`COALESCE(updates.employee_count, taxes.employee_count)`
 }
 
-var ORG_COLUMNS = [
-	"registry_code",
-	"name",
-	"official_name",
-	"founded_on",
-	"url",
-	"other_urls",
-	"email",
-	"short_description",
-	"long_description",
-	"board_members",
-	"business_models",
-	"regions",
-	"sustainability_goals",
-	"created_at",
-	"published_at",
-	"logo_type"
-]
-
 exports.router.get("/", function(req, res) {
 	var {account} = req
+	var {lang} = req.t
 	var filters = parseFilters(req.query)
 	var order = req.query.order ? parseOrder(req.query.order) : null
 	var format = req.accepts(["html", "text/csv"])
@@ -70,7 +53,32 @@ exports.router.get("/", function(req, res) {
 	var orgs = organizationsDb.search(sql`
 		WITH filtered_organizations AS (
 			SELECT
-				${sql.csv(ORG_COLUMNS.map((col) => sql`org.${sql.column(col)}`))},
+				org.registry_code,
+				org.name,
+				org.business_models,
+				org.sustainability_goals,
+				org.published_at,
+				COALESCE(updates.revenue, taxes.revenue) as revenue,
+
+				${format == "text/csv" ? sql`
+					COALESCE(
+						json_extract(short_descriptions, ${"$." + lang}),
+						json_extract(short_descriptions, ${"$." + DEFAULT_LANG})
+					) AS short_description,
+
+					COALESCE(
+						json_extract(long_descriptions, ${"$." + lang}),
+						json_extract(long_descriptions, ${"$." + DEFAULT_LANG})
+					) AS long_description,
+
+					org.email,
+					org.url,
+					org.other_urls,
+					org.board_members,
+					org.business_models,
+					org.regions,
+					org.sustainability_goals,
+				` : sql``}
 
 				last_value(COALESCE(updates.employee_count, taxes.employee_count))
 				OVER (PARTITION BY org.registry_code ORDER BY taxes.year, taxes.quarter)
@@ -117,7 +125,7 @@ exports.router.get("/", function(req, res) {
 
 			${filters.businessModels ? sql.concat(
 				Array.from(filters.businessModels, (m) => sql`
-					AND business_models LIKE ${`%${m}%`}
+					AND org.business_models LIKE ${`%${m}%`}
 				`)
 			) : sql``}
 
@@ -138,6 +146,8 @@ exports.router.get("/", function(req, res) {
 		` : sql``}
 	`)
 
+	// The number of organizations is too low to bother with database
+	// normalization or writing a complicated query to unpack the JSON array.
 	if (filters.sustainabilityGoals) orgs = orgs.filter((org) => (
 		Array.from(filters.sustainabilityGoals).every((id) => (
 			org.sustainability_goals.has(id)
@@ -186,10 +196,36 @@ exports.router.post("/", assertAdmin, _.next(async function(req, res) {
 }))
 
 exports.router.use("/:registryCode", function(req, res, next) {
+	var {lang} = req.t
+
 	var org = organizationsDb.read(sql`
-		SELECT ${sql.csv(ORG_COLUMNS.map(sql.column))}
-		FROM organizations
-		WHERE registry_code = ${req.params.registryCode}
+		SELECT
+			registry_code,
+			name,
+			official_name,
+			founded_on,
+			url,
+			email,
+			other_urls,
+			board_members,
+			business_models,
+			regions,
+			sustainability_goals,
+			created_at,
+			published_at,
+			logo_type,
+
+			COALESCE(
+				json_extract(short_descriptions, ${"$." + lang}),
+				json_extract(short_descriptions, ${"$." + DEFAULT_LANG})
+			) AS short_description,
+
+			COALESCE(
+				json_extract(long_descriptions, ${"$." + lang}),
+				json_extract(long_descriptions, ${"$." + DEFAULT_LANG})
+			) AS long_description
+
+		FROM organizations WHERE registry_code = ${req.params.registryCode}
 	`)
 
 	if (org == null) throw new HttpError(404, "Organization Not Found", {
@@ -256,7 +292,14 @@ exports.router.get("/:registryCode", function(req, res) {
 	res.render("organizations/read_page.jsx", {updates})
 })
 
-exports.router.get("/:registryCode/edit", assertMember, function(_req, res) {
+exports.router.get("/:registryCode/edit", assertMember, function(req, res) {
+	var org = req.organization
+
+	_.assign(org, _.pick(organizationsDb.read(sql`
+		SELECT short_descriptions, long_descriptions
+		FROM organizations WHERE registry_code = ${org.registry_code}
+	`), ["short_descriptions", "long_descriptions"]))
+
 	res.render("organizations/update_page.jsx")
 })
 
@@ -449,10 +492,16 @@ function parse(org, obj, files) {
 		? org && org.published_at || new Date
 		: null
 
-	if ("short_description" in obj)
-		attrs.short_description = obj.short_description.trim() || null
-	if ("long_description" in obj)
-		attrs.long_description = obj.long_description.trim() || null
+	if ("short_descriptions" in obj) attrs.short_descriptions =
+		_.mapValues(obj.short_descriptions, (desc, lang) => (
+			LANGS.includes(lang) && desc.trim() || undefined
+		))
+
+	if ("long_descriptions" in obj) attrs.long_descriptions =
+		_.mapValues(obj.long_descriptions, (desc, lang) => (
+			LANGS.includes(lang) && desc.trim() || undefined
+		))
+
 	if ("business_models" in obj)
 		attrs.business_models = parseBusinessModels(obj.business_models || {})
 
