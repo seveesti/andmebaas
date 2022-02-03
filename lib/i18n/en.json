@@ -118,6 +118,7 @@
 	"organizations_page.create_organization.registry_code": "Registry Code",
 	"organizations_page.create_organization.registry_code_placeholder": "Registry code",
 	"organizations_page.download_in_csv": "Download the enterprise data in <a href=\"${url}\" class=\"link-button\">CSV</a>.\n",
+	"organizations_page.empty_placeholder": "No matching enterprises. ",
 	"organizations_page.filters.all_employees": "All",
 	"organizations_page.filters.business_model": "Business Model",
 	"organizations_page.filters.current": "Filter",

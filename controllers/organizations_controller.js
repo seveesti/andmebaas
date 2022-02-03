@@ -22,6 +22,7 @@ var logger = require("root").logger
 var sendEmail = require("root").sendEmail
 var concat = Array.prototype.concat.bind(Array.prototype)
 var flatten = Function.apply.bind(Array.prototype.concat, Array.prototype)
+var renderTable = require("root/views/organizations/index_page").Table
 var BUSINESS_MODELS = new Set(_.keys(require("root/lib/business_models")))
 var REGIONS = new Set(_.keys(require("root/lib/regions")))
 var GOALS = require("root/lib/sustainability_goals")
@@ -163,12 +164,22 @@ exports.router.get("/", function(req, res) {
 			res.setHeader("Content-Type", "text/csv")
 			return void res.end(serializeOrganizationsAsCsv(orgs))
 
-		default: res.render("organizations/index_page.jsx", {
-			organizations: orgs,
-			taxQuarter,
-			filters,
-			order
-		})
+		default:
+			if (req.headers.prefer == "return=minimal") res.send(String(renderTable({
+				t: req.t,
+				path: req.baseUrl,
+				account,
+				organizations: orgs,
+				taxQuarter,
+				filters,
+				order
+			})))
+			else res.render("organizations/index_page.jsx", {
+				organizations: orgs,
+				taxQuarter,
+				filters,
+				order
+			})
 	}
 })
 

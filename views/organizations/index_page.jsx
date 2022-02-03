@@ -12,23 +12,18 @@ var {SdgImage} = Page
 var {javascript} = require("root/lib/jsx")
 var SUSTAINABILITY_GOALS = require("root/lib/sustainability_goals")
 var BUSINESS_MODELS = require("root/lib/business_models")
+exports = module.exports = IndexPage
+exports.Table = Table
 
-module.exports = function(attrs) {
+function IndexPage(attrs) {
 	var {req} = attrs
 	var {t} = req
 	var {account} = req
 	var {filters} = attrs
 	var {organizations} = attrs
 	var {taxQuarter} = attrs
-	var path = req.baseUrl
-
 	var {order} = attrs
-	var [orderName, orderDirection] = order || ["name", "asc"]
-
-	var query = _.assign(serializeFiltersQuery(filters), order
-		? {order: (orderDirection == "asc" ? "" : "-") + orderName}
-		: null
-	)
+	var path = req.baseUrl
 
 	return <Page
 		page="organizations"
@@ -61,140 +56,15 @@ module.exports = function(attrs) {
 				order={order}
 			/>
 
-			<table
-				id="organizations-table"
-				class={
-					"page-table" + (account && account.administrative ? " has-form" : "")
-				}
-			>
-				<caption><div>
-					<span class="count">
-						{organizations.length == 1
-							? t("organizations_page.organization_count_1", {
-								count: organizations.length
-							})
-							: t("organizations_page.organization_count_n", {
-								count: organizations.length
-							})
-						}.
-						{" "}
-
-						{account && account.administrative ?
-							<a class="link-button" href="#new-organization-form">
-								{t("organizations_page.create_new_link")}
-							</a>
-						: null}
-					</span>
-
-					{" "}
-
-					{taxQuarter ? <span class="taxes-description">
-						{t("organizations_page.financials_from", {
-							year: taxQuarter.year,
-							quarter:taxQuarter.quarter
-						})}
-					</span> : null}
-				</div></caption>
-
-				<thead class="page-table-header">
-					<tr>
-						<th class="name-column">
-							<SortButton
-								path={path}
-								query={query}
-								name="name"
-								sorted={orderName == "name" ? orderDirection : null}
-							>
-								{t("organizations_page.table.organization")}
-							</SortButton>
-						</th>
-
-						<th>
-							{t("organizations_page.table.goals")}
-						</th>
-
-						<th class="revenue-column">
-							<SortButton
-								path={path}
-								query={query}
-								name="revenue"
-								sorted={orderName == "revenue" ? orderDirection : null}
-								direction="desc"
-							>
-								{t("organizations_page.table.revenue")}
-							</SortButton>
-						</th>
-
-						<th class="employee-count-column">
-							<SortButton
-								path={path}
-								query={query}
-								name="employee-count"
-								sorted={orderName == "employee-count" ? orderDirection : null}
-								direction="desc"
-							>
-								{t("organizations_page.table.employees")}
-							</SortButton>
-						</th>
-
-						<th class="business-models-column">
-							{t("organizations_page.table.business_model")}
-						</th>
-					</tr>
-				</thead>
-
-				<tbody>{organizations.map(function(org) {
-					var orgPath = "/enterprises/" + org.registry_code
-					var taxes = org.taxes[0]
-
-					var klass = ["organization"]
-					if (!org.published_at) klass.push("unpublished")
-
-					return <Fragment>
-						<tr class={klass.join(" ")}>
-							<td class="name-column">
-								<a href={orgPath}>{org.name}</a>
-
-								{org.published_at ? "" : <span
-									class="unpublished-icon"
-									title={t("organizations_page.unpublished")}
-								> 🕵</span>}
-							</td>
-
-							<td class="goals">
-								<ul>{Array.from(org.sustainability_goals, (id) => <li>
-									<SdgImage t={t} goal={id} />
-								</li>)}</ul>
-							</td>
-
-							<td class="revenue-column">{taxes ?
-								<MoneyElement amount={taxes.revenue} currency="EUR" />
-							: null}</td>
-
-							<td class="employee-count-column">{taxes ?
-								taxes.employee_count
-							: null}</td>
-
-							<td class="business-models-column">
-								<ul>{Array.from(org.business_models, (id) => <li>
-									{" "}{id.toUpperCase()}
-								</li>)}</ul>
-							</td>
-						</tr>
-					</Fragment>
-				})}</tbody>
-
-				<tfoot class="page-table-footer">
-					<tr>
-						<td colspan="5">
-							{Jsx.html(t("organizations_page.download_in_csv", {
-								url: path + ".csv" + Qs.stringify(query, {addQueryPrefix: true})
-							}))}
-							{" "}
-						</td>
-					</tr>
-				</tfoot>
-			</table>
+			<Table
+				t={t}
+				account={account}
+				taxQuarter={taxQuarter}
+				organizations={organizations}
+				path={path}
+				filters={filters}
+				order={order}
+			/>
 
 			{account && account.administrative ? <Form
 				id="new-organization-form"
@@ -235,6 +105,187 @@ module.exports = function(attrs) {
 			</Form> : null}
 		</Section>
 	</Page>
+}
+
+function Table(attrs) {
+	var {t} = attrs
+	var {account} = attrs
+	var {organizations} = attrs
+	var {taxQuarter} = attrs
+	var {path} = attrs
+
+	var {filters} = attrs
+	var {order} = attrs
+	var [orderName, orderDirection] = order || ["name", "asc"]
+
+	var query = _.assign(serializeFiltersQuery(filters), order
+		? {order: (orderDirection == "asc" ? "" : "-") + orderName}
+		: null
+	)
+
+	var employeeCount = filters.employeeCount && filters.employeeCount.join("-")
+	var {businessModels} = filters
+	var sdgs = filters.sustainabilityGoals
+
+	return <table
+		id="organizations-table"
+		class={
+			"page-table" + (account && account.administrative ? " has-form" : "")
+		}
+	>
+		<caption><div>
+			<span class="organizations-description">
+				{organizations.length == 1
+					? t("organizations_page.organization_count_1", {
+						count: organizations.length
+					})
+					: t("organizations_page.organization_count_n", {
+						count: organizations.length
+					})
+				}.
+				{" "}
+
+				{account && account.administrative ?
+					<a class="link-button" href="#new-organization-form">
+						{t("organizations_page.create_new_link")}
+					</a>
+				: null}
+
+				{_.any(filters) ? <div class="filter">
+					<h3>{t("organizations_page.filters.current")}:</h3>
+
+					<ul>
+						{employeeCount ? <li>
+							{employeeCount}
+							{" "}
+							{t("organizations_page.filters.current_filter_employee_count")}
+						</li> : null}
+
+						{businessModels ? Array.from(businessModels).map((id) => <li>
+							{id.toUpperCase()}
+						</li>) : null}
+
+						{sdgs ? Array.from(sdgs).map((id) => <li>
+							<SdgImage t={t} goal={id} />
+							{/^\d+$/.test(id) ? [<strong>{id}.</strong>, " "] : null}
+							{t(`sdg.${id}.title`)}
+						</li>) : null}
+					</ul>
+				</div> : null}
+
+			</span>
+
+			{" "}
+
+			{taxQuarter ? <span class="taxes-description">
+				{t("organizations_page.financials_from", {
+					year: taxQuarter.year,
+					quarter:taxQuarter.quarter
+				})}
+			</span> : null}
+		</div></caption>
+
+		<thead class="page-table-header">
+			<tr>
+				<th class="name-column">
+					<SortButton
+						path={path}
+						query={query}
+						name="name"
+						sorted={orderName == "name" ? orderDirection : null}
+					>
+						{t("organizations_page.table.organization")}
+					</SortButton>
+				</th>
+
+				<th>
+					{t("organizations_page.table.goals")}
+				</th>
+
+				<th class="revenue-column">
+					<SortButton
+						path={path}
+						query={query}
+						name="revenue"
+						sorted={orderName == "revenue" ? orderDirection : null}
+						direction="desc"
+					>
+						{t("organizations_page.table.revenue")}
+					</SortButton>
+				</th>
+
+				<th class="employee-count-column">
+					<SortButton
+						path={path}
+						query={query}
+						name="employee-count"
+						sorted={orderName == "employee-count" ? orderDirection : null}
+						direction="desc"
+					>
+						{t("organizations_page.table.employees")}
+					</SortButton>
+				</th>
+
+				<th class="business-models-column">
+					{t("organizations_page.table.business_model")}
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>{organizations.length > 0 ? organizations.map(function(org) {
+			var orgPath = "/enterprises/" + org.registry_code
+			var taxes = org.taxes[0]
+
+			var klass = ["organization"]
+			if (!org.published_at) klass.push("unpublished")
+
+			return <Fragment>
+				<tr class={klass.join(" ")}>
+					<td class="name-column">
+						<a href={orgPath}>{org.name}</a>
+
+						{org.published_at ? "" : <span
+							class="unpublished-icon"
+							title={t("organizations_page.unpublished")}
+						> 🕵</span>}
+					</td>
+
+					<td class="goals">
+						<ul>{Array.from(org.sustainability_goals, (id) => <li>
+							<SdgImage t={t} goal={id} />
+						</li>)}</ul>
+					</td>
+
+					<td class="revenue-column">{taxes ?
+						<MoneyElement amount={taxes.revenue} currency="EUR" />
+					: null}</td>
+
+					<td class="employee-count-column">{taxes ?
+						taxes.employee_count
+					: null}</td>
+
+					<td class="business-models-column">
+						<ul>{Array.from(org.business_models, (id) => <li>
+							{" "}{id.toUpperCase()}
+						</li>)}</ul>
+					</td>
+				</tr>
+			</Fragment>
+		}) : <tr class="empty-placeholder">
+			<td colspan="5">{t("organizations_page.empty_placeholder")}</td>
+		</tr>}</tbody>
+
+		<tfoot class="page-table-footer">
+			<tr>
+				<td colspan="5">
+					{Jsx.html(t("organizations_page.download_in_csv", {
+						url: path + ".csv" + Qs.stringify(query, {addQueryPrefix: true})
+					}))}
+					{" "}
+				</td>
+			</tr>
+		</tfoot>
+	</table>
 }
 
 function Filters(attrs) {
@@ -377,42 +428,65 @@ function Filters(attrs) {
 				</button>
 			</noscript>
 
-			{_.any(filters) ? <Fragment>
-				<a href={path} class="reset-button link-button">
-					{t("organizations_page.filters.remove")}
-				</a>.
-			</Fragment> : null}
+			<a
+				href={path}
+				id="reset-filters-button"
+				class="link-button"
+				hidden={_.isEmpty(filters)}
+			>
+				{t("organizations_page.filters.remove")}
+			</a>
+
+			<div id="loading-spinner" hidden />
 		</form>
-
-		{_.any(filters) ? <div class="current">
-			<h3>{t("organizations_page.filters.current")}:</h3>
-
-			<ul>
-				{employeeCount ? <li>
-					{employeeCount}
-					{" "}
-					{t("organizations_page.filters.current_filter_employee_count")}
-				</li> : null}
-
-				{businessModels ? Array.from(businessModels).map((id) => <li>
-					{id.toUpperCase()}
-				</li>) : null}
-
-				{sustainabilityGoals ? Array.from(sustainabilityGoals).map((id) => <li>
-					<SdgImage t={t} goal={id} />
-					{/^\d+$/.test(id) ? [<strong>{id}.</strong>, " "] : null}
-					{t(`sdg.${id}.title`)}
-				</li>) : null}
-			</ul>
-		</div> : null}
 
 		<script>{javascript`
 			var filtersEl = document.getElementById("filters")
-			var form = document.getElementById("filters-form")
+			var formEl = document.getElementById("filters-form")
+			var spinnerEl = document.getElementById("loading-spinner")
+			var resetEl = document.getElementById("reset-filters-button")
 			var forEach = Function.call.bind(Array.prototype.forEach)
 
-			form.addEventListener("change", function(ev) {
-				this.submit()
+			formEl.addEventListener("change", function(ev) {
+				spinnerEl.hidden = false
+
+				try {
+					var query = new URLSearchParams(new FormData(formEl))
+					var url = ${path} + "?" + query.toString()
+
+					var hasFilters = (
+						query.get("employee-count") ||
+						query.get("business-model[]") ||
+						query.get("sdg[]")
+					)
+					console.log(hasFilters)
+
+					var res = fetch(url, {
+						headers: {Prefer: "return=minimal"}
+					})
+
+					var html = res.then(function(res) {
+						if (!res.ok) return void formEl.submit()
+						return res.text()
+					})
+
+					html.then(function(html) {
+						spinnerEl.hidden = true
+
+						// Can't cache the table as it gets replaced every time. ;)
+						var tableEl = document.getElementById("organizations-table")
+						tableEl.outerHTML = html
+
+						resetEl.hidden = !hasFilters
+						history.replaceState(null, "", url)
+					}).catch(handleError)
+				}
+				catch (ex) { handleError(ex) }
+
+				function handleError(err) {
+					if (console) console.error(err)
+					formEl.submit()
+				}
 			})
 
 			forEach(filtersEl.querySelectorAll("details"), function(el) {

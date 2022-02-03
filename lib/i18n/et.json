@@ -124,6 +124,7 @@
 	"organizations_page.create_organization.registry_code_placeholder": "Registrikood",
 	"organizations_page.description": "Sotsiaalse ettevõtte lühidefinitsioon: ühiskondliku eesmärgiga organisatsioon, mis kasutab oma sihi saavutamiseks ettevõtlust. Ühiskondliku eesmärgi olemasolu tähendab, et see on püsivalt fikseeritud organisatsiooni põhikirjas. Ettevõte tegutseb majandusüksusena ehk pakub kaupu või teenuseid tasu eest püsiva tegevusena.",
 	"organizations_page.download_in_csv": "Lae ettevõtete avaandmed <a href=\"${url}\" class=\"link-button\">CSV</a> formaadis.\n",
+	"organizations_page.empty_placeholder": "Ei leidnud filtrile vastavaid ettevõtteid.",
 	"organizations_page.filters.all_employees": "Kõik",
 	"organizations_page.filters.business_model": "Ärimudel",
 	"organizations_page.filters.current": "Filter",

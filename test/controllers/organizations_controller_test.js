@@ -1,4 +1,5 @@
 var _ = require("root/lib/underscore")
+var I18n = require("root/lib/i18n")
 var parseHtml = require("root/test/html").parse
 var parseCsv = require("csv-parse/lib/sync")
 var outdent = require("root/lib/outdent")
@@ -6,6 +7,9 @@ var organizationsDb = require("root/db/organizations_db")
 var updatesDb = require("root/db/organization_updates_db")
 var taxesDb = require("root/db/organization_taxes_db")
 var sql = require("sqlate")
+var LANGS = require("root/config").languages
+var DEFAULT_LANG = LANGS[0]
+var t = I18n.t.bind(null, DEFAULT_LANG)
 
 describe("OrganizationsController", function() {
 	require("root/test/db")()
@@ -19,7 +23,8 @@ describe("OrganizationsController", function() {
 
 			var dom = parseHtml(res.body)
 			var table = dom.body.querySelector("#organizations-table")
-			table.tBodies[0].children.must.be.empty()
+			var text = table.tBodies[0].textContent
+			text.must.include(t("organizations_page.empty_placeholder"))
 		})
 	})
 
