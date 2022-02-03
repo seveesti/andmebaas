@@ -465,8 +465,8 @@ function parseFilters(query) {
 		filters.employeeCount = [Number(from) || 0, to ? Number(to) : Infinity]
 	}
 
-	if (query["business-models"]) {
-		filters.businessModels = parseBusinessModels(query["business-models"])
+	if (query["business-model"]) {
+		filters.businessModels = parseBusinessModels(query["business-model"])
 	}
 
 	if (query.sdg) {
@@ -537,15 +537,15 @@ function createRegistryCard(card, html) {
 }
 
 function parseBusinessModels(models) {
-	return new Set(_.keys(models).filter((model) => BUSINESS_MODELS.has(model)))
+	return new Set(models.filter((model) => BUSINESS_MODELS.has(model)))
 }
 
 function parseSustainabilityGoals(goals) {
-	return new Set(_.keys(goals).filter((goal)=> GOALS.includes(goal)))
+	return new Set(goals.filter((goal)=> GOALS.includes(goal)))
 }
 
 function parseRegions(regions) {
-	return new Set(_.keys(regions).filter((region) => REGIONS.has(region)))
+	return new Set(regions.filter((region) => REGIONS.has(region)))
 }
 
 function parseTaxesUpdates(objs) {

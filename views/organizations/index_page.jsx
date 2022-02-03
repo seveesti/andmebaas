@@ -20,8 +20,15 @@ module.exports = function(attrs) {
 	var {filters} = attrs
 	var {organizations} = attrs
 	var {taxQuarter} = attrs
-	var [orderName, orderDirection] = attrs.order || ["name", "asc"]
 	var path = req.baseUrl
+
+	var {order} = attrs
+	var [orderName, orderDirection] = order || ["name", "asc"]
+
+	var query = _.assign(serializeFiltersQuery(filters), order
+		? {order: (orderDirection == "asc" ? "" : "-") + orderName}
+		: null
+	)
 
 	return <Page
 		page="organizations"
@@ -47,7 +54,12 @@ module.exports = function(attrs) {
 		<FlashSection flash={req.flash} />
 
 		<Section>
-			<Filters t={t} path={path} filters={filters} />
+			<Filters
+				t={t}
+				path={path}
+				filters={filters}
+				order={order}
+			/>
 
 			<table
 				id="organizations-table"
@@ -89,7 +101,7 @@ module.exports = function(attrs) {
 						<th class="name-column">
 							<SortButton
 								path={path}
-								query={{}}
+								query={query}
 								name="name"
 								sorted={orderName == "name" ? orderDirection : null}
 							>
@@ -104,7 +116,7 @@ module.exports = function(attrs) {
 						<th class="revenue-column">
 							<SortButton
 								path={path}
-								query={{}}
+								query={query}
 								name="revenue"
 								sorted={orderName == "revenue" ? orderDirection : null}
 								direction="desc"
@@ -116,7 +128,7 @@ module.exports = function(attrs) {
 						<th class="employee-count-column">
 							<SortButton
 								path={path}
-								query={{}}
+								query={query}
 								name="employee-count"
 								sorted={orderName == "employee-count" ? orderDirection : null}
 								direction="desc"
@@ -176,7 +188,7 @@ module.exports = function(attrs) {
 					<tr>
 						<td colspan="5">
 							{Jsx.html(t("organizations_page.download_in_csv", {
-								url: path + ".csv"
+								url: path + ".csv" + Qs.stringify(query, {addQueryPrefix: true})
 							}))}
 							{" "}
 						</td>
@@ -229,6 +241,7 @@ function Filters(attrs) {
 	var {path} = attrs
 	var {filters} = attrs
 	var {t} = attrs
+	var [orderName, orderDirection] = attrs.order || ["name", "asc"]
 
 	var employeeCount = filters.employeeCount && filters.employeeCount.join("-")
 	var {businessModels} = filters
@@ -302,8 +315,14 @@ function Filters(attrs) {
 							</label>
 						</li>
 					</ol>
-
 				</div>
+
+				{/* Set order last as that's where the sort buttons put it, too. */}
+				<input
+					type="hidden"
+					name="order"
+					value={(orderDirection == "asc" ? "" : "-") + orderName}
+				/>
 			</details>
 
 			<details class="filter">
@@ -314,7 +333,8 @@ function Filters(attrs) {
 						<label class="sev-checkbox">
 							<input
 								type="checkbox"
-								name={`business-models[${id}]`}
+								name="business-model[]"
+								value={id}
 								checked={businessModels && businessModels.has(id)}
 							/>
 							{name}
@@ -327,8 +347,6 @@ function Filters(attrs) {
 				<summary>{t("organizations_page.filters.goals")}</summary>
 
 				<div class="dropdown">
-					<input type="hidden" name="sdg[_]" value="off" />
-
 					<ol>{SUSTAINABILITY_GOALS.map(function(id) {
 						return <li>
 							<label class="sev-checkbox">
@@ -336,7 +354,8 @@ function Filters(attrs) {
 
 								<input
 									type="checkbox"
-									name={`sdg[${id}]`}
+									name="sdg[]"
+									value={id}
 
 									checked={
 										sustainabilityGoals && sustainabilityGoals.has(id)
@@ -431,4 +450,19 @@ function SortButton(attrs, children) {
 	return <a href={url} class={"column-name sort-button " + (sorted || "")}>
 		{children}
 	</a>
+}
+
+function serializeFiltersQuery(filters) {
+	var query = {}
+
+	if (filters.employeeCount)
+		query["employee-count"] = filters.employeeCount.join("-")
+
+	if (filters.businessModels)
+		query["business-model"] = Array.from(filters.businessModels)
+
+	if (filters.sustainabilityGoals)
+		query.sdg = Array.from(filters.sustainabilityGoals)
+
+	return query
 }

@@ -263,15 +263,12 @@ describe("OrganizationsController", function() {
 					"short_descriptions[en]": "Good company.",
 					"long_descriptions[et]": "Tõesti hea firma!",
 					"long_descriptions[en]": "Really good company.",
-					"business_models[none]": "off",
-					"business_models[b2c]": "on",
-					"regions[none]": "off",
-					"regions[harju]": "on",
-					"regions[tartu]": "on",
-					"sustainability_goals[none]": "off",
-					"sustainability_goals[4]": "on",
-					"sustainability_goals[8]": "on",
-					"sustainability_goals[culture]": "on",
+					"business_models[]": "b2c",
+					"regions[0]": "harju",
+					"regions[1]": "tartu",
+					"sustainability_goals[0]": "4",
+					"sustainability_goals[1]": "8",
+					"sustainability_goals[2]": "culture",
 
 					other_urls: outdent`
 						http://facebook.com/example

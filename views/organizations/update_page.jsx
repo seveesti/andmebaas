@@ -152,13 +152,12 @@ module.exports = function(attrs) {
 							{t("organization_update_page.business_model")}
 						</label>
 
-						<input type="hidden" name="business_models[none]" value="off" />
-
 						<ul>{_.map(BUSINESS_MODELS, (name, id) => <li>
 							<label class="sev-checkbox">
 								<input
 									type="checkbox"
-									name={`business_models[${id}]`}
+									name="business_models[]"
+									value={id}
 									checked={org.business_models.has(id)}
 								/>
 								{name}
@@ -171,13 +170,14 @@ module.exports = function(attrs) {
 							{t("organization_update_page.region")}
 						</label>
 
-						<input type="hidden" name="regions[none]" value="off" />
+						<input type="hidden" name="regions[]" value="off" />
 
 						<h3>Riigid</h3>
 						<label class="sev-checkbox">
 							<input
 								type="checkbox"
-								name="regions[global]"
+								name="regions[]"
+								value="global"
 								checked={org.regions.has("global")}
 							/>
 								{t("organization_update_page.regions.global")}
@@ -187,7 +187,8 @@ module.exports = function(attrs) {
 						<label class="sev-checkbox">
 							<input
 								type="checkbox"
-								name="regions[estonia]"
+								name="regions[]"
+								value="estonia"
 								checked={org.regions.has("estonia")}
 							/>
 								{t("organization_update_page.regions.estonia")}
@@ -200,7 +201,8 @@ module.exports = function(attrs) {
 							<label class="sev-checkbox">
 								<input
 									type="checkbox"
-									name={`regions[${id}]`}
+									name="regions[]"
+									value={id}
 									checked={org.regions.has(id)}
 								/>
 								{name}maa
@@ -217,19 +219,14 @@ module.exports = function(attrs) {
 							{Jsx.html(t("organization_update_page.sdgs_description"))}
 						</p>
 
-						<input
-							type="hidden"
-							name="sustainability_goals[none]"
-							value="off"
-						/>
-
 						{SUSTAINABILITY_GOALS.map((id) => <Fragment>
 							<label class="sev-checkbox">
 								<SdgImage t={t} goal={id} />
 
 								<input
 									type="checkbox"
-									name={`sustainability_goals[${id}]`}
+									name="sustainability_goals[]"
+									value={id}
 									checked={org.sustainability_goals.has(id)}
 								/>
 
