@@ -34,6 +34,7 @@ exports.isAdminOrMember = isAdminOrMember
 var ORDER_COLUMNS = {
 	name: sql`org.name`,
 	revenue: sql`revenue`,
+	"founded-on": sql`org.founded_on`,
 	"employee-count": sql`COALESCE(updates.employee_count, taxes.employee_count)`
 }
 
@@ -56,6 +57,7 @@ exports.router.get("/", function(req, res) {
 			SELECT
 				org.registry_code,
 				org.name,
+				org.founded_on,
 				org.business_models,
 				org.sustainability_goals,
 				org.published_at,
@@ -135,6 +137,7 @@ exports.router.get("/", function(req, res) {
 			${order ? sql`
 				ORDER BY ${ORDER_COLUMNS[order[0]]}
 				${order[1] == "asc" ? sql`ASC` : sql`DESC`}
+				NULLS LAST
 			`: sql`ORDER BY org.name ASC`}
 		)
 
@@ -644,6 +647,7 @@ function serializeOrganizationsAsCsv(organizations) {
 	var header = concat([
 		"name",
 		"registry_code",
+		"founded_on",
 		"short_description",
 		"long_description",
 		"email",
@@ -664,6 +668,7 @@ function serializeOrganizationsAsCsv(organizations) {
 		return concat([
 			org.name,
 			org.registry_code,
+			org.founded_on && _.formatDate("iso", org.founded_on),
 			org.short_description,
 			org.long_description,
 			org.email || "",

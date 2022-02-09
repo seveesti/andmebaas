@@ -194,12 +194,22 @@ function Table(attrs) {
 						name="name"
 						sorted={orderName == "name" ? orderDirection : null}
 					>
-						{t("organizations_page.table.organization")}
+						{t("organizations_page.table.organization_column")}
+					</SortButton>
+
+					<SortButton
+						path={path}
+						query={query}
+						name="founded-on"
+						class="secondary"
+						sorted={orderName == "founded-on" ? orderDirection : null}
+					>
+						{t("organizations_page.table.founded_on_column")}
 					</SortButton>
 				</th>
 
-				<th>
-					{t("organizations_page.table.goals")}
+				<th class="goals-column">
+					{t("organizations_page.table.goals_column")}
 				</th>
 
 				<th class="revenue-column">
@@ -210,7 +220,7 @@ function Table(attrs) {
 						sorted={orderName == "revenue" ? orderDirection : null}
 						direction="desc"
 					>
-						{t("organizations_page.table.revenue")}
+						{t("organizations_page.table.revenue_column")}
 					</SortButton>
 				</th>
 
@@ -222,12 +232,12 @@ function Table(attrs) {
 						sorted={orderName == "employee-count" ? orderDirection : null}
 						direction="desc"
 					>
-						{t("organizations_page.table.employees")}
+						{t("organizations_page.table.employees_column")}
 					</SortButton>
 				</th>
 
 				<th class="business-models-column">
-					{t("organizations_page.table.business_model")}
+					{t("organizations_page.table.business_model_column")}
 				</th>
 			</tr>
 		</thead>
@@ -248,9 +258,19 @@ function Table(attrs) {
 							class="unpublished-icon"
 							title={t("organizations_page.unpublished")}
 						> 🕵</span>}
+
+						{org.founded_on ? <Fragment>
+							<br />
+
+							<span class="founded-on">
+								{t("organizations_page.table.founded_on", {
+									year: org.founded_on.getFullYear()
+								})}
+							</span>
+						</Fragment> : null}
 					</td>
 
-					<td class="goals">
+					<td class="goals-column">
 						<ul>{Array.from(org.sustainability_goals, (id) => <li>
 							<SdgImage t={t} goal={id} />
 						</li>)}</ul>
@@ -521,9 +541,11 @@ function SortButton(attrs, children) {
 	query = _.assign({}, query, {order: (direction == "asc" ? "" : "-") + name})
 	var url = path + "?" + Qs.stringify(query)
 
-	return <a href={url} class={"column-name sort-button " + (sorted || "")}>
-		{children}
-	</a>
+	var klass = ["column-name", "sort-button"]
+	if (attrs.class) klass.push(attrs.class)
+	if (sorted) klass.push(sorted)
+
+	return <a href={url} class={klass.join(" ")}>{children}</a>
 }
 
 function serializeFiltersQuery(filters) {

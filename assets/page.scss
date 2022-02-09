@@ -112,6 +112,8 @@ strong { font-weight: bold; }
 				&.asc { background-image: url("/assets/sort-asc.png"); }
 				&.desc { background-image: url("/assets/sort-desc.png"); }
 
+				&.secondary { font-weight: 500; }
+
 				@extend .hover-link-button;
 			}
 
@@ -599,6 +601,9 @@ main {
 			}
 		}
 
+		.name-column { width: 32em; }
+		.goals-column { width: 26em; }
+
 		td.name-column {
 			a {
 				font-size: 2rem;
@@ -611,11 +616,17 @@ main {
 
 				&:focus { outline: 1px dashed $sev-blue; }
 			}
+
+			.founded-on {
+				font-size: 1.5rem;
+				font-weight: 500;
+				color: $subtitle-grey;
+			}
 		}
 
 		.organization.unpublished {
 			td.name-column {
-				font-style: italic;
+				a { font-style: italic; }
 
 				.unpublished-icon { font-style: normal; }
 			}
@@ -628,7 +639,7 @@ main {
 			font-weight: 500;
 		}
 
-		.goals {
+		td.goals-column {
 			li {
 				display: inline-block;
 				margin-right: 0.5rem;

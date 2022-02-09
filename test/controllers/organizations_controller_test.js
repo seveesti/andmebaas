@@ -32,6 +32,7 @@ describe("OrganizationsController", function() {
 		var CSV_HEADERS = [
 			"name",
 			"registry_code",
+			"founded_on",
 			"short_description",
 			"long_description",
 			"email",
@@ -83,6 +84,7 @@ describe("OrganizationsController", function() {
 			var org = organizationsDb.create({
 				registry_code: "31337121",
 				name: "Example OÜ",
+				founded_on: new Date(2015, 5, 18),
 				short_descriptions: {et: "Good company."},
 				long_descriptions: {et: "Really good company."},
 				url: "http://example.com",
@@ -121,6 +123,7 @@ describe("OrganizationsController", function() {
 			parseCsv(res.body, {columns: true}).must.eql([{
 				name: org.name,
 				registry_code: org.registry_code,
+				founded_on: "2015-06-18",
 				goals: "1\n5\nculture",
 				business_models: "b2b\nb2g",
 				url: "http://example.com",
