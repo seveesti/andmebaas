@@ -117,6 +117,7 @@
 	"organizations_page.create_organization.name_placeholder": "Enterprise name",
 	"organizations_page.create_organization.registry_code": "Registry Code",
 	"organizations_page.create_organization.registry_code_placeholder": "Registry code",
+	"organizations_page.description": "Short definition of a social enterprise: an organization with a social purpose that uses entrepreneurship to achieve its goal. The existence of a societal purpose means that it is permanently fixed in the bylaws of the organization. The enterprise operates as an economic entity, ie provides goods or services on a permanent basis for consideration.",
 	"organizations_page.download_in_csv": "Download the enterprise data in <a href=\"${url}\" class=\"link-button\">CSV</a>.\n",
 	"organizations_page.empty_placeholder": "No matching enterprises. ",
 	"organizations_page.filters.all_employees": "All",
