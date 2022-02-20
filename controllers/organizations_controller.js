@@ -302,6 +302,7 @@ exports.router.use("/:registryCode", function(req, res, next) {
 
 exports.router.get("/:registryCode", function(req, res) {
 	var org = req.organization
+	var format = req.accepts(["html", "text/csv"])
 
 	var updates = updatesDb.search(sql`
 		SELECT "update".*, account.name, account.email
@@ -312,7 +313,13 @@ exports.router.get("/:registryCode", function(req, res) {
 		LIMIT 25
 	`)
 
-	res.render("organizations/read_page.jsx", {updates})
+	switch (format) {
+		case "text/csv":
+			res.setHeader("Content-Type", "text/csv")
+			return void res.end(serializeOrganizationsAsCsv([org]))
+
+		default: res.render("organizations/read_page.jsx", {updates})
+	}
 })
 
 exports.router.get("/:registryCode/edit", assertMember, function(req, res) {

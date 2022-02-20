@@ -65,6 +65,7 @@
 	"organization_page.admin_nav.update": "Edit",
 	"organization_page.board_members": "Board Members",
 	"organization_page.business_model": "Business Model",
+	"organization_page.download_in_csv": "Download the enterprise data in <a href=\"${url}\" class=\"link-button\">CSV</a>.\n",
 	"organization_page.financials": "Financials",
 	"organization_page.financials.employee_count": "Employee Count",
 	"organization_page.financials.employment_taxes": "Employment Taxes",

@@ -11,6 +11,21 @@ var LANGS = require("root/config").languages
 var DEFAULT_LANG = LANGS[0]
 var t = I18n.t.bind(null, DEFAULT_LANG)
 
+var CSV_HEADERS = [
+	"name",
+	"registry_code",
+	"founded_on",
+	"short_description",
+	"long_description",
+	"email",
+	"url",
+	"other_urls",
+	"goals",
+	"business_models",
+	"regions",
+	"board_members"
+]
+
 describe("OrganizationsController", function() {
 	require("root/test/db")()
 	require("root/test/web")()
@@ -29,21 +44,6 @@ describe("OrganizationsController", function() {
 	})
 
 	describe("GET / as application/csv", function() {
-		var CSV_HEADERS = [
-			"name",
-			"registry_code",
-			"founded_on",
-			"short_description",
-			"long_description",
-			"email",
-			"url",
-			"other_urls",
-			"goals",
-			"business_models",
-			"regions",
-			"board_members"
-		]
-
 		it("must respond with empty CSV given no organizations", async function() {
 			var res = await this.request("/enterprises.csv")
 			res.statusCode.must.equal(200)
@@ -248,6 +248,78 @@ describe("OrganizationsController", function() {
 
 			var res = await this.request("/enterprises/" + org.registry_code)
 			res.statusCode.must.equal(200)
+		})
+	})
+
+	describe("GET /:registryCode as application/csv", function() {
+		it("must respond with organization", async function() {
+			var org = organizationsDb.create({
+				registry_code: "31337121",
+				name: "Example OÜ",
+				founded_on: new Date(2015, 5, 18),
+				short_descriptions: {et: "Good company."},
+				long_descriptions: {et: "Really good company."},
+				url: "http://example.com",
+				email: "now@example.com",
+				regions: new Set(["harju", "tartu"]),
+				sustainability_goals: new Set(["1", "5", "culture"]),
+				business_models: new Set(["b2b", "b2g"]),
+				published_at: new Date,
+
+				board_members: [
+					"John Smith",
+					"Mary Smith"
+				],
+
+				other_urls: [
+					"http://facebook.com/example",
+					"http://twitter.com/example",
+					"http://linkedin.com/example"
+				]
+			})
+
+			taxesDb.create({
+				registry_code: org.registry_code,
+				year: 2015,
+				quarter: 2,
+				revenue: 11,
+				taxes: 22,
+				employee_count: 33,
+				employment_taxes: 44
+			})
+
+			var res = await this.request("/enterprises/" + org.registry_code + ".csv")
+			res.statusCode.must.equal(200)
+			res.headers["content-type"].must.equal("text/csv")
+
+			parseCsv(res.body, {columns: true}).must.eql([{
+				name: org.name,
+				registry_code: org.registry_code,
+				founded_on: "2015-06-18",
+				goals: "1\n5\nculture",
+				business_models: "b2b\nb2g",
+				url: "http://example.com",
+				email: "now@example.com",
+				short_description: org.short_descriptions.et,
+				long_description: org.long_descriptions.et,
+				regions: "harju\ntartu",
+
+				board_members: outdent`
+					John Smith
+					Mary Smith
+				`,
+
+				other_urls: outdent`
+					http://facebook.com/example
+					http://twitter.com/example
+					http://linkedin.com/example
+				`,
+
+				"2015Q2_revenue": "11",
+				"2015Q2_taxes": "22",
+				"2015Q2_employee_count": "33",
+				"2015Q2_employment_taxes": "44"
+			}])
 		})
 	})
 

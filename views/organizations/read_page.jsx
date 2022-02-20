@@ -25,6 +25,7 @@ module.exports = function(attrs) {
 	var {updates} = attrs
 	var org = attrs.organization
 	var orgPath = "/enterprises/" + org.registry_code
+	var path = req.baseUrl + req.path
 
 	return <Page
 		page="organization"
@@ -226,6 +227,12 @@ module.exports = function(attrs) {
 				})}</tbody>
 			</table>
 		</Section> : null}
+
+		<Section id="footer">
+			<p>
+				{Jsx.html(t("organization_page.download_in_csv", {url: path + ".csv"}))}
+			</p>
+		</Section>
 	</Page>
 }
 

@@ -70,6 +70,7 @@
 	"organization_page.admin_nav.update": "Muuda",
 	"organization_page.board_members": "Juhatuse liikmed",
 	"organization_page.business_model": "Ärimudel",
+	"organization_page.download_in_csv": "Lae ettevõtte avaandmed <a href=\"${url}\" class=\"link-button\">CSV</a> formaadis.\n",
 	"organization_page.financials": "Finantsinfo",
 	"organization_page.financials.employee_count": "Töötajate arv",
 	"organization_page.financials.employment_taxes": "Tööjõumaksud",
