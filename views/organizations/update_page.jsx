@@ -286,6 +286,8 @@ module.exports = function(attrs) {
 					</thead>
 
 					<tbody>{org.taxes.map(function(period) {
+						var periodName = _.formatYearQuarter(period.year, period.quarter)
+
 						return <tr>
 							<th class="year-column">{period.year}</th>
 							<th class="quarter-column">{period.quarter}</th>
@@ -293,7 +295,7 @@ module.exports = function(attrs) {
 							<td>
 								<input
 									type="number"
-									name={`taxes[${period.year}Q${period.quarter}][revenue]`}
+									name={`taxes[${periodName}][revenue]`}
 									step="0.01"
 									value={period.revenue}
 									required

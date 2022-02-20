@@ -34,7 +34,9 @@ module.exports = async function(argv) {
 
 async function importTaxes(path, replace, yearAndQuarter) {
 	var stream = Stream.read(path, "latin1")
-	var [year, quarter] = _.parseYearQuarter(yearAndQuarter)
+	yearAndQuarter = _.parseYearQuarter(yearAndQuarter)
+	if (yearAndQuarter == null) throw new RangeError("Invalid Year and Quarter")
+	var [year, quarter] = yearAndQuarter
 	await sqlite(sql`BEGIN`)
 
 	if (replace) sqlite(sql`

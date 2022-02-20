@@ -21,6 +21,7 @@ function IndexPage(attrs) {
 	var {account} = req
 	var {filters} = attrs
 	var {organizations} = attrs
+	var {taxQuarters} = attrs
 	var {taxQuarter} = attrs
 	var {order} = attrs
 	var path = req.baseUrl
@@ -59,6 +60,7 @@ function IndexPage(attrs) {
 			<Table
 				t={t}
 				account={account}
+				taxQuarters={taxQuarters}
 				taxQuarter={taxQuarter}
 				organizations={organizations}
 				path={path}
@@ -111,6 +113,7 @@ function Table(attrs) {
 	var {t} = attrs
 	var {account} = attrs
 	var {organizations} = attrs
+	var {taxQuarters} = attrs
 	var {taxQuarter} = attrs
 	var {path} = attrs
 
@@ -177,11 +180,35 @@ function Table(attrs) {
 
 			{" "}
 
-			{taxQuarter ? <span class="taxes-description">
-				{t("organizations_page.financials_from", {
-					year: taxQuarter.year,
-					quarter:taxQuarter.quarter
-				})}
+			{taxQuarters.length > 0 && taxQuarter ? <span class="taxes-description">
+				{t("organizations_page.financials_from")}
+				{" "}
+				<details>
+					<summary>{t("organizations_page.financials_from_quarter", {
+						year: taxQuarter.year,
+						quarter: taxQuarter.quarter
+					})}</summary>
+
+					<div class="dropdown">
+						<ol>{taxQuarters.map(function({year, quarter}) {
+							var url = path + Qs.stringify(_.defaults({
+								quarter: _.formatYearQuarter(year, quarter)
+							}, query), {addQueryPrefix: true})
+
+							var selected = (
+								year == taxQuarter.year &&
+								quarter == taxQuarters.quarter
+							)
+
+							return <li class={selected ? "selected" : ""}><a href={url}>
+								{t("organizations_page.financials_from_quarter", {
+									year: year,
+									quarter:quarter
+								})}
+							</a></li>
+						})}</ol>
+					</div>
+				</details>
 			</span> : null}
 		</div></caption>
 
@@ -538,8 +565,8 @@ function SortButton(attrs, children) {
 
 	var {path} = attrs
 	var {query} = attrs
-	query = _.assign({}, query, {order: (direction == "asc" ? "" : "-") + name})
-	var url = path + "?" + Qs.stringify(query)
+	query = _.defaults({order: (direction == "asc" ? "" : "-") + name}, query)
+	var url = path + Qs.stringify(query, {addQueryPrefix: true})
 
 	var klass = ["column-name", "sort-button"]
 	if (attrs.class) klass.push(attrs.class)

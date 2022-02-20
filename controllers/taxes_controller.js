@@ -47,7 +47,9 @@ exports.router.post("/", _.next(async function(req, res) {
 }))
 
 exports.router.delete("/:quarter", function(req, res) {
-	var [year, quarter] = _.parseYearQuarter(req.params.quarter)
+	var ynq = _.parseYearQuarter(req.params.quarter)
+	if (ynq == null) throw new HttpError(422, "Invalid Year and Quarter")
+	var [year, quarter] = ynq
 
 	taxesDb.execute(sql`
 		DELETE FROM organization_taxes WHERE year = ${year} AND quarter = ${quarter}

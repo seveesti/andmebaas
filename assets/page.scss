@@ -185,7 +185,7 @@ strong { font-weight: bold; }
 
 %button {
 	display: inline-block;
-	padding: 1rem 1.5rem;
+	padding: 0.9rem 1.5rem;
 	border: none;
 	border-radius: 0.8rem;
 	line-height: 1.2;
@@ -245,6 +245,54 @@ strong { font-weight: bold; }
 
 	&:hover { color: $sev-blue; }
 	&:focus { outline: 1px dashed $sev-blue; }
+}
+
+%dropdown-button {
+	summary {
+		@extend %button;
+
+		color: $sev-blue;
+		border: 1px solid $sev-blue;
+		border-radius: 0.8rem;
+		cursor: pointer;
+
+		background-image: url("/assets/down-blue.png");
+		background-position: 1.2rem center;
+		background-repeat: no-repeat;
+		background-size: 1.2rem;
+		padding-left: 3rem;
+
+		// Without user-select clicking twice quickly ends up selecting text.
+		user-select: none;
+
+		&:focus-visible {
+			outline: 1px dashed $sev-blue;
+		}
+
+		&:hover:active {
+			background-color: $sev-blue;
+			background-image: url("/assets/up-white.png");
+			color: white;
+		}
+	}
+
+	&[open] summary {
+		background-color: $sev-blue;
+		background-image: url("/assets/up-white.png");
+		color: white;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	.dropdown {
+		position: absolute;
+		background: white;
+		z-index: 100;
+		padding: 1.5rem 2rem;;
+		border-radius: 0.8rem;
+		box-shadow: 0 0.5rem 0.7rem 0.1rem rgba(0, 0, 0, 0.2);
+		overflow: auto;
+	}
 }
 
 .sev-checkbox {
@@ -471,63 +519,22 @@ main {
 		}
 
 		.filter {
+			@extend %dropdown-button;
+
 			display: inline-block;
 			margin-right: 1.5rem;
 			margin-bottom: 1rem;
 			line-height: 1.5;
 
-			summary {
-				@extend %button;
-
-				color: $sev-blue;
-				border: 1px solid $sev-blue;
-				border-radius: 0.8rem;
-				cursor: pointer;
-
-				background-image: url("/assets/down-blue.png");
-				background-position: 1rem center;
-				background-repeat: no-repeat;
-				background-size: 1.2rem;
-				padding-left: 2.8rem;
-
-				// Without user-select clicking twice quickly ends up selecting text.
-				user-select: none;
-
-				&:focus-visible {
-					outline: 1px dashed $sev-blue;
-				}
-
-				&:hover:active {
-					background-color: $sev-blue;
-					background-image: url("/assets/up-white.png");
-					color: white;
-				}
-			}
-
-			&[open] summary {
-				background-color: $sev-blue;
-				background-image: url("/assets/up-white.png");
-				color: white;
-				border-bottom-left-radius: 0;
-				border-bottom-right-radius: 0;
+			.dropdown {
+				min-width: 16rem;
+				border-top-left-radius: 0;
 			}
 		}
 
 		.submit-button {
 			// Margin for the reset button.
 			margin-right: 1.5rem;
-		}
-
-		.dropdown {
-			min-width: 16rem;
-			position: absolute;
-			background: white;
-			z-index: 100;
-			padding: 1.5rem 2rem;;
-			border-radius: 0.8rem;
-			border-top-left-radius: 0;
-			box-shadow: 0 0.5rem 0.7rem 0.1rem rgba(0, 0, 0, 0.2);
-			overflow: auto;
 		}
 
 		#sustainability-goals-filter {
@@ -569,6 +576,25 @@ main {
 			.taxes-description {
 				text-align: right;
 				align-self: end;
+
+				details {
+					@extend %dropdown-button;
+					display: inline-block;
+					margin-left: 0.5rem;
+					position: relative;
+
+					.dropdown {
+						width: 100%;
+						right: 0;
+						border-top-left-radius: 0;
+						border-top-right-radius: 0;
+					}
+
+					a {
+						@extend .link-button;
+						line-height: 2;
+					}
+				}
 			}
 
 			.filter {

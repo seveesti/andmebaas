@@ -44,13 +44,20 @@ exports.router.get("/", function(req, res) {
 	var filters = parseFilters(req.query)
 	var order = req.query.order ? parseOrder(req.query.order) : null
 	var format = req.accepts(["html", "text/csv"])
+	var taxQuarters = []
+	var taxQuarter = null
 
-	var taxQuarter = format == "text/csv" ? null : taxesDb.read(sql`
-		SELECT year, quarter
-		FROM organization_taxes
-		ORDER BY year DESC, quarter DESC
-		LIMIT 1
-	`)
+	if (format != "text/csv") {
+		taxQuarters = taxesDb.search(sql`
+			SELECT year, quarter
+			FROM organization_taxes
+			GROUP BY year, quarter
+			ORDER BY year DESC, quarter DESC
+		`)
+
+		var ynq = req.query.quarter && _.parseYearQuarter(req.query.quarter)
+		taxQuarter = ynq ? {year: ynq[0], quarter: ynq[1]} : taxQuarters[0]
+	}
 
 	var orgs = organizationsDb.search(sql`
 		WITH filtered_organizations AS (
@@ -173,12 +180,14 @@ exports.router.get("/", function(req, res) {
 				path: req.baseUrl,
 				account,
 				organizations: orgs,
+				taxQuarters,
 				taxQuarter,
 				filters,
 				order
 			})))
 			else res.render("organizations/index_page.jsx", {
 				organizations: orgs,
+				taxQuarters,
 				taxQuarter,
 				filters,
 				order
@@ -563,8 +572,10 @@ function parseRegions(regions) {
 }
 
 function parseTaxesUpdates(objs) {
-	return _.map(objs, function(obj, period) {
-		var [year, quarter] = _.parseYearQuarter(period)
+	return _.map(objs, function(obj, yearAndQuarter) {
+		var ynq = _.parseYearQuarter(yearAndQuarter)
+		if (ynq == null) throw new RangeError(422, "Invalid Year and Quarter")
+		var [year, quarter] = ynq
 
 		return {
 			year,
@@ -641,7 +652,7 @@ function serializeOrganizationsAsCsv(organizations) {
 	// Keep older quarters first so their column position wouldn't change in time.
 	// This makes updating their spreadsheets easier for people.
 	var taxQuarters = Array.from(new Set(flatten(organizations.map((org) => (
-		org.taxes.map(({year, quarter}) => `${year}Q${quarter}`)
+		org.taxes.map(({year, quarter}) => _.formatYearQuarter(year, quarter))
 	))))).sort()
 
 	var header = concat([
@@ -679,7 +690,7 @@ function serializeOrganizationsAsCsv(organizations) {
 			Array.from(org.regions).join("\n"),
 			org.board_members.join("\n")
 		], flatten(taxQuarters.map(function(yearAndQuarter) {
-			var [year, quarter] = yearAndQuarter.split("Q").map(Number)
+			var [year, quarter] = _.parseYearQuarter(yearAndQuarter)
 
 			var taxes = org.taxes.find((taxes) => (
 				taxes.year == year && taxes.quarter == quarter

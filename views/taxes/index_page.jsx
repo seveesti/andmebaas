@@ -50,8 +50,6 @@ module.exports = function(attrs) {
 				</thead>
 
 				<tbody>{quarters.map(function({year, quarter}) {
-					var quarterPath = path + "/" + year + "Q" + quarter
-
 					return <tr>
 						<td>{year}</td>
 						<td>{quarter}</td>
@@ -59,7 +57,7 @@ module.exports = function(attrs) {
 						<td>
 							<FormButton
 								req={req}
-								action={quarterPath}
+								action={path + "/" + _.formatYearQuarter(year, quarter)}
 								class="link-button"
 								name="_method"
 								value="delete"
