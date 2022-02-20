@@ -649,11 +649,13 @@ function isAdminOrMember(members, account) {
 }
 
 function serializeOrganizationsAsCsv(organizations) {
-	// Keep older quarters first so their column position wouldn't change in time.
-	// This makes updating their spreadsheets easier for people.
+	// Presuming people care more about the latest quarter and if they've made
+	// formulas referencing columns by position, they'll get updated results if
+	// they just paste over the old table. For more advanced uses, identifying
+	// columns by name is more sustainable.
 	var taxQuarters = Array.from(new Set(flatten(organizations.map((org) => (
 		org.taxes.map(({year, quarter}) => _.formatYearQuarter(year, quarter))
-	))))).sort()
+	))))).sort().reverse()
 
 	var header = concat([
 		"name",
