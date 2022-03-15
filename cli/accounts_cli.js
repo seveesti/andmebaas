@@ -39,7 +39,7 @@ function createAccount(email) {
 		administrative: true
 	})
 
-	var url = Config.url + "/accounts/" + inviteToken.toString("hex")
+	var url = Config.url + "/accounts/invites/" + inviteToken.toString("hex")
 	console.log("Sign up at %s.", url)
 }
 
