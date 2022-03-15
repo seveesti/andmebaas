@@ -55,7 +55,6 @@ shrinkwrap:
 
 rebuild:
 	$(NPM_REBUILD) better-sqlite3
-	$(NPM_REBUILD) bcrypt
 
 config/%.sqlite3:
 	sqlite3 "$@" < db/schema.sql
