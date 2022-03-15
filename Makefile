@@ -90,20 +90,27 @@ lib/i18n/ru.json: tmp/translations.json
 deploy:
 	@rsync $(RSYNC_OPTS) \
 		--exclude ".*" \
+		--exclude "/config/development.*" \
+		--exclude "/config/staging.*" \
+		--exclude "/config/production.*" \
 		--exclude "config/*.sqlite3*" \
 		--exclude "/assets/***" \
 		--exclude "/test/***" \
-		--exclude "node_modules/mocha/***" \
-		--exclude "node_modules/must/***" \
-		--exclude "node_modules/livereload/***" \
-		--exclude "node_modules/better-sqlite3/***" \
-		--exclude "node_modules/jsdom/***" \
+		--exclude "/scripts/***" \
+		--exclude "/node_modules/better-sqlite3/***" \
+		--exclude "/node_modules/mocha/***" \
+		--exclude "/node_modules/must/***" \
+		--exclude "/node_modules/livereload/***" \
+		--exclude "/node_modules/jsdom/***" \
+		--exclude "/tmp/***" \
 		. \
-		"$(APP_HOST):$(or $(APP_PATH), $(error "APP_PATH"))/"
+		"$(or $(RSYNC_TARGET), $(error "Please set RSYNC_TARGET"))/"
 
-staging: APP_HOST = dot.ee
-staging: APP_PATH = www/sev
-staging: deploy
+production: RSYNC_TARGET = sev.ee:app/db
+production: deploy
+
+production/diff: RSYNC_OPTS += --dry-run
+production/diff: production
 
 .PHONY: love
 .PHONY: web
@@ -112,4 +119,4 @@ staging: deploy
 .PHONY: translations
 .PHONY: shrinkwrap rebuild
 .PHONY: db/create db/status db/migrate db/migration
-.PHONY: deploy staging
+.PHONY: deploy production production/diff
