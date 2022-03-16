@@ -109,6 +109,7 @@
 	"organization_update_page.social_media": "Sotsiaalmeedia aadressid",
 	"organization_update_page.taxes": "Maksuandmed",
 	"organization_update_page.title": "Muuda ${name}",
+	"organization_update_page.update": "Salvesta ettevõte",
 	"organization_update_page.updated": "Ettevõte uuendatud.",
 	"organization_update_page.url": "Veebileht",
 	"organizations_page.create_new_link": "Lisa uus",

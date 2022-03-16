@@ -104,6 +104,7 @@
 	"organization_update_page.social_media": "Social Media",
 	"organization_update_page.taxes": "Taxes",
 	"organization_update_page.title": "Edit ${name}",
+	"organization_update_page.update": "Update Enterprise",
 	"organization_update_page.updated": "Enterprise updated.",
 	"organization_update_page.url": "Website",
 	"organizations_page.create_new_link": "Add New",

@@ -357,7 +357,7 @@ module.exports = function(attrs) {
 
 			<Section id="submit-section">
 				<button type="submit" class="blue-button">
-					Salvesta organisatsioon
+					{t("organization_update_page.update")}
 				</button>
 			</Section>
 		</Form>
