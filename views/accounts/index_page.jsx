@@ -7,13 +7,14 @@ var {confirm} = require("root/lib/jsx")
 var {Form} = Page
 var {FormButton} = Page
 var {FlashSection} = Page
+var {ROOT_PATH} = Page
 
 module.exports = function(attrs) {
 	var {req} = attrs
 	var {t} = req
 	var currentAccount = req.account
 	var {accounts} = attrs
-	var path = req.baseUrl
+	var accountsPath = ROOT_PATH + req.baseUrl
 
 	return <Page
 		page="accounts"
@@ -21,7 +22,7 @@ module.exports = function(attrs) {
 		title={t("accounts_page.title")}
 
 		nav={[
-			{name: t("admin_nav.organizations"), path: "/enterprises"},
+			{name: t("admin_nav.organizations"), path: ROOT_PATH + "/enterprises"},
 			{name: t("accounts_page.title")}
 		]}
 
@@ -43,7 +44,7 @@ module.exports = function(attrs) {
 				</thead>
 
 				<tbody>{accounts.map(function(account) {
-					var accountPath = path + "/" + account.id
+					var accountPath = accountsPath + "/" + account.id
 
 					return <tr>
 						<td>{account.name}</td>
@@ -52,7 +53,10 @@ module.exports = function(attrs) {
 							? <span class="administrative">{t("accounts_page.admin")}</span>
 							: <ul>{account.memberships.map((membership) => <li>
 									<a
-										href={"/enterprises/" + membership.registry_code}
+										href={
+											ROOT_PATH + "/enterprises/" + membership.registry_code
+										}
+
 										class="link-button"
 									>
 										{membership.name}
@@ -80,7 +84,7 @@ module.exports = function(attrs) {
 				class="page-form page-post-table-form"
 				req={req}
 				method="post"
-				action={req.baseUrl}
+				action={accountsPath}
 			>
 				<fieldset>
 					<label class="page-form-label">

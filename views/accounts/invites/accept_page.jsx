@@ -4,13 +4,14 @@ var Page = require("../../page")
 var {Fragment} = Jsx
 var {Section} = Page
 var {Form} = Page
+var {ROOT_PATH} = Page
 
 module.exports = function(attrs) {
 	var {req} = attrs
 	var {t} = req
 	var {account} = attrs
 	var organizations = attrs.organizations || []
-	var path = req.baseUrl + "/" + attrs.token.toString("hex")
+	var invitePath = ROOT_PATH + req.baseUrl + "/" + attrs.token.toString("hex")
 
 	return <Page
 		page="accept-account-invite"
@@ -38,7 +39,7 @@ module.exports = function(attrs) {
 
 			<Form
 				req={req}
-				action={path}
+				action={invitePath}
 				method="put"
 				id="account-form"
 				class="page-form"

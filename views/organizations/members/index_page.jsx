@@ -8,14 +8,15 @@ var {Form} = Page
 var {FormButton} = Page
 var {FlashSection} = Page
 var {confirm} = require("root/lib/jsx")
+var {ROOT_PATH} = Page
 
 module.exports = function(attrs) {
 	var {req} = attrs
 	var {t} = req
 	var org = attrs.organization
 	var {members} = attrs
-	var orgPath = "/enterprises/" + org.registry_code
-	var path = orgPath + "/members"
+	var orgPath = ROOT_PATH + req.baseUrl + "/" + org.registry_code
+	var membersPath = orgPath + "/members"
 
 	return <Page
 		page="organization-members"
@@ -23,7 +24,7 @@ module.exports = function(attrs) {
 		title={t("organization_members_page.title", {name: org.name})}
 
 		nav={[
-			{name: t("admin_nav.organizations"), path: "/enterprises"},
+			{name: t("admin_nav.organizations"), path: ROOT_PATH + "/enterprises"},
 			{name: org.name, path: orgPath},
 			{name: t("organization_page.admin_nav.members")}
 		]}
@@ -50,7 +51,7 @@ module.exports = function(attrs) {
 				</thead>
 
 				<tbody>{members.map(function(member) {
-					var memberPath = path + "/" + member.account_id
+					var memberPath = membersPath + "/" + member.account_id
 
 					return <tr>
 						<td>{_.formatDate("ee", member.created_at)}</td>
@@ -83,7 +84,7 @@ module.exports = function(attrs) {
 
 			<Form
 				req={req}
-				action={path}
+				action={membersPath}
 				id="new-member-form"
 				class="page-form page-post-table-form"
 				method="post"

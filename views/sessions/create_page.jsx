@@ -5,13 +5,14 @@ var {Fragment} = Jsx
 var {Section} = Page
 var {Form} = Page
 var {FlashSection} = Page
+var {ROOT_PATH} = Page
 
 module.exports = function(attrs) {
 	var {req} = attrs
 	var {t} = attrs
 	var {email} = attrs
 	var {password} = attrs
-	var path = req.baseUrl
+	var sessionsPath = ROOT_PATH + req.baseUrl
 
 	return <Page
 		page="create-session"
@@ -29,7 +30,7 @@ module.exports = function(attrs) {
 				id="signin-form"
 				class="page-form"
 				req={req}
-				action={path}
+				action={sessionsPath}
 				method="post"
 			>
 				<label class="page-form-label">

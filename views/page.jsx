@@ -1,6 +1,7 @@
 /** @jsx Jsx */
 var _ = require("root/lib/underscore")
 var Jsx = require("j6pack")
+var Url = require("url")
 var {Fragment} = Jsx
 var LIVERELOAD_PORT = process.env.LIVERELOAD_PORT || 35738
 var LANGS = require("root/config").languages
@@ -25,6 +26,10 @@ exports.UntrustedLink = UntrustedLink
 exports.MoneyElement = MoneyElement
 exports.SdgImage = SdgImage
 
+var ROOT_PATH = Url.parse(require("root/config").url).pathname
+if (ROOT_PATH == "/") ROOT_PATH = ""
+exports.ROOT_PATH = ROOT_PATH
+
 function Page(attrs, children) {
 	var {req} = attrs
 	var {t} = req
@@ -40,7 +45,13 @@ function Page(attrs, children) {
 		<head>
 			<meta charset="utf-8" />
 			<meta name="viewport" content="width=device-width" />
-			<link rel="stylesheet" href="/assets/page.css" type="text/css" />
+
+			<link
+				rel="stylesheet"
+				href={`${ROOT_PATH}/assets/page.css`}
+				type="text/css"
+			/>
+
 			<title>{title == null ? "" : title + " - "} {t("title")}</title>
 			<LiveReload req={req} />
 
@@ -49,30 +60,32 @@ function Page(attrs, children) {
 			<link
 				rel="apple-touch-icon"
 				sizes="76x76"
-				href="/assets/apple-touch-icon.png"
+				href={`${ROOT_PATH}/assets/apple-touch-icon.png`}
 			/>
 
 			<link
 				rel="icon"
 				type="image/png"
 				sizes="16x16"
-				href="/assets/favicon-16x16.png"
+				href={`${ROOT_PATH}/assets/favicon-16x16.png`}
 			/>
 
 			<link
 				rel="icon"
 				type="image/png"
 				sizes="32x32"
-				href="/assets/favicon-32x32.png"
+				href={`${ROOT_PATH}/assets/favicon-32x32.png`}
 			/>
 		</head>
 
 		<body id={page + "-page"}>
 			<div id="hero">
 				<nav id="nav"><Centered>
-					<a href="/" class="home">
-						<img src="/assets/sev-logo.svg" alt="SEV" title={t("title")} />
-					</a>
+					<a href="/" class="home"><img
+						src={`${ROOT_PATH}/assets/sev-logo.svg`}
+						alt="SEV"
+						title={t("title")}
+					/></a>
 
 					<ol>
 						{headerMenu.map((item) => <li class={
@@ -102,7 +115,7 @@ function Page(attrs, children) {
 
 						<li>
 							<Form
-								action="/language"
+								action={`${ROOT_PATH}/language`}
 								method="put"
 								class="languages-form"
 								req={req}
@@ -145,7 +158,7 @@ function Page(attrs, children) {
 					<FormButton
 						req={req}
 						formClass="signout-form"
-						action={"/sessions/" + req.session.id}
+						action={ROOT_PATH + "/sessions/" + req.session.id}
 						name="_method"
 						value="delete"
 					>{t("nav.signout")}</FormButton>
@@ -162,16 +175,28 @@ function Page(attrs, children) {
 				</ol>
 
 				<a href="/" class="logo">
-					<img src="/assets/sev-logo.svg" alt="SEV" title={t("title")} />
+					<img
+						src={`${ROOT_PATH}/assets/sev-logo.svg`}
+						alt="SEV"
+						title={t("title")}
+					/>
 				</a>
 
 				<div class="contacts">
 					<a href={footerMenu.facebookUrl}>
-						<img src="/assets/facebook.svg" alt="Facebook" title="Facebook" />
+						<img
+							src={`${ROOT_PATH}/assets/facebook.svg`}
+							alt="Facebook"
+							title="Facebook"
+						/>
 					</a>
 
 					<a href={footerMenu.linkedinUrl}>
-						<img src="/assets/linkedin.svg" alt="LinkedIn" title="LinkedIn" />
+						<img
+							src={`${ROOT_PATH}/assets/linkedin.svg`}
+							alt="LinkedIn"
+							title="LinkedIn"
+						/>
 					</a>
 
 					<span class="address">{footerMenu.address}</span>
@@ -320,7 +345,7 @@ function SdgImage(attrs) {
 	var {goal} = attrs
 
 	return <img
-		src={"/assets/sdg-" + goal + "-" + t.lang +".svg"}
+		src={`${ROOT_PATH}/assets/sdg-` + goal + "-" + t.lang +".svg"}
 		alt={t(`sdg.${goal}.title`)}
 		title={t(`sdg.${goal}.description`)}
 	/>

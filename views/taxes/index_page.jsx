@@ -8,12 +8,13 @@ var {confirm} = require("root/lib/jsx")
 var {Form} = Page
 var {FormButton} = Page
 var {FlashSection} = Page
+var {ROOT_PATH} = Page
 
 module.exports = function(attrs) {
 	var {req} = attrs
 	var {t} = req
 	var {quarters} = attrs
-	var path = req.baseUrl
+	var taxesPath = ROOT_PATH + req.baseUrl
 
 	var now = new Date
 	var currentYear = now.getFullYear()
@@ -25,7 +26,7 @@ module.exports = function(attrs) {
 		title={t("taxes_page.title")}
 
 		nav={[
-			{name: t("admin_nav.organizations"), path: "/enterprises"},
+			{name: t("admin_nav.organizations"), path: ROOT_PATH + "/enterprises"},
 			{name: t("admin_nav.taxes")}
 		]}
 
@@ -57,7 +58,7 @@ module.exports = function(attrs) {
 						<td>
 							<FormButton
 								req={req}
-								action={path + "/" + _.formatYearQuarter(year, quarter)}
+								action={taxesPath + "/" + _.formatYearQuarter(year, quarter)}
 								class="link-button"
 								name="_method"
 								value="delete"
@@ -79,7 +80,7 @@ module.exports = function(attrs) {
 				req={req}
 				id="upload-form"
 				class="page-form page-post-table-form"
-				action={path}
+				action={taxesPath}
 				method="post"
 				enctype="multipart/form-data"
 			>

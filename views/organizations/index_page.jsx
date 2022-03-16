@@ -12,6 +12,7 @@ var {SdgImage} = Page
 var {javascript} = require("root/lib/jsx")
 var SUSTAINABILITY_GOALS = require("root/lib/sustainability_goals")
 var BUSINESS_MODELS = require("root/lib/business_models")
+var {ROOT_PATH} = Page
 exports = module.exports = IndexPage
 exports.Table = Table
 
@@ -24,7 +25,7 @@ function IndexPage(attrs) {
 	var {taxQuarters} = attrs
 	var {taxQuarter} = attrs
 	var {order} = attrs
-	var path = req.baseUrl
+	var orgsPath = ROOT_PATH + req.baseUrl
 
 	return <Page
 		page="organizations"
@@ -32,14 +33,17 @@ function IndexPage(attrs) {
 		req={attrs.req}
 
 		nav={account && [{pages: [
-			{name: t("admin_nav.organizations"), path: "/enterprises"},
+			{name: t("admin_nav.organizations"), path: ROOT_PATH + "/enterprises"},
 
 			account.administrative && {
 				name: t("admin_nav.accounts"),
-				path: "/accounts"
+				path: ROOT_PATH + "/accounts"
 			},
 
-			account.administrative && {name: t("admin_nav.taxes"), path: "/taxes"}
+			account.administrative && {
+				name: t("admin_nav.taxes"),
+				path: ROOT_PATH + "/taxes"
+			}
 		].filter(Boolean)}]}
 
 		header={<Fragment>
@@ -52,7 +56,7 @@ function IndexPage(attrs) {
 		<Section>
 			<Filters
 				t={t}
-				path={path}
+				path={orgsPath}
 				filters={filters}
 				order={order}
 			/>
@@ -63,7 +67,7 @@ function IndexPage(attrs) {
 				taxQuarters={taxQuarters}
 				taxQuarter={taxQuarter}
 				organizations={organizations}
-				path={path}
+				path={orgsPath}
 				filters={filters}
 				order={order}
 			/>
@@ -73,7 +77,7 @@ function IndexPage(attrs) {
 				class="page-form page-post-table-form"
 				req={req}
 				method="post"
-				action={req.baseUrl}
+				action={orgsPath}
 			>
 				<fieldset>
 					<label class="page-form-label">
@@ -115,7 +119,7 @@ function Table(attrs) {
 	var {organizations} = attrs
 	var {taxQuarters} = attrs
 	var {taxQuarter} = attrs
-	var {path} = attrs
+	var orgsPath = attrs.path
 
 	var {filters} = attrs
 	var {order} = attrs
@@ -191,7 +195,7 @@ function Table(attrs) {
 
 					<div class="dropdown">
 						<ol>{taxQuarters.map(function({year, quarter}) {
-							var url = path + Qs.stringify(_.defaults({
+							var url = orgsPath + Qs.stringify(_.defaults({
 								quarter: _.formatYearQuarter(year, quarter)
 							}, query), {addQueryPrefix: true})
 
@@ -216,7 +220,7 @@ function Table(attrs) {
 			<tr>
 				<th class="name-column">
 					<SortButton
-						path={path}
+						path={orgsPath}
 						query={query}
 						name="name"
 						sorted={orderName == "name" ? orderDirection : null}
@@ -225,7 +229,7 @@ function Table(attrs) {
 					</SortButton>
 
 					<SortButton
-						path={path}
+						path={orgsPath}
 						query={query}
 						name="founded-on"
 						class="secondary"
@@ -241,7 +245,7 @@ function Table(attrs) {
 
 				<th class="revenue-column">
 					<SortButton
-						path={path}
+						path={orgsPath}
 						query={query}
 						name="revenue"
 						sorted={orderName == "revenue" ? orderDirection : null}
@@ -253,7 +257,7 @@ function Table(attrs) {
 
 				<th class="employee-count-column">
 					<SortButton
-						path={path}
+						path={orgsPath}
 						query={query}
 						name="employee-count"
 						sorted={orderName == "employee-count" ? orderDirection : null}
@@ -270,7 +274,7 @@ function Table(attrs) {
 		</thead>
 
 		<tbody>{organizations.length > 0 ? organizations.map(function(org) {
-			var orgPath = "/enterprises/" + org.registry_code
+			var orgPath = ROOT_PATH + "/enterprises/" + org.registry_code
 			var taxes = org.taxes[0]
 
 			var klass = ["organization"]
@@ -326,7 +330,7 @@ function Table(attrs) {
 			<tr>
 				<td colspan="5">
 					{Jsx.html(t("organizations_page.download_in_csv", {
-						url: path + ".csv" + Qs.stringify(query, {addQueryPrefix: true})
+						url: orgsPath + ".csv" + Qs.stringify(query, {addQueryPrefix: true})
 					}))}
 					{" "}
 				</td>
@@ -336,7 +340,7 @@ function Table(attrs) {
 }
 
 function Filters(attrs) {
-	var {path} = attrs
+	var orgsPath = attrs.path
 	var {filters} = attrs
 	var {t} = attrs
 	var [orderName, orderDirection] = attrs.order || ["name", "asc"]
@@ -351,7 +355,7 @@ function Filters(attrs) {
 		<form
 			id="filters-form"
 			method="get"
-			action={path}
+			action={orgsPath}
 		>
 			<details class="filter">
 				<summary>{t("organizations_page.filters.employee_count")}</summary>
@@ -476,7 +480,7 @@ function Filters(attrs) {
 			</noscript>
 
 			<a
-				href={path}
+				href={orgsPath}
 				id="reset-filters-button"
 				class="link-button"
 				hidden={_.isEmpty(filters)}
@@ -499,7 +503,7 @@ function Filters(attrs) {
 
 				try {
 					var query = new URLSearchParams(new FormData(formEl))
-					var url = ${path} + "?" + query.toString()
+					var url = ${orgsPath} + "?" + query.toString()
 
 					var hasFilters = (
 						query.get("employee-count") ||

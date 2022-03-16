@@ -5,10 +5,10 @@
 	text-rendering: optimizeLegibility;
 
 	src:
-		url("/assets/Montserrat-Regular.woff2") format("woff2"),
-		url("/assets/Montserrat-Regular.woff") format("woff"),
-		url("/assets/Montserrat-Regular.otf") format("opentype"),
-		url("/assets/Montserrat-Regular.ttf") format("truetype");
+		url("Montserrat-Regular.woff2") format("woff2"),
+		url("Montserrat-Regular.woff") format("woff"),
+		url("Montserrat-Regular.otf") format("opentype"),
+		url("Montserrat-Regular.ttf") format("truetype");
 }
 
 @font-face {
@@ -18,10 +18,10 @@
 	text-rendering: optimizeLegibility;
 
 	src:
-		url("/assets/Montserrat-Medium.woff2") format("woff2"),
-		url("/assets/Montserrat-Medium.woff") format("woff"),
-		url("/assets/Montserrat-Medium.otf") format("opentype"),
-		url("/assets/Montserrat-Medium.ttf") format("truetype");
+		url("Montserrat-Medium.woff2") format("woff2"),
+		url("Montserrat-Medium.woff") format("woff"),
+		url("Montserrat-Medium.otf") format("opentype"),
+		url("Montserrat-Medium.ttf") format("truetype");
 }
 
 @font-face {
@@ -31,8 +31,8 @@
 	text-rendering: optimizeLegibility;
 
 	src:
-		url("/assets/Montserrat-SemiBold.woff2") format("woff2"),
-		url("/assets/Montserrat-SemiBold.woff") format("woff"),
-		url("/assets/Montserrat-SemiBold.otf") format("opentype"),
-		url("/assets/Montserrat-SemiBold.ttf") format("truetype");
+		url("Montserrat-SemiBold.woff2") format("woff2"),
+		url("Montserrat-SemiBold.woff") format("woff"),
+		url("Montserrat-SemiBold.otf") format("opentype"),
+		url("Montserrat-SemiBold.ttf") format("truetype");
 }

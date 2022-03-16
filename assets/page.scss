@@ -98,7 +98,7 @@ strong { font-weight: bold; }
 			}
 
 			.sort-button {
-				background-image: url("/assets/sort.png");
+				background-image: url("sort.png");
 				background-position: right center;
 				background-repeat: no-repeat;
 				background-size: contain;
@@ -109,8 +109,8 @@ strong { font-weight: bold; }
 					font-weight: 600;
 				}
 
-				&.asc { background-image: url("/assets/sort-asc.png"); }
-				&.desc { background-image: url("/assets/sort-desc.png"); }
+				&.asc { background-image: url("sort-asc.png"); }
+				&.desc { background-image: url("sort-desc.png"); }
 
 				&.secondary { font-weight: 500; }
 
@@ -256,7 +256,7 @@ strong { font-weight: bold; }
 		border-radius: 0.8rem;
 		cursor: pointer;
 
-		background-image: url("/assets/down-blue.png");
+		background-image: url("down-blue.png");
 		background-position: 1.2rem center;
 		background-repeat: no-repeat;
 		background-size: 1.2rem;
@@ -271,14 +271,14 @@ strong { font-weight: bold; }
 
 		&:hover:active {
 			background-color: $sev-blue;
-			background-image: url("/assets/up-white.png");
+			background-image: url("up-white.png");
 			color: white;
 		}
 	}
 
 	&[open] summary {
 		background-color: $sev-blue;
-		background-image: url("/assets/up-white.png");
+		background-image: url("up-white.png");
 		color: white;
 		border-bottom-left-radius: 0;
 		border-bottom-right-radius: 0;
@@ -326,7 +326,7 @@ strong { font-weight: bold; }
 #hero {
 	background: $nav-background;
 	background-repeat: no-repeat;
-	background-image: url("/assets/nav-background.svg");
+	background-image: url("nav-background.svg");
 	background-position: right -150px;
 	background-position: calc(50% + 400px) -150px;
 }
@@ -512,8 +512,8 @@ strong { font-weight: bold; }
 			padding-left: 4.5rem;
 		}
 
-		.address { background-image: url("/assets/location.svg"); }
-		.email { background-image: url("/assets/email.svg"); }
+		.address { background-image: url("location.svg"); }
+		.email { background-image: url("email.svg"); }
 	}
 }
 
@@ -885,11 +885,11 @@ main {
 				&:focus { outline: 1px dashed $sev-blue; }
 			}
 
-			.web-button { background-image: url("/assets/web.svg"); }
-			.email-button { background-image: url("/assets/email.svg"); }
-			.linkedin-button { background-image: url("/assets/linkedin.svg"); }
-			.facebook-button { background-image: url("/assets/facebook.svg"); }
-			.instagram-button { background-image: url("/assets/instagram.svg"); }
+			.web-button { background-image: url("web.svg"); }
+			.email-button { background-image: url("email.svg"); }
+			.linkedin-button { background-image: url("linkedin.svg"); }
+			.facebook-button { background-image: url("facebook.svg"); }
+			.instagram-button { background-image: url("instagram.svg"); }
 		}
 	}
 

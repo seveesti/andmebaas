@@ -12,6 +12,7 @@ var {FormButton} = Page
 var {Flash} = Page
 var {SdgImage} = Page
 var {isAdminOrMember} = require("root/controllers/organizations_controller")
+var {ROOT_PATH} = Page
 var BUSINESS_MODELS = require("root/lib/business_models")
 var EMTAK = require("root/lib/emtak")
 var REGIONS = require("root/lib/regions")
@@ -24,8 +25,7 @@ module.exports = function(attrs) {
 	var {members} = req
 	var {updates} = attrs
 	var org = attrs.organization
-	var orgPath = "/enterprises/" + org.registry_code
-	var path = req.baseUrl + req.path
+	var orgPath = ROOT_PATH + req.baseUrl + req.path
 
 	return <Page
 		page="organization"
@@ -34,7 +34,7 @@ module.exports = function(attrs) {
 		req={req}
 
 		nav={account && [
-			{name: t("admin_nav.organizations"), path: "/enterprises"},
+			{name: t("admin_nav.organizations"), path: ROOT_PATH + "/enterprises"},
 
 			{
 				name: org.name,
@@ -229,9 +229,9 @@ module.exports = function(attrs) {
 		</Section> : null}
 
 		<Section id="footer">
-			<p>
-				{Jsx.html(t("organization_page.download_in_csv", {url: path + ".csv"}))}
-			</p>
+			<p>{Jsx.html(t("organization_page.download_in_csv", {
+				url: orgPath + ".csv"
+			}))}</p>
 		</Section>
 	</Page>
 }

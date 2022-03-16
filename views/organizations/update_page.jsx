@@ -14,6 +14,7 @@ var COUNTIES = require("root/lib/estonian_counties")
 var BUSINESS_MODELS = require("root/lib/business_models")
 var LANGS = require("root/config").languages
 var DEFAULT_LANG = LANGS[0]
+var {ROOT_PATH} = Page
 
 var OTHER_URLS_PLACEHOLDER = [
 	"https://facebook.com/…",
@@ -27,7 +28,7 @@ module.exports = function(attrs) {
 	var {t} = req
 	var {account} = req
 	var org = attrs.organization
-	var orgPath = "/enterprises/" + org.registry_code
+	var orgPath = ROOT_PATH + req.baseUrl + "/" + org.registry_code
 
 	return <Page
 		page="update-organization"
@@ -35,7 +36,7 @@ module.exports = function(attrs) {
 		title={t("organization_update_page.title", {name: org.name})}
 
 		nav={[
-			{name: t("admin_nav.organizations"), path: "/enterprises"},
+			{name: t("admin_nav.organizations"), path: ROOT_PATH + "/enterprises"},
 			{name: org.name, path: orgPath},
 			{name: t("organization_page.admin_nav.update")}
 		]}
@@ -51,7 +52,7 @@ module.exports = function(attrs) {
 		<Form
 			req={req}
 			method="put"
-			action={req.baseUrl + "/" + org.registry_code}
+			action={orgPath}
 			enctype="multipart/form-data"
 		>
 			<header class="centered">
