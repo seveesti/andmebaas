@@ -1,5 +1,6 @@
 {
-	"url": "https://sev.ee",
+	"url": "https://sev.ee/andmebaas",
+	"siteUrl": "https://sev.ee",
 	"cookieSecret": null,
 	"sessionCookieName": "db_session_token",
 	"csrfCookieName": "db_csrf_token",

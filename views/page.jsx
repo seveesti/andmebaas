@@ -4,7 +4,10 @@ var Jsx = require("j6pack")
 var {Fragment} = Jsx
 var LIVERELOAD_PORT = process.env.LIVERELOAD_PORT || 35738
 var LANGS = require("root/config").languages
-var ENV = process.env.ENV
+var DEFAULT_LANG = LANGS[0]
+var {HEADER_MENUS} = require("root/lib/i18n")
+var {FOOTER_MENUS} = require("root/lib/i18n")
+var {ENV} = process.env
 var HTTP_URL = /^https?:\/\//
 var EMAIL_URL = /^mailto:/
 var EMPTY_ARR = Array.prototype
@@ -29,6 +32,9 @@ function Page(attrs, children) {
 	var {title} = attrs
 	var {page} = attrs
 	var {nav} = attrs
+
+	var headerMenu = HEADER_MENUS[req.lang] || HEADER_MENUS[DEFAULT_LANG]
+	var footerMenu = FOOTER_MENUS[req.lang] || FOOTER_MENUS[DEFAULT_LANG]
 
 	return <html lang="en" class={attrs.class}>
 		<head>
@@ -65,29 +71,42 @@ function Page(attrs, children) {
 			<div id="hero">
 				<nav id="nav"><Centered>
 					<a href="/" class="home">
-						<img src="/assets/sev-logo.png" alt="SEV" title={t("title")} />
+						<img src="/assets/sev-logo.svg" alt="SEV" title={t("title")} />
 					</a>
 
-					<ul>
-						<li><a href="/" class="selected">{t("nav.home")}</a></li>
-						<li><a href="https://sev.ee">{t("nav.services")}</a></li>
-						<li><a href="https://sev.ee/meist/">{t("nav.about")}</a></li>
-						<li><a href="https://sev.ee/noored/">{t("nav.useful")}</a></li>
+					<ol>
+						{headerMenu.map((item) => <li class={
+							"page-link" + (item.children.length > 0 ? " with-submenu" : "")
+						}>
+							<a
+								href={item.url}
+								class={item.id == "andmebaas" ? "selected" : ""}
+							>
+								{item.title}
+							</a>
 
-						<li><a href="https://sev.ee/category/blogi/">
-							{t("nav.blog")}
-						</a></li>
+							{item.children.length > 0 ? <ol class="submenu">
+								{item.children.map(function(child) {
+									return <li><a href={child.url}>
+										{child.title}
+									</a></li>
+								})}
+							</ol> : null}
+						</li>)}
 
-						<li><a href="https://sev.ee">{t("nav.contact")}</a></li>
-
-						<li>
-							<a href="https://sev.ee/astu-liikmeks/" class="border-button">
+						<li class="join-button">
+							<a href="https://sev.ee/liitu-kogukonnaga/" class="border-button">
 								{t("nav.join")}
 							</a>
 						</li>
 
 						<li>
-							<Form action="/language" method="put" class="languages" req={req}>
+							<Form
+								action="/language"
+								method="put"
+								class="languages-form"
+								req={req}
+							>
 								<ol class="languages">{LANGS.map((lang) => <li><button
 									name="language"
 									class="language"
@@ -97,7 +116,7 @@ function Page(attrs, children) {
 								</button></li>)}</ol>
 							</Form>
 						</li>
-					</ul>
+					</ol>
 				</Centered></nav>
 
 				{attrs.header ? <header id="header">
@@ -134,6 +153,39 @@ function Page(attrs, children) {
 			</Centered></nav> : null}
 
 			<main id="main">{children}</main>
+
+			<footer id="footer"><Centered>
+				<ol class="links">
+					{footerMenu.links.map(function(item) {
+						return <li><a href={item.url}>{item.title}</a></li>
+					})}
+				</ol>
+
+				<a href="/" class="logo">
+					<img src="/assets/sev-logo.svg" alt="SEV" title={t("title")} />
+				</a>
+
+				<div class="contacts">
+					<a href={footerMenu.facebookUrl}>
+						<img src="/assets/facebook.svg" alt="Facebook" title="Facebook" />
+					</a>
+
+					<a href={footerMenu.linkedinUrl}>
+						<img src="/assets/linkedin.svg" alt="LinkedIn" title="LinkedIn" />
+					</a>
+
+					<span class="address">{footerMenu.address}</span>
+
+					<a
+						class="email"
+						href={"mailto:" + footerMenu.email}
+					>
+						{footerMenu.email}
+					</a>
+
+					<span class="copyright">{footerMenu.copyright}</span>
+				</div>
+			</Centered></footer>
 		</body>
 	</html>
 }

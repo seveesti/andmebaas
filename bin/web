@@ -9,6 +9,7 @@ var Http = require("http")
 var Express = require("express")
 var HttpError = require("standard-http-error")
 var Config = require("root/config")
+var I18n = require("root/lib/i18n")
 var ENV = process.env.ENV
 var PORT = process.env.PORT || 6090
 var logger = require("root").logger
@@ -99,6 +100,10 @@ app.use(function(err, req, res, _next) {
 
 if (module.parent) return
 runServer(app, PORT)
+
+if (ENV == "production") I18n.updateMenus().catch(function(err) {
+	console.error("Updating menus failed:", err)
+})
 
 function runServer(app, port) {
 	if (!isFinite(port) && Fs.existsSync(port) && Fs.lstatSync(port).isSocket())

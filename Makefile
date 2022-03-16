@@ -9,6 +9,9 @@ SHANGE = vendor/shange -d db/migrations -f "config/$(ENV).sqlite3"
 LIVERELOAD_PORT = 35738
 TRANSLATIONS_URL = https://docs.google.com/spreadsheets/d/1ExuFguyrBhKchO__tm1hbppHVayoYIMFuGTSMbHE-PU/gviz/tq?tqx=out:json&tq&gid=0
 
+SITE_URL = \
+	$(shell ENV="$(ENV)" node -e 'console.log(require("./config").siteUrl)')
+
 export ENV
 export PORT
 export LIVERELOAD_PORT
@@ -87,6 +90,22 @@ lib/i18n/et.json \
 lib/i18n/ru.json: tmp/translations.json
 	jq $(JQ_OPTS) -f scripts/translation.jq "$<" > "$@"
 
+menus: lib/i18n/et_header_menu.json
+menus: lib/i18n/en_header_menu.json
+menus: lib/i18n/et_footer_menu.json
+menus: lib/i18n/en_footer_menu.json
+
+lib/i18n/et_header_menu.json:
+	curl "$(SITE_URL)/wp-json/menus/v1/menus/primary" > "$@"
+lib/i18n/et_footer_menu.json:
+	curl "$(SITE_URL)/wp-json/acf/v3/options/options" > "$@"
+
+# English version not available yet. Use the Estonian.
+lib/i18n/en_header_menu.json:
+	curl "$(SITE_URL)/wp-json/menus/v1/menus/primary" > "$@"
+lib/i18n/en_footer_menu.json:
+	curl "$(SITE_URL)/wp-json/acf/v3/options/options" > "$@"
+
 deploy:
 	@rsync $(RSYNC_OPTS) \
 		--exclude ".*" \
@@ -116,7 +135,7 @@ production/diff: production
 .PHONY: web
 .PHONY: livereload
 .PHONY: test spec autotest autospec
-.PHONY: translations
+.PHONY: translations menus
 .PHONY: shrinkwrap rebuild
 .PHONY: db/create db/status db/migrate db/migration
 .PHONY: deploy production production/diff
