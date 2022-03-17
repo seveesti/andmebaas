@@ -290,13 +290,13 @@ function Table(attrs) {
 							title={t("organizations_page.unpublished")}
 						> 🕵</span>}
 
-						{org.founded_on ? <Fragment>
-							<br />
+						{org.founded_on ? <Fragment>{" "}<span
+							class="founded-on"
 
-							<span class="founded-on">
-								{t("organizations_page.table.founded_on", {
-									year: org.founded_on.getFullYear()
-								})}
+							title={t("organizations_page.table.founded_on", {
+								year: org.founded_on.getFullYear()
+							})}>
+								{org.founded_on.getFullYear()}
 							</span>
 						</Fragment> : null}
 					</td>
