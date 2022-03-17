@@ -20,8 +20,6 @@ var parseRegistryCardHtml = require("root/lib/registry_card").parseHtml
 var {assertAdmin} = require("root/lib/middleware/session_middleware")
 var logger = require("root").logger
 var sendEmail = require("root").sendEmail
-var concat = Array.prototype.concat.bind(Array.prototype)
-var flatten = Function.apply.bind(Array.prototype.concat, Array.prototype)
 var renderTable = require("root/views/organizations/index_page").Table
 var BUSINESS_MODELS = new Set(_.keys(require("root/lib/business_models")))
 var REGIONS = new Set(_.keys(require("root/lib/regions")))
@@ -497,12 +495,12 @@ function parseFilters(query) {
 		filters.employeeCount = [Number(from) || 0, to ? Number(to) : Infinity]
 	}
 
-	if (query["business-model"]) {
-		filters.businessModels = parseBusinessModels(query["business-model"])
-	}
+	if (query["business-model"]) filters.businessModels = parseBusinessModels(
+		_.concat(query["business-model"])
+	)
 
 	if (query.sdg) {
-		var goals = parseSustainabilityGoals(query.sdg)
+		var goals = parseSustainabilityGoals(_.concat(query.sdg))
 		if (goals.size > 0) filters.sustainabilityGoals = goals
 	}
 
@@ -662,11 +660,11 @@ function serializeOrganizationsAsCsv(organizations) {
 	// formulas referencing columns by position, they'll get updated results if
 	// they just paste over the old table. For more advanced uses, identifying
 	// columns by name is more sustainable.
-	var taxQuarters = Array.from(new Set(flatten(organizations.map((org) => (
+	var taxQuarters = Array.from(new Set(_.flatten(organizations.map((org) => (
 		org.taxes.map(({year, quarter}) => _.formatYearQuarter(year, quarter))
 	))))).sort().reverse()
 
-	var header = concat([
+	var header = _.concat([
 		"name",
 		"registry_code",
 		"founded_on",
@@ -679,7 +677,7 @@ function serializeOrganizationsAsCsv(organizations) {
 		"business_models",
 		"regions",
 		"board_members"
-	], flatten(taxQuarters.map((yearAndQuarter) => [
+	], _.flatten(taxQuarters.map((yearAndQuarter) => [
 		yearAndQuarter + "_revenue",
 		yearAndQuarter + "_taxes",
 		yearAndQuarter + "_employee_count",
@@ -687,7 +685,7 @@ function serializeOrganizationsAsCsv(organizations) {
 	])))
 
 	var rows = organizations.map(function(org) {
-		return concat([
+		return _.concat([
 			org.name,
 			org.registry_code,
 			org.founded_on && _.formatDate("iso", org.founded_on),
@@ -700,7 +698,7 @@ function serializeOrganizationsAsCsv(organizations) {
 			Array.from(org.business_models).join("\n"),
 			Array.from(org.regions).join("\n"),
 			org.board_members.join("\n")
-		], flatten(taxQuarters.map(function(yearAndQuarter) {
+		], _.flatten(taxQuarters.map(function(yearAndQuarter) {
 			var [year, quarter] = _.parseYearQuarter(yearAndQuarter)
 
 			var taxes = org.taxes.find((taxes) => (
@@ -716,7 +714,7 @@ function serializeOrganizationsAsCsv(organizations) {
 		})))
 	})
 
-	return concat([header], rows).map(Csv.serialize).join("\n")
+	return _.concat([header], rows).map(Csv.serialize).join("\n")
 }
 
 function isValidImageType(type) {

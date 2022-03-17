@@ -2,8 +2,8 @@
 process.title = "sev/cli"
 if (process.env.ENV == null) process.env.ENV = "development"
 
+var _ = require("root/lib/underscore")
 var Neodoc = require("neodoc")
-var concat = Array.prototype.concat.bind(Array.prototype)
 var inspect = require("util").inspect
 
 var USAGE_TEXT = `
@@ -38,7 +38,7 @@ var cmdPath = CLIS[cmd]
 if (cmdPath == null) return void die("No such command: %s", cmd)
 
 Promise.resolve()
-	.then(require(cmdPath).bind(null, concat(cmd, args["<args>"])))
+	.then(require(cmdPath).bind(null, _.concat(cmd, args["<args>"])))
 	.catch(handleError)
 
 function handleError(err) {
