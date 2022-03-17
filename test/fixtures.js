@@ -29,7 +29,7 @@ exports.csrf = function() {
 
 		this.request = fetchDefaults(this.request, {
 			headers: {"X-CSRF-Token": this.csrfToken},
-			cookies: {csrf_token: this.csrfToken}
+			cookies: {[Config.csrfCookieName]: this.csrfToken}
 		})
 	})
 }
