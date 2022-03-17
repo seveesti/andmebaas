@@ -149,10 +149,11 @@ exports.router.get("/", function(req, res) {
 		SELECT * FROM filtered_organizations
 		WHERE true
 
-		${filters.employeeCount ? sql`
-			AND latest_employee_count >= ${filters.employeeCount[0]}
-			AND latest_employee_count < ${filters.employeeCount[1]}
-		` : sql``}
+		${filters.employeeCounts ? sql`AND (
+			${sql.concat(_.intersperse(filters.employeeCounts.map(([a, b]) => sql`(
+				latest_employee_count >= ${a}  AND latest_employee_count < ${b}
+			)`), sql` OR `))}
+		)` : sql``}
 	`)
 
 	// The number of organizations is too low to bother with database
@@ -490,10 +491,9 @@ exports.router.delete("/:registryCode/members/:memberId", assertAdmin,
 function parseFilters(query) {
 	var filters = {}
 
-	if (query["employee-count"]) {
-		var [from, to] = query["employee-count"].split("-")
-		filters.employeeCount = [Number(from) || 0, to ? Number(to) : Infinity]
-	}
+	if (query["employee-count"]) filters.employeeCounts = parseEmployeeCounts(
+		_.concat(query["employee-count"])
+	)
 
 	if (query["business-model"]) filters.businessModels = parseBusinessModels(
 		_.concat(query["business-model"])
@@ -563,6 +563,13 @@ function createRegistryCard(card, html) {
 		issued_at: card.issuedAt,
 		content: html,
 		content_type: "text/html"
+	})
+}
+
+function parseEmployeeCounts(countRanges) {
+	return countRanges.map(function(range) {
+		var [from, to] = range.split("-")
+		return [Number(from) || 0, to ? Number(to) : Infinity]
 	})
 }
 

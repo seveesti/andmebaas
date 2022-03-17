@@ -130,7 +130,9 @@ function Table(attrs) {
 		: null
 	)
 
-	var employeeCount = filters.employeeCount && filters.employeeCount.join("-")
+	var employeeCounts = filters.employeeCounts &&
+		filters.employeeCounts.map(([a, b]) => `${a}–${b == Infinity ? "" : b}`)
+
 	var {businessModels} = filters
 	var sdgs = filters.sustainabilityGoals
 
@@ -162,8 +164,8 @@ function Table(attrs) {
 					<h3>{t("organizations_page.filters.current")}:</h3>
 
 					<ul>
-						{employeeCount ? <li>
-							{employeeCount}
+						{employeeCounts ? <li>
+							{employeeCounts.join("/")}
 							{" "}
 							{t("organizations_page.filters.current_filter_employee_count")}
 						</li> : null}
@@ -345,7 +347,11 @@ function Filters(attrs) {
 	var {t} = attrs
 	var [orderName, orderDirection] = attrs.order || ["name", "asc"]
 
-	var employeeCount = filters.employeeCount && filters.employeeCount.join("-")
+	var employeeCounts = new Set(filters.employeeCounts
+		? filters.employeeCounts.map(([a, b]) => `${a}-${b == Infinity ? "" : b}`)
+		: []
+	)
+
 	var {businessModels} = filters
 	var {sustainabilityGoals} = filters
 
@@ -363,56 +369,45 @@ function Filters(attrs) {
 				<div class="dropdown">
 					<ol>
 						<li>
-							<label class="sev-radiobox">
+							<label class="sev-checkbox">
 								<input
-									type="radio"
-									name="employee-count"
-									value=""
-									checked={employeeCount == null}
-								/> {t("organizations_page.filters.all_employees")}
-							</label>
-						</li>
-
-						<li>
-							<label class="sev-radiobox">
-								<input
-									type="radio"
-									name="employee-count"
+									type="checkbox"
+									name="employee-count[]"
 									value="0-10"
-									checked={employeeCount == "0-10"}
+									checked={employeeCounts.has("0-10")}
 								/> 0–9
 							</label>
 						</li>
 
 						<li>
-							<label class="sev-radiobox">
+							<label class="sev-checkbox">
 								<input
-									type="radio"
-									name="employee-count"
+									type="checkbox"
+									name="employee-count[]"
 									value="10-50"
-									checked={employeeCount == "10-50"}
+									checked={employeeCounts.has("10-50")}
 								/> 10–49
 							</label>
 						</li>
 
 						<li>
-							<label class="sev-radiobox">
+							<label class="sev-checkbox">
 								<input
-									type="radio"
-									name="employee-count"
+									type="checkbox"
+									name="employee-count[]"
 									value="50-250"
-									checked={employeeCount == "50-250"}
+									checked={employeeCounts.has("50-250")}
 								/> 50–249
 							</label>
 						</li>
 
 						<li>
-							<label class="sev-radiobox">
+							<label class="sev-checkbox">
 								<input
-									type="radio"
+									type="checkbox"
 									name="employee-count"
 									value="250-"
-									checked={employeeCount == "250-"}
+									checked={employeeCounts.has("250-")}
 								/> 250–
 							</label>
 						</li>
