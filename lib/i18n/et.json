@@ -47,6 +47,7 @@
 	"organization_members_page.added_column": "Lisatud",
 	"organization_members_page.already_exists": "Selle meiliaadressiga konto juba eksisteerib.",
 	"organization_members_page.created": "Ligipääs lisatud.\nKuna liikmel oli andmebaasis juba konto olemas, kutset uuesti ei saadetud.",
+	"organization_members_page.created_and_invited": "Liige lisatud ja kutse meiliga saadetud.",
 	"organization_members_page.description": "Liikmed saavad muuta ettevõtte andmeid ning avalikustamata ettevõtte avalikuks teha. Liikmeid saavad lisada vaid SEV andmebaasi administraatorid.",
 	"organization_members_page.email_column": "Meiliaadress",
 	"organization_members_page.form.email": "Email",

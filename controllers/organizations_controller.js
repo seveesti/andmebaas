@@ -416,8 +416,10 @@ exports.router.post("/:registryCode/members",
 		SELECT * FROM accounts WHERE email = ${email}
 	`)
 
+	var newInvitee = invitee == null
+
 	var inviteToken
-	if (invitee == null) {
+	if (newInvitee) {
 		inviteToken = Crypto.randomBytes(8)
 
 		invitee = accountsDb.create({
@@ -460,7 +462,7 @@ exports.router.post("/:registryCode/members",
 		throw err
 	}
 
-	if (invitee == null) {
+	if (newInvitee) {
 		res.statusMessage = "Member Created and Invited"
 		res.flash("notice", req.t("organization_members_page.created_and_invited"))
 	}

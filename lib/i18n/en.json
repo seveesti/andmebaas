@@ -42,6 +42,7 @@
 	"organization_members_page.added_column": "Added",
 	"organization_members_page.already_exists": "A member already exists with this email address.",
 	"organization_members_page.created": "Member added.\nAs they already had an account in the database, no invite was sent.",
+	"organization_members_page.created_and_invited": "Member added.\nThey should be receiving an invite soon.",
 	"organization_members_page.description": "Members can update and publish enterprise information. Members however can only be added by the database administrators. ",
 	"organization_members_page.email_column": "Email",
 	"organization_members_page.form.email": "Email",
