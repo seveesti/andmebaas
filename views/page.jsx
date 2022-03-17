@@ -55,7 +55,7 @@ function Page(attrs, children) {
 			<title>{title == null ? "" : title + " - "} {t("title")}</title>
 			<LiveReload req={req} />
 
-			<link rel="shortcut icon" href="/favicon.ico" />
+			<link rel="shortcut icon" href={`${ROOT_PATH}/favicon.ico`} />
 
 			<link
 				rel="apple-touch-icon"
