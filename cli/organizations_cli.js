@@ -5,7 +5,7 @@ var parseRegistryCardHtml = require("root/lib/registry_card").parseHtml
 var registryCardsDb = require("root/db/organization_registry_cards_db")
 
 var USAGE_TEXT = `
-Usage: sev organizations create [options] <registry-code>
+Usage: sev organizations create [options] <registry-code> [<name>]
        sev organizations (-h | --help)
 
 Options:
@@ -19,22 +19,26 @@ module.exports = async function(argv) {
   var args = Neodoc.run(USAGE_TEXT, {argv: argv})
   if (args["--help"]) return void process.stdout.write(USAGE_TEXT.trimLeft())
 
-	if (args.create) await createOrganization(String(args["<registry-code>"]))
+	if (args.create) await createOrganization(
+		String(args["<registry-code>"]),
+		String(args["<name>"])
+	)
 	else process.stdout.write(USAGE_TEXT.trimLeft())
 }
 
-async function createOrganization(registryCode) {
+async function createOrganization(registryCode, name) {
 	var org = organizationsDb.read(registryCode)
 	if (org) return void console.warn("Already present: %s.", registryCode)
 
 	var html = await businessRegisterApi.readRegistryCardHtml(registryCode)
 	var card = parseRegistryCardHtml(html)
 
-	console.log("Creating %s (%s)…", card.name, card.registryCode)
+	if (name == null) name = card.name
+	console.log("Creating %s (%s)…", name, card.registryCode)
 
 	organizationsDb.create({
 		registry_code: card.registryCode,
-		name: card.name,
+		name: name,
 		official_name: card.name,
 		founded_on: card.foundedOn,
 		email: card.email,
