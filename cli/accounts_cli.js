@@ -6,10 +6,10 @@ var accountsDb = require("root/db/accounts_db")
 var sql = require("sqlate")
 
 var USAGE_TEXT = `
-Usage: cli accounts (-h | --help)
-       cli accounts create [options] <email>
-       cli accounts list [options]
-       cli accounts delete [options] <id-or-email>
+Usage: sev accounts (-h | --help)
+       sev accounts create [options] <email>
+       sev accounts list [options]
+       sev accounts delete [options] <id-or-email>
 
 Options:
     -h, --help   Display this help and exit.

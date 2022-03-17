@@ -7,8 +7,8 @@ var sqlite = require("root").sqlite
 var taxesDb = require("root/db/organization_taxes_db")
 
 var USAGE_TEXT = `
-Usage: cli emta (-h | --help)
-       cli emta import-taxes [options] <quarter> (<path>|-)
+Usage: sev emta (-h | --help)
+       sev emta import-taxes [options] <quarter> (<path>|-)
 
 Options:
     -h, --help   Display this help and exit.

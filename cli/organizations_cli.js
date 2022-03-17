@@ -5,8 +5,8 @@ var parseRegistryCardHtml = require("root/lib/registry_card").parseHtml
 var registryCardsDb = require("root/db/organization_registry_cards_db")
 
 var USAGE_TEXT = `
-Usage: cli organizations (-h | --help)
-       cli organizations create [options] <registry-code>
+Usage: sev organizations create [options] <registry-code>
+       sev organizations (-h | --help)
 
 Options:
     -h, --help   Display this help and exit.
