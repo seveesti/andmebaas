@@ -82,8 +82,40 @@ describe("RegistryCard", function() {
 				address: "Harju maakond, Tallinn, Kristiine linnaosa, Rästa tn 7/5, 13425",
 				boardMembers: [{name: "Maria Rahamägi", personalId: "49209020217"}]
 			})
-	})
 		})
+
+		it("must parse liquidating organization", function() {
+			parseHtml(wrapBoilerplate(outdent`
+				<div>Mittetulundusühingute ja sihtasutuste registri kehtivate andmete väljatrükk seisuga  08.11.2021 kell 13:09</div>
+
+				<TABLE>
+					<TR><TD colspan='2'>&nbsp;</TD></TR>
+
+					<TR><TD colspan="2"><span>Mittetulundusühing Edumus (registrikood 80562143, likvideerimisel) kohta on avatud Tartu Maakohtu registriosakonna mittetulundusühingu registrikaart&nbsp;nr&nbsp;1:</span></TD></TR>
+
+					<TR><TD colspan='2'>&nbsp;</TD></TR><TR><TD colspan="2"><span>Nimi ja aadress</span></TD></TR>
+
+					<TR>
+						<TD><span>1. kanne:</span></TD>
+						<TD><span>Nimi on Mittetulundusühing Edumus</span></TD>
+					</TR>
+
+					<TR>
+						<TD><span>1. kanne:</span></TD>
+						<TD><span>Aadress on Harju maakond, Tallinn, Kristiine linnaosa, Rästa tn 7/5, 13425</span></TD>
+					</TR>
+				</TABLE>
+
+				<div>Väljatrüki lõpp</div>
+			`)).must.eql({
+				registryCode: "80562143",
+				issuedAt: new Date(2021, 10, 8, 13, 9),
+				name: "Mittetulundusühing Edumus",
+				address: "Harju maakond, Tallinn, Kristiine linnaosa, Rästa tn 7/5, 13425",
+				boardMembers: []
+			})
+		})
+	})
 })
 
 function wrapBoilerplate(html) {
