@@ -33,7 +33,7 @@ module.exports = async function(argv) {
 		parseEmtak(path)
 	}
 	else if (args["update-registry-card"]) {
-		await readAndParseRegistryCard(args["<registry-code>"])
+		await readAndParseRegistryCard(String(args["<registry-code>"]))
 	}
 	else
 		process.stdout.write(USAGE_TEXT.trimLeft())
