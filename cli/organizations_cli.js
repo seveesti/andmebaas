@@ -28,7 +28,11 @@ module.exports = async function(argv) {
 
 async function createOrganization(registryCode, name) {
 	var org = organizationsDb.read(registryCode)
-	if (org) return void console.warn("Already present: %s.", registryCode)
+
+	if (org) {
+		console.warn("Already present: %s.", registryCode)
+		process.exit(2)
+	}
 
 	var html = await businessRegisterApi.readRegistryCardHtml(registryCode)
 	var card = parseRegistryCardHtml(html)
