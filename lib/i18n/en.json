@@ -39,6 +39,7 @@
 	"nav.join": "Join Us",
 	"nav.signout": "Sign Out",
 	"organization_create_page.created": "Enterprise created.",
+	"organization_create_page.created_without_registry_card": "Enterprise created.\nUnfortunately didn't manage to fetch the registry card from the Business Register.",
 	"organization_members_page.added_column": "Added",
 	"organization_members_page.already_exists": "A member already exists with this email address.",
 	"organization_members_page.created": "Member added.\nAs they already had an account in the database, no invite was sent.",

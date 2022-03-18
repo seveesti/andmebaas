@@ -213,7 +213,12 @@ exports.router.post("/", assertAdmin, _.next(async function(req, res) {
 
 	res.statusCode = 302
 	res.statusMessage = "Organization Created"
-	res.flash("notice", req.t("organization_create_page.created"))
+
+	res.flash("notice", card
+		? req.t("organization_create_page.created")
+		: req.t("organization_create_page.created_without_registry_card")
+	)
+
 	res.redirect("/enterprises/" + org.registry_code)
 }))
 

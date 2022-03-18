@@ -42,6 +42,7 @@
 	"organization_admin_invite_email.body": "Tere\n                                                  \nSind kutsuti administreerima SEV andmebaasi.\nAlustamiseks loo endale konto ${inviteUrl} lehel.\n\nPeale konto loomist saad sisse logida ${signinUrl} lehel.\n\nTervitades\n\nSEV\n",
 	"organization_admin_invite_email.subject": "Oled kutsutud täiendama SEV andmebaasi",
 	"organization_create_page.created": "Ettevõte loodud.",
+	"organization_create_page.created_without_registry_card": "Ettevõte loodud.\nKahjuks ei õnnestunud Äriregistrist registrikaarti lugeda.",
 	"organization_member_invite_email.body": "Tere\n                                                             \nSind kutsuti täiendama SEV andmebaasis ${organizationName} profiili.\nAlustamiseks loo endale konto ${inviteUrl} lehel.\n\nPeale konto loomist saad sisse logida ${signinUrl} lehel.\n\nTervitades\n\nSEV",
 	"organization_member_invite_email.subject": "Oled kutsutud täiendama SEV andmebaasi",
 	"organization_members_page.added_column": "Lisatud",
