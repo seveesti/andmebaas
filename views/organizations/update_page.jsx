@@ -65,8 +65,11 @@ module.exports = function(attrs) {
 					/>
 				</h1>
 
-				<span class="official-name">{org.official_name}</span>
-				{", "}
+				{org.official_name ? [
+					<span class="official-name">{org.official_name}</span>,
+					", "
+				] : null}
+
 				<span class="registry-code">reg nr {org.registry_code}</span>
 			</header>
 
