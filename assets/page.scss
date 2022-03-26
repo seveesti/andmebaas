@@ -407,6 +407,8 @@ strong { font-weight: bold; }
 
 			line-height: 2.5;
 			&:hover { display: block; }
+
+			li { white-space: nowrap; }
 		}
 
 		.languages-form {
