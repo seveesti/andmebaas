@@ -231,6 +231,10 @@ function Table(attrs) {
 					</SortButton>
 				</th>
 
+				<th class="goals-column">
+					{t("organizations_page.table.goals_column")}
+				</th>
+
 				<th class="founded-on-column">
 					<SortButton
 						path={orgsPath}
@@ -240,10 +244,6 @@ function Table(attrs) {
 					>
 						{t("organizations_page.table.founded_on_column")}
 					</SortButton>
-				</th>
-
-				<th class="goals-column">
-					{t("organizations_page.table.goals_column")}
 				</th>
 
 				<th class="revenue-column">
@@ -294,6 +294,12 @@ function Table(attrs) {
 						> 🕵</span>}
 					</td>
 
+					<td class="goals-column">
+						<ul>{Array.from(org.sustainability_goals, (id) => <li>
+							<SdgImage t={t} goal={id} />
+						</li>)}</ul>
+					</td>
+
 					<td
 						class="founded-on-column"
 
@@ -302,12 +308,6 @@ function Table(attrs) {
 						}) : null}
 					>
 						{org.founded_on ? org.founded_on.getFullYear() : null}
-					</td>
-
-					<td class="goals-column">
-						<ul>{Array.from(org.sustainability_goals, (id) => <li>
-							<SdgImage t={t} goal={id} />
-						</li>)}</ul>
 					</td>
 
 					<td class="revenue-column">{taxes ?
