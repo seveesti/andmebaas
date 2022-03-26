@@ -9,9 +9,11 @@ $sev-black: #2b2b2b;
 $red: tomato;
 $nav-background: #f2f5ff;
 $table-horizontal-padding: 1.5rem;
+$table-cell-horizontal-padding: 1rem;
 $table-header-background: $nav-background;
 $table-separator: $nav-background;
 $subtitle-grey: #878787;
+$sort-button-padding: 2rem;
 
 html,
 body {
@@ -76,7 +78,7 @@ strong { font-weight: bold; }
 	& > thead,
 	& > tbody,
 	& > tfoot {
-		td, th { padding: 1rem 1rem; }
+		td, th { padding: 1rem $table-cell-horizontal-padding; }
 
 		th:first-child,
 		td:first-child { padding-left: $table-horizontal-padding; }
@@ -102,7 +104,7 @@ strong { font-weight: bold; }
 				background-position: right center;
 				background-repeat: no-repeat;
 				background-size: contain;
-				padding-right: 2rem;
+				padding-right: $sort-button-padding;
 
 				&.asc,
 				&.desc {
@@ -763,26 +765,43 @@ main {
 
 				&:focus { outline: 1px dashed $sev-blue; }
 			}
-
-			.founded-on {
-				font-size: 1.5rem;
-				font-weight: 500;
-				color: $subtitle-grey;
-			}
 		}
 
-		.organization.unpublished {
-			td.name-column {
-				a { font-style: italic; }
+		.organization.unpublished td.name-column {
+			a { font-style: italic; }
 
-				.unpublished-icon { font-style: normal; }
-			}
+			.unpublished-icon { font-style: normal; }
+		}
+
+		.founded-on-column {
+			text-align: right;
+		}
+
+		td.founded-on-column {
+			padding-right: $sort-button-padding + $table-cell-horizontal-padding;
+			font-weight: 600;
+			color: $subtitle-grey;
+			font-variant-numeric: tabular-nums;
+			letter-spacing: -0.05em;
 		}
 
 		td.business-models-column,
 		td.revenue-column,
 		td.employee-count-column {
 			font-weight: 500;
+		}
+
+		.revenue-column,
+		.employee-count-column {
+			text-align: right;
+		}
+
+		td.revenue-column,
+		td.employee-count-column {
+			padding-right: $sort-button-padding + $table-cell-horizontal-padding;
+			text-align: right;
+			font-variant-numeric: tabular-nums;
+			letter-spacing: -0.05em;
 		}
 
 		td.goals-column {

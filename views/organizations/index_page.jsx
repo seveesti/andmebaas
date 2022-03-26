@@ -229,12 +229,13 @@ function Table(attrs) {
 					>
 						{t("organizations_page.table.organization_column")}
 					</SortButton>
+				</th>
 
+				<th class="founded-on-column">
 					<SortButton
 						path={orgsPath}
 						query={query}
 						name="founded-on"
-						class="secondary"
 						sorted={orderName == "founded-on" ? orderDirection : null}
 					>
 						{t("organizations_page.table.founded_on_column")}
@@ -291,16 +292,16 @@ function Table(attrs) {
 							class="unpublished-icon"
 							title={t("organizations_page.unpublished")}
 						> 🕵</span>}
+					</td>
 
-						{org.founded_on ? <Fragment>{" "}<span
-							class="founded-on"
+					<td
+						class="founded-on-column"
 
-							title={t("organizations_page.table.founded_on", {
-								year: org.founded_on.getFullYear()
-							})}>
-								{org.founded_on.getFullYear()}
-							</span>
-						</Fragment> : null}
+						title={org.founded_on ? t("organizations_page.table.founded_on", {
+							year: org.founded_on.getFullYear()
+						}) : null}
+					>
+						{org.founded_on ? org.founded_on.getFullYear() : null}
 					</td>
 
 					<td class="goals-column">
@@ -325,12 +326,12 @@ function Table(attrs) {
 				</tr>
 			</Fragment>
 		}) : <tr class="empty-placeholder">
-			<td colspan="5">{t("organizations_page.empty_placeholder")}</td>
+			<td colspan="6">{t("organizations_page.empty_placeholder")}</td>
 		</tr>}</tbody>
 
 		<tfoot class="page-table-footer">
 			<tr>
-				<td colspan="5">
+				<td colspan="6">
 					{Jsx.html(t("organizations_page.download_in_csv", {
 						url: orgsPath + ".csv" + Qs.stringify(query, {addQueryPrefix: true})
 					}))}
