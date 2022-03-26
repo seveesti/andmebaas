@@ -39,6 +39,13 @@ strong { font-weight: bold; }
 	padding: 0 $page-padding;
 }
 
+@media screen and (max-width: 1060px) {
+	.centered {
+		padding-left: 4rem;
+		padding-right: 4rem;
+	}
+}
+
 .page-section {
 	& + .page-section { margin-top: 4rem; }
 	&.flash-section + .page-section { margin-top: 2rem; }
@@ -358,6 +365,12 @@ strong { font-weight: bold; }
 		}
 	}
 
+	@media screen and (max-width: 1020px) {
+		text-align: left;
+
+		.home { float: none; }
+	}
+
 	& > .centered > ol {
 		font-weight: 600;
 		font-size: 1.3rem;
@@ -630,8 +643,6 @@ main {
 	}
 
 	#filters {
-		padding-left: $table-horizontal-padding;
-		padding-right: $table-horizontal-padding;
 		margin-bottom: 2rem;
 
 		h2 {
@@ -688,6 +699,12 @@ main {
 	}
 
 	#organizations-table {
+		caption {
+			padding-left: 0;
+			padding-right: 0;
+			padding-bottom: 1rem;
+		}
+
 		caption div {
 			display: flex;
 
