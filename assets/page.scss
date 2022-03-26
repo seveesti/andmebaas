@@ -97,6 +97,7 @@ strong { font-weight: bold; }
 
 			.column-name {
 				& + .column-name { margin-left: 2rem; }
+				&.secondary { font-weight: 500; }
 			}
 
 			.sort-button {
@@ -113,8 +114,6 @@ strong { font-weight: bold; }
 
 				&.asc { background-image: url("sort-asc.png"); }
 				&.desc { background-image: url("sort-desc.png"); }
-
-				&.secondary { font-weight: 500; }
 
 				@extend .hover-link-button;
 			}
@@ -753,6 +752,12 @@ main {
 
 		.name-column { width: 32em; }
 		.goals-column { width: 26em; }
+
+		.sev-member-column {
+			padding-right: 0;
+
+			img { vertical-align: middle; width: 2rem; }
+		}
 
 		td.name-column {
 			a {

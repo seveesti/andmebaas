@@ -36,7 +36,7 @@ CREATE TABLE organizations (
 	regions TEXT NOT NULL DEFAULT '[]',
 	sustainability_goals TEXT NOT NULL DEFAULT '[]',
 	created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
-	published_at TEXT, logo BLOB, logo_type TEXT,
+	published_at TEXT, logo BLOB, logo_type TEXT, sev_member INTEGER NOT NULL DEFAULT 0,
 
 	CONSTRAINT registry_code_length CHECK (length(registry_code) > 0),
 	CONSTRAINT registry_code_format CHECK (registry_code NOT GLOB '[^0-9]'),
@@ -183,4 +183,5 @@ INSERT INTO migrations VALUES('20211010133760');
 INSERT INTO migrations VALUES('20211010133770');
 INSERT INTO migrations VALUES('20211010133780');
 INSERT INTO migrations VALUES('20220202181447');
+INSERT INTO migrations VALUES('20220326120704');
 COMMIT;

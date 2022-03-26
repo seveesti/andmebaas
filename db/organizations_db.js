@@ -13,6 +13,7 @@ exports.parse = function(attrs) {
 		other_urls: attrs.other_urls && JSON.parse(attrs.other_urls),
 		board_members: attrs.board_members && JSON.parse(attrs.board_members),
 		regions: attrs.regions && new Set(JSON.parse(attrs.regions)),
+		sev_member: Boolean(attrs.sev_member),
 
 		short_descriptions: attrs.short_descriptions &&
 			JSON.parse(attrs.short_descriptions),
@@ -45,6 +46,8 @@ exports.serialize = function(attrs) {
 		obj.regions = JSON.stringify([...obj.regions])
 	if ("sustainability_goals" in obj)
 		obj.sustainability_goals = JSON.stringify([...obj.sustainability_goals])
+
+	if ("sev_member" in obj) obj.sev_member = Number(obj.sev_member)
 
 	return obj
 }

@@ -246,12 +246,30 @@ module.exports = function(attrs) {
 						</Fragment>)}
 					</li>
 
+					{account.administrative ? <li class="field-row">
+						<label class="field-name">
+							{t("organization_update_page.sev_membership")}
+						</label>
+
+						<label class="sev-checkbox">
+							<input type="hidden" name="sev_member" value="off" />
+
+							<input
+								type="checkbox"
+								name="sev_member"
+								checked={org.sev_member}
+							/>
+
+							{t("organization_update_page.sev_member")}
+						</label>
+					</li> : null}
+
 					<li class="field-row">
 						<label class="field-name">
 							{t("organization_update_page.access")}
 						</label>
 
-						<label id="publish-checkbox" class="sev-checkbox">
+						<label class="sev-checkbox">
 							<input type="hidden" name="published" value="off" />
 
 							<input

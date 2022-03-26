@@ -152,6 +152,7 @@ function Table(attrs) {
 						count: organizations.length
 					})
 				}.
+
 				{" "}
 
 				{account && account.administrative ?
@@ -220,6 +221,13 @@ function Table(attrs) {
 
 		<thead class="page-table-header">
 			<tr>
+				<th
+					class="sev-member-column"
+					title={t("organizations_page.sev_member")}
+				>
+					<img src={`${ROOT_PATH}/assets/sev-icon.svg`} alt="" />
+				</th>
+
 				<th class="name-column">
 					<SortButton
 						path={orgsPath}
@@ -285,6 +293,14 @@ function Table(attrs) {
 
 			return <Fragment>
 				<tr class={klass.join(" ")}>
+					<td
+						class="sev-member-column"
+						title={org.sev_member ? t("organizations_page.sev_member") : null}
+					>{org.sev_member
+						? <img src={`${ROOT_PATH}/assets/sev-icon.svg`} alt="" />
+						: null
+					}</td>
+
 					<td class="name-column">
 						<a href={orgPath}>{org.name}</a>
 
@@ -326,12 +342,12 @@ function Table(attrs) {
 				</tr>
 			</Fragment>
 		}) : <tr class="empty-placeholder">
-			<td colspan="6">{t("organizations_page.empty_placeholder")}</td>
+			<td colspan="7">{t("organizations_page.empty_placeholder")}</td>
 		</tr>}</tbody>
 
 		<tfoot class="page-table-footer">
 			<tr>
-				<td colspan="6">
+				<td colspan="7">
 					{Jsx.html(t("organizations_page.download_in_csv", {
 						url: orgsPath + ".csv" + Qs.stringify(query, {addQueryPrefix: true})
 					}))}

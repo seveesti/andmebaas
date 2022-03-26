@@ -65,6 +65,7 @@ exports.router.get("/", function(req, res) {
 				org.founded_on,
 				org.business_models,
 				org.sustainability_goals,
+				org.sev_member,
 				org.published_at,
 				COALESCE(updates.revenue, taxes.revenue) as revenue,
 
@@ -195,7 +196,7 @@ exports.router.get("/", function(req, res) {
 })
 
 exports.router.post("/", assertAdmin, _.next(async function(req, res) {
-	var attrs = parse(null, req.body, req.files)
+	var attrs = parse(null, req.account, req.body, req.files)
 	attrs.registry_code = String(req.body.registry_code)
 
 	var [card, cardHtml] = (
@@ -239,6 +240,7 @@ exports.router.use("/:registryCode", function(req, res, next) {
 			regions,
 			sustainability_goals,
 			created_at,
+			sev_member,
 			published_at,
 			logo_type,
 
@@ -342,7 +344,7 @@ exports.router.put("/:registryCode", assertMember, function(req, res) {
 	var {account} = req
 
 	sqlite.transact(function() {
-		var attrs = parse(org, req.body, req.files)
+		var attrs = parse(org, account, req.body, req.files)
 		organizationsDb.update(org, attrs)
 		var diff = _.diff(org, attrs)
 
@@ -512,7 +514,7 @@ function parseFilters(query) {
 	return filters
 }
 
-function parse(org, obj, files) {
+function parse(org, account, obj, files) {
 	var attrs = {}
 
 	if ("name" in obj) attrs.name = obj.name.trim() || null
@@ -547,6 +549,9 @@ function parse(org, obj, files) {
 		attrs.logo = files.logo.buffer
 		attrs.logo_type = files.logo.mimetype
 	}
+
+	if (account.administrative && "sev_member" in obj)
+		attrs.sev_member = _.parseBoolean(obj.sev_member)
 
 	return attrs
 }
