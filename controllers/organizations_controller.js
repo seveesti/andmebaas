@@ -204,6 +204,8 @@ exports.router.post("/", assertAdmin, _.next(async function(req, res) {
 	) || []
 
 	var org = organizationsDb.create(_.assign(attrs, {
+		created_at: new Date,
+		name: attrs.name || card.name,
 		official_name: card ? card.name : null,
 		founded_on: card ? card.foundedOn : null,
 		email: attrs.email || card ? card.email : null,
