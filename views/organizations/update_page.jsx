@@ -76,7 +76,7 @@ module.exports = function(attrs) {
 			<Section>
 				<ul>
 					{LANGS.map((lang) => <li class="field-row">
-						<label class="field-name">
+						<label class="page-form-label">
 							{t("organization_update_page.short_description")}
 							{" "}
 							({t("organization_update_page.in_" + lang)})
@@ -92,7 +92,7 @@ module.exports = function(attrs) {
 					</li>)}
 
 					{LANGS.map((lang) => <li class="field-row">
-						<label class="field-name">
+						<label class="page-form-label">
 							{t("organization_update_page.long_description")}
 							{" "}
 							({t("organization_update_page.in_" + lang)})
@@ -108,7 +108,7 @@ module.exports = function(attrs) {
 					</li>)}
 
 					<li id="organization-logo-row" class="field-row">
-						<label class="field-name">
+						<label class="page-form-label">
 							{t("organization_update_page.logo")}
 						</label>
 
@@ -125,7 +125,7 @@ module.exports = function(attrs) {
 					</li>
 
 					<li class="field-row">
-						<label class="field-name">
+						<label class="page-form-label">
 							{t("organization_update_page.url")}
 						</label>
 
@@ -133,7 +133,7 @@ module.exports = function(attrs) {
 					</li>
 
 					<li class="field-row">
-						<label class="field-name">
+						<label class="page-form-label">
 							{t("organization_update_page.email")}
 						</label>
 
@@ -141,7 +141,7 @@ module.exports = function(attrs) {
 					</li>
 
 					<li class="field-row">
-						<label class="field-name">
+						<label class="page-form-label">
 							{t("organization_update_page.social_media")}
 						</label>
 
@@ -152,7 +152,7 @@ module.exports = function(attrs) {
 					</li>
 
 					<li class="field-row">
-						<label class="field-name">
+						<label class="page-form-label">
 							{t("organization_update_page.business_model")}
 						</label>
 
@@ -170,7 +170,7 @@ module.exports = function(attrs) {
 					</li>
 
 					<li id="regions" class="field-row">
-						<label class="field-name">
+						<label class="page-form-label">
 							{t("organization_update_page.region")}
 						</label>
 
@@ -215,7 +215,7 @@ module.exports = function(attrs) {
 					</li>
 
 					<li id="sustainability-goals" class="field-row">
-						<label class="field-name">
+						<label class="page-form-label">
 							{t("organization_update_page.sdgs")}
 						</label>
 
@@ -247,7 +247,7 @@ module.exports = function(attrs) {
 					</li>
 
 					{account.administrative ? <li class="field-row">
-						<label class="field-name">
+						<label class="page-form-label">
 							{t("organization_update_page.sev_membership")}
 						</label>
 
@@ -265,7 +265,7 @@ module.exports = function(attrs) {
 					</li> : null}
 
 					<li class="field-row">
-						<label class="field-name">
+						<label class="page-form-label">
 							{t("organization_update_page.access")}
 						</label>
 

@@ -58,9 +58,10 @@ strong { font-weight: bold; }
 }
 
 .page-section-heading {
-	font-size: 2.6rem;
+	font-size: 2.4rem;
 	font-weight: 500;
 	line-height: 1.5;
+	letter-spacing: -0.02em;
 
 	& + * { margin-top: 1rem; }
 }
@@ -162,22 +163,20 @@ strong { font-weight: bold; }
 }
 
 .page-form {
-	.page-form-label {
-		display: block;
-		color: $sev-black;
-		font-size: 1.3rem;
-		text-transform: uppercase;
-		font-weight: 600;
-		line-height: 1.5;
-		margin-bottom: 0.5rem;
+	.page-form-submit { display: block; }
+}
 
-		& ~ .page-form-label,
-		& ~ .page-form-submit { margin-top: 1.5rem; }
-	}
+.page-form-label {
+	display: block;
+	color: $sev-black;
+	font-size: 1.6rem;
+	letter-spacing: -0.015em;
+	font-weight: 600;
+	line-height: 1.5;
+	margin-bottom: 0.5rem;
 
-	.page-form-submit {
-		display: block;
-	}
+	& ~ .page-form-label,
+	& ~ .page-form-submit { margin-top: 1.5rem; }
 }
 
 .page-post-table-form {
@@ -1084,15 +1083,6 @@ main {
 		}
 	}
 
-	.field-name {
-		display: block;
-		color: $subtitle-grey;
-		font-size: 1.4rem;
-		text-transform: uppercase;
-		font-weight: 600;
-		margin-bottom: 0.8rem;
-	}
-
 	.field-row {
 		line-height: 1.5;
 	}
@@ -1111,6 +1101,11 @@ main {
 		font-weight: 600;
 
 		& ~ h3 { margin-top: 1.6rem; }
+
+		color: $subtitle-grey;
+		font-size: 1.4rem;
+		text-transform: uppercase;
+		margin-bottom: 0.5rem;
 	}
 
 	h4 {
