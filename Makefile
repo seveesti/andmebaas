@@ -96,15 +96,15 @@ menus: lib/i18n/et_footer_menu.json
 menus: lib/i18n/en_footer_menu.json
 
 lib/i18n/et_header_menu.json:
-	curl "$(SITE_URL)/wp-json/menus/v1/menus/primary" > "$@"
+	curl "$(SITE_URL)/wp-json/menus/v1/menus/primary" | jq $(JQ_OPTS) . > "$@"
 lib/i18n/et_footer_menu.json:
-	curl "$(SITE_URL)/wp-json/acf/v3/options/options" > "$@"
+	curl "$(SITE_URL)/wp-json/acf/v3/options/options" | jq $(JQ_OPTS) . > "$@"
 
 # English version not available yet. Use the Estonian.
 lib/i18n/en_header_menu.json:
-	curl "$(SITE_URL)/wp-json/menus/v1/menus/primary" > "$@"
+	curl "$(SITE_URL)/wp-json/menus/v1/menus/primary" | jq $(JQ_OPTS) . > "$@"
 lib/i18n/en_footer_menu.json:
-	curl "$(SITE_URL)/wp-json/acf/v3/options/options" > "$@"
+	curl "$(SITE_URL)/wp-json/acf/v3/options/options" | jq $(JQ_OPTS) . > "$@"
 
 deploy:
 	@rsync $(RSYNC_OPTS) \
