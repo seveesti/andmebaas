@@ -120,6 +120,8 @@ deploy:
 		--exclude "/node_modules/better-sqlite3/***" \
 		--exclude "/node_modules/mocha/***" \
 		--exclude "/node_modules/must/***" \
+		--exclude "/node_modules/mitm/***" \
+		--exclude "/node_modules/sinon/***" \
 		--exclude "/node_modules/livereload/***" \
 		--exclude "/node_modules/jsdom/***" \
 		--exclude "/tmp/***" \
