@@ -127,6 +127,7 @@
 	"organizations_page.filters.business_model": "Business Model",
 	"organizations_page.filters.current": "Filter",
 	"organizations_page.filters.current_filter_employee_count": "employees",
+	"organizations_page.filters.current_filter_sev_member": "SEV members",
 	"organizations_page.filters.employee_count": "Employee count",
 	"organizations_page.filters.filter": "Filter",
 	"organizations_page.filters.goals": "Goals",

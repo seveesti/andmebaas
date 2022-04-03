@@ -174,9 +174,13 @@ function Table(attrs) {
 							{/^\d+$/.test(id) ? [<strong>{id}.</strong>, " "] : null}
 							{t(`sdg.${id}.title`)}
 						</li>) : null}
+
+						{filters.sevMember ? <li>
+							<img src={`${ROOT_PATH}/assets/sev-icon.svg`} alt="" />
+							{t("organizations_page.filters.current_filter_sev_member")}
+						</li> : null}
 					</ul>
 				</div> : null}
-
 			</span>
 
 			{" "}
@@ -479,6 +483,20 @@ function Filters(attrs) {
 				</div>
 			</details>
 
+			<div class="filter" id="sev-member-filter">
+				<label class="sev-checkbox">
+					<input
+						type="checkbox"
+						name="sev-member"
+						value="on"
+						checked={filters.sevMember}
+					/>
+
+					<img src={`${ROOT_PATH}/assets/sev-icon.svg`} alt="" />
+					SEV liige
+				</label>
+			</div>
+
 			<noscript>
 				<button class="submit-button blue-button">
 					{t("organizations_page.filters.filter")}
@@ -516,7 +534,6 @@ function Filters(attrs) {
 						query.get("business-model[]") ||
 						query.get("sdg[]")
 					)
-					console.log(hasFilters)
 
 					var res = fetch(url, {
 						headers: {Prefer: "return=minimal"}
@@ -596,6 +613,8 @@ function serializeFiltersQuery(filters) {
 
 	if (filters.sustainabilityGoals)
 		query.sdg = Array.from(filters.sustainabilityGoals)
+
+	if (filters.sevMember) query["sev-member"] = "on"
 
 	return query
 }

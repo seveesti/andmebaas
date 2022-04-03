@@ -685,6 +685,32 @@ main {
 			}
 		}
 
+		#sev-member-filter {
+			padding: 0.7rem 1.1rem;
+			border-radius: 0.8rem;
+			border: 1px solid $sev-blue;
+			font-weight: 500;
+			line-height: 1.2;
+			font-size: 1.5rem;
+			color: $sev-blue;
+			line-height: 2rem;
+
+			img {
+				vertical-align: middle;
+				width: 1.8rem;
+				margin-left: 0.2rem;
+				margin-right: 0.8rem;
+				position: relative;
+				top: -1px;
+			}
+
+			input {
+				height: 1.4rem;
+				width: 1.4rem;
+				vertical-align: middle;
+			}
+		}
+
 		#loading-spinner {
 			display: inline-block;
 			vertical-align: middle;

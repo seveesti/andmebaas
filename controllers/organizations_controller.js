@@ -155,6 +155,8 @@ exports.router.get("/", function(req, res) {
 				`)
 			) : sql``}
 
+			${filters.sevMember ? sql`AND sev_member` : sql``}
+
 			GROUP BY org.registry_code
 
 			${order ? sql`
@@ -594,6 +596,9 @@ function parseFilters(query) {
 		var goals = parseSustainabilityGoals(_.concat(query.sdg))
 		if (goals.size > 0) filters.sustainabilityGoals = goals
 	}
+
+	if (query["sev-member"])
+		filters.sevMember = _.parseBoolean(query["sev-member"])
 
 	return filters
 }
