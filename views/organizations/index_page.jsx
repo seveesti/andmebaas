@@ -302,7 +302,7 @@ function Table(attrs) {
 					}</td>
 
 					<td class="name-column">
-						<a href={orgPath}>{org.name}</a>
+						<a href={orgPath} title={org.name}>{org.name}</a>
 
 						{org.published_at ? "" : <span
 							class="unpublished-icon"

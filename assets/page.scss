@@ -46,6 +46,12 @@ strong { font-weight: bold; }
 	}
 }
 
+@mixin ellipsis {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .page-section {
 	& + .page-section { margin-top: 4rem; }
 	&.flash-section + .page-section { margin-top: 2rem; }
@@ -777,6 +783,9 @@ main {
 		}
 
 		td.name-column {
+			max-width: 30rem;
+			@include ellipsis;
+
 			a {
 				font-weight: 500;
 				color: $sev-blue;
