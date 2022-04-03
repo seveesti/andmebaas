@@ -108,7 +108,10 @@ function Page(attrs, children) {
 						</li>)}
 
 						<li class="join-button">
-							<a href="https://sev.ee/liitu-kogukonnaga/" class="border-button">
+							<a
+								href="https://sev.ee/liitu-kogukonnaga/"
+								class="blue-border-button"
+							>
 								{t("nav.join")}
 							</a>
 						</li>

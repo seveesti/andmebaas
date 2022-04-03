@@ -153,13 +153,6 @@ strong { font-weight: bold; }
 			&:last-child { border-bottom-right-radius: 0.5rem; }
 		}
 	}
-
-	&.has-form {
-		& > .page-table-footer td {
-			&:first-child { border-bottom-left-radius: 0; }
-			&:last-child { border-bottom-right-radius: 0; }
-		}
-	}
 }
 
 .page-form {
@@ -213,12 +206,11 @@ strong { font-weight: bold; }
 	-moz-outline-radius: 0.7rem;
 }
 
-.border-button {
+.blue-border-button {
 	@extend %button;
 
 	color: $sev-blue;
 	border: 1px solid $sev-blue;
-	border-radius: 0.8rem;
 
 	&:focus { outline: 1px dashed $sev-blue; }
 }
@@ -230,6 +222,15 @@ strong { font-weight: bold; }
 	color: white;
 
 	&:focus { outline: 1px dashed $sev-blue; }
+}
+
+.white-button {
+	@extend %button;
+
+	color: white;
+	border: 1px solid white;
+
+	&:focus { outline: 1px dashed white; }
 }
 
 .red-button {
@@ -337,9 +338,8 @@ strong { font-weight: bold; }
 }
 
 #hero {
-	background: $nav-background;
+	background: url("nav-background.svg") $nav-background;
 	background-repeat: no-repeat;
-	background-image: url("nav-background.svg");
 	background-position: right -150px;
 	background-position: calc(50% + 400px) -150px;
 }
@@ -401,7 +401,7 @@ strong { font-weight: bold; }
 
 		& > li { display: inline-block; }
 
-		a:not(.border-button),
+		a:not(.blue-border-button),
 		button.language {
 			text-transform: uppercase;
 			border-radius: 0.1rem;
@@ -852,6 +852,28 @@ main {
 
 		.empty-placeholder { text-align: center; }
 	}
+
+	#new-organization-form {
+		color: white;
+		padding: 3rem 4rem;
+		border-radius: 1rem;
+		background: url("footer-background.svg") $sev-blue;
+		background-repeat: no-repeat;
+		background-position: right -150px;
+		background-position: calc(50% + 400px) -50px;
+
+		fieldset {
+			display: inline-block;
+			margin-right: 2rem;
+			margin-bottom: 1rem;
+		}
+
+		input {
+			color: black;
+		}
+
+		.page-form-label { color: white; }
+	}
 }
 
 .organization-page main {
@@ -1050,7 +1072,7 @@ main {
 	}
 }
 
-#update-organization-page main {
+.update-organization-page main {
 	section + form {
 		margin-top: 2rem;
 	}
@@ -1096,6 +1118,8 @@ main {
 
 		input { margin-top: 1rem; }
 	}
+
+	#other-urls-row textarea { min-height: 12rem; }
 
 	h3 {
 		font-weight: 600;

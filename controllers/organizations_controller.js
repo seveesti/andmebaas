@@ -2,23 +2,23 @@ var _ = require("root/lib/underscore")
 var I18n = require("root/lib/i18n")
 var Router = require("express").Router
 var HttpError = require("standard-http-error")
+var FetchError = require("fetch-error")
 var Crypto = require("crypto")
 var Config = require("root/config")
 var Csv = require("root/lib/csv")
-var organizationsDb = require("root/db/organizations_db")
 var {parseOrder} = require("root/lib/filtering")
 var taxesDb = require("root/db/organization_taxes_db")
 var taxesUpdatesDb = require("root/db/organization_taxes_updates_db")
 var businessRegisterApi = require("root/lib/estonian_business_register_api")
 var sql = require("sqlate")
 var sqlite = require("root").sqlite
+var organizationsDb = require("root/db/organizations_db")
 var registryCardsDb = require("root/db/organization_registry_cards_db")
 var accountsDb = require("root/db/accounts_db")
 var membersDb = require("root/db/organization_members_db")
 var updatesDb = require("root/db/organization_updates_db")
 var parseRegistryCardHtml = require("root/lib/registry_card").parseHtml
 var {assertAdmin} = require("root/lib/middleware/session_middleware")
-var logger = require("root").logger
 var sendEmail = require("root").sendEmail
 var renderTable = require("root/views/organizations/index_page").Table
 var BUSINESS_MODELS = new Set(_.keys(require("root/lib/business_models")))
@@ -34,6 +34,23 @@ var ORDER_COLUMNS = {
 	revenue: sql`revenue`,
 	"founded-on": sql`org.founded_on`,
 	"employee-count": sql`COALESCE(updates.employee_count, taxes.employee_count)`
+}
+
+var DEFAULT_ORG = {
+	other_urls: [],
+	email: null,
+	founded_on: null,
+	logo: null,
+	logo_type: null,
+	published_at: null,
+	regions: new Set,
+	board_members: [],
+	sev_member: false,
+	short_descriptions: {},
+	long_descriptions: {},
+	sustainability_goals: new Set,
+	business_models: new Set,
+	url: null
 }
 
 exports.router.get("/", function(req, res) {
@@ -195,34 +212,101 @@ exports.router.get("/", function(req, res) {
 	}
 })
 
-exports.router.post("/", assertAdmin, _.next(async function(req, res) {
+exports.router.post("/", _.next(async function(req, res) {
 	var attrs = parse(null, req.account, req.body, req.files)
-	attrs.registry_code = String(req.body.registry_code)
+	var registryCode = attrs.registry_code = String(req.body.registry_code)
+	var org = organizationsDb.read(registryCode)
 
-	var [card, cardHtml] = (
-		await readRegistryCardFromBusinessRegister(attrs.registry_code)
-	) || []
+	if (org) {
+		if (!org.published_at)
+			throw new HttpError(422, "Organization Already Exists", {
+				description: req.t(
+					"organizations_page.create_organization.already_exists"
+				)
+			})
 
-	var org = organizationsDb.create(_.assign(attrs, {
-		created_at: new Date,
-		name: attrs.name || card.name,
-		official_name: card ? card.name : null,
-		founded_on: card ? card.foundedOn : null,
-		email: attrs.email || card ? card.email : null,
-		board_members: card ? card.boardMembers.map((member) => member.name) : []
-	}))
+		res.statusMessage = "Organization Already Exists"
 
-	if (card) createRegistryCard(card, cardHtml)
+		res.flash("notice",
+			req.t("organizations_page.create_organization.already_exists")
+		)
 
-	res.statusCode = 302
-	res.statusMessage = "Organization Created"
+		return void res.redirect(302, req.baseUrl + "/" + registryCode)
+	}
 
-	res.flash("notice", card
-		? req.t("organization_create_page.created")
-		: req.t("organization_create_page.created_without_registry_card")
-	)
+	var card = registryCardsDb.read(sql`
+		SELECT * FROM organization_registry_cards
+		WHERE registry_code = ${registryCode}
+		AND content_type = 'text/html'
+		ORDER BY created_at DESC
+		LIMIT 1
+	`), cardAttrs
 
-	res.redirect("/enterprises/" + org.registry_code)
+	if (card)
+		cardAttrs = parseRegistryCardHtml(card.content)
+	else {
+		var cardHtml = await readRegistryCardHtmlFromBusinessRegister(registryCode)
+
+		if (cardHtml) {
+			cardAttrs = parseRegistryCardHtml(cardHtml)
+			createRegistryCard(cardAttrs, cardHtml)
+		}
+		else throw new HttpError(422, "Organization Not In Business Register", {
+			description: req.t(
+				"organizations_page.create_organization.not_in_registry"
+			)
+		})
+	}
+
+	_.assign(attrs, {
+		registry_code: cardAttrs.registryCode,
+		official_name: cardAttrs.name,
+		founded_on: cardAttrs.foundedOn,
+		board_members: cardAttrs.boardMembers.map((member) => member.name)
+	})
+
+	if ("name" in attrs) {
+		org = organizationsDb.create(_.assign(attrs, {created_at: new Date}))
+
+		var appUrl = Config.url
+		var orgUrl = appUrl + "/enterprises/" + org.registry_code
+		var signinUrl = appUrl + "/sessions/new"
+
+		var admins = accountsDb.search(sql`
+			SELECT * FROM accounts WHERE administrative
+		`)
+
+		await sendEmail({
+			to: admins.map((account) => account.email),
+
+			subject: I18n.t(DEFAULT_LANG, "organization_created_email.subject", {
+				organizationName: org.name
+			}),
+
+			text: I18n.t(DEFAULT_LANG, "organization_created_email.body", {
+				organizationName: org.name,
+				organizationUrl: orgUrl,
+				signinUrl
+			})
+		})
+
+		res.statusMessage = "Organization Created"
+		res.flash("notice", req.t("organization_create_page.created"))
+		res.redirect(303, req.baseUrl)
+	}
+	else {
+		res.statusMessage = "Organization Creatable"
+
+		res.render("organizations/update_page.jsx", {
+			new: true,
+
+			organization: _.defaults(attrs, {
+				taxes: [],
+				name: cardAttrs.name,
+				email: cardAttrs.email
+			}, DEFAULT_ORG)
+		})
+	}
 }))
 
 exports.router.use("/:registryCode", function(req, res, next) {
@@ -361,10 +445,9 @@ exports.router.put("/:registryCode", assertMember, function(req, res) {
 		})
 	})
 
-	res.statusCode = 302
 	res.statusMessage = "Organization Updated"
 	res.flash("notice", req.t("organization_update_page.updated"))
-	res.redirect(303, "/enterprises/" + org.registry_code)
+	res.redirect(303, req.baseUrl + "/" + org.registry_code)
 })
 
 exports.router.delete("/:registryCode", assertAdmin, function(req, res) {
@@ -379,10 +462,9 @@ exports.router.delete("/:registryCode", assertAdmin, function(req, res) {
 		organizationsDb.delete(org)
 	})
 
-	res.statusCode = 302
 	res.statusMessage = "Organization Deleted"
 	res.flash("notice", req.t("organization_update_page.deleted"))
-	res.redirect(303, "/enterprises")
+	res.redirect(303, req.baseUrl)
 })
 
 exports.router.get("/:registryCode/logo", function(req, res) {
@@ -479,7 +561,7 @@ exports.router.post("/:registryCode/members",
 		res.flash("notice", req.t("organization_members_page.created"))
 	}
 
-	res.redirect(303, "/enterprises/" + org.registry_code + "/members")
+	res.redirect(303, req.baseUrl + "/" + org.registry_code + "/members")
 }))
 
 exports.router.delete("/:registryCode/members/:memberId", assertAdmin,
@@ -494,7 +576,7 @@ exports.router.delete("/:registryCode/members/:memberId", assertAdmin,
 
 	res.statusMessage = "Member Deleted"
 	res.flash("notice", req.t("organization_members_page.removed"))
-	res.redirect(303, "/enterprises/" + org.registry_code + "/members")
+	res.redirect(303, req.baseUrl + "/" + org.registry_code + "/members")
 })
 
 function parseFilters(query) {
@@ -527,9 +609,10 @@ function parse(org, account, obj, files) {
 	if ("other_urls" in obj) attrs.other_urls =
 		obj.other_urls.split(/\n/g).map((url) => url.trim()).filter(Boolean)
 
-	if ("published" in obj) attrs.published_at = _.parseBoolean(obj.published)
-		? org && org.published_at || new Date
-		: null
+	if (account && account.administrative && "published" in obj)
+		attrs.published_at = _.parseBoolean(obj.published)
+			? org && org.published_at || new Date
+			: null
 
 	if ("short_descriptions" in obj) attrs.short_descriptions =
 		_.mapValues(obj.short_descriptions, (desc, lang) => (
@@ -552,20 +635,20 @@ function parse(org, account, obj, files) {
 		attrs.logo_type = files.logo.mimetype
 	}
 
-	if (account.administrative && "sev_member" in obj)
+	if (account && account.administrative && "sev_member" in obj)
 		attrs.sev_member = _.parseBoolean(obj.sev_member)
 
 	return attrs
 }
 
-async function readRegistryCardFromBusinessRegister(registryCode) {
-	var html
-
-	try {
-		html = await businessRegisterApi.readRegistryCardHtml(registryCode)
-		return [parseRegistryCardHtml(html), html]
+async function readRegistryCardHtmlFromBusinessRegister(registryCode) {
+	try { return await businessRegisterApi.readRegistryCardHtml(registryCode) }
+	catch (err) {
+		if (err instanceof FetchError && err.code >= 400 && err.code < 500)
+			return null
+		else
+			throw err
 	}
-	catch (err) { logger.error(html, err); return null }
 }
 
 function createRegistryCard(card, html) {

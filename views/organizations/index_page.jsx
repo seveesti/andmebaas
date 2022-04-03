@@ -71,44 +71,38 @@ function IndexPage(attrs) {
 				filters={filters}
 				order={order}
 			/>
+		</Section>
 
-			{account && account.administrative ? <Form
+		<Section id="new-organization-section">
+			<Form
 				id="new-organization-form"
-				class="page-form page-post-table-form"
+				class="page-form"
 				req={req}
 				method="post"
 				action={orgsPath}
 			>
-				<fieldset>
-					<label class="page-form-label">
-						{t("organizations_page.create_organization.name")}
-					</label>
-
-					<input
-						name="name"
-						required
-						placeholder={
-							t("organizations_page.create_organization.name_placeholder")
-						}
-					/>
-				</fieldset>
+				<h2 class="page-section-heading">
+					{t("organizations_page.create_organization.title")}
+				</h2>
 
 				<fieldset>
 					<label class="page-form-label">
 						{t("organizations_page.create_organization.registry_code")}
 					</label>
-					<input
 
+					<input
 						name="registry_code"
 						required
+						pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]"
+						inputmode="numeric"
 						placeholder={t("organizations_page.create_organization.registry_code_placeholder")}
 					/>
 				</fieldset>
 
-				<button type="submit" class="blue-button">
+				<button type="submit" class="white-button">
 					{t("organizations_page.create_organization.create")}
 				</button>
-			</Form> : null}
+			</Form>
 		</Section>
 	</Page>
 }

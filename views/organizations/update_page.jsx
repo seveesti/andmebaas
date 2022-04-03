@@ -28,12 +28,18 @@ module.exports = function(attrs) {
 	var {t} = req
 	var {account} = req
 	var org = attrs.organization
-	var orgPath = ROOT_PATH + req.baseUrl + "/" + org.registry_code
+	var orgsPath = ROOT_PATH + req.baseUrl
+	var orgPath = orgsPath + "/" + org.registry_code
+
+	var pageTitle = attrs.new
+		? t("organization_create_page.title", {name: org.name})
+		: t("organization_update_page.title", {name: org.name})
 
 	return <Page
-		page="update-organization"
+		page={attrs.new ? "create-organization" : "update-organization"}
+		class="update-organization-page"
 		req={attrs.req}
-		title={t("organization_update_page.title", {name: org.name})}
+		title={pageTitle}
 
 		nav={[
 			{name: t("admin_nav.organizations"), path: ROOT_PATH + "/enterprises"},
@@ -42,17 +48,15 @@ module.exports = function(attrs) {
 		]}
 
 		header={<Fragment>
-			<h1 class="page-heading">
-				{t("organization_update_page.title", {name: org.name})}
-			</h1>
+			<h1 class="page-heading">{pageTitle}</h1>
 		</Fragment>}
 	>
 		<FlashSection flash={req.flash} />
 
 		<Form
 			req={req}
-			method="put"
-			action={orgPath}
+			method={attrs.new ? "post" : "put"}
+			action={attrs.new ? orgsPath : orgPath}
 			enctype="multipart/form-data"
 		>
 			<header class="centered">
@@ -70,6 +74,7 @@ module.exports = function(attrs) {
 					", "
 				] : null}
 
+				<input type="hidden" name="registry_code" value={org.registry_code} />
 				<span class="registry-code">reg nr {org.registry_code}</span>
 			</header>
 
@@ -140,7 +145,7 @@ module.exports = function(attrs) {
 						<input name="email" type="email" value={org.email} />
 					</li>
 
-					<li class="field-row">
+					<li id="other-urls-row" class="field-row">
 						<label class="page-form-label">
 							{t("organization_update_page.social_media")}
 						</label>
@@ -246,7 +251,7 @@ module.exports = function(attrs) {
 						</Fragment>)}
 					</li>
 
-					{account.administrative ? <li class="field-row">
+					{account && account.administrative ? <li class="field-row">
 						<label class="page-form-label">
 							{t("organization_update_page.sev_membership")}
 						</label>
@@ -264,7 +269,7 @@ module.exports = function(attrs) {
 						</label>
 					</li> : null}
 
-					<li class="field-row">
+					{account && account.administrative ? <li class="field-row">
 						<label class="page-form-label">
 							{t("organization_update_page.access")}
 						</label>
@@ -280,7 +285,7 @@ module.exports = function(attrs) {
 
 							{t("organization_update_page.public")}
 						</label>
-					</li>
+					</li> : null}
 				</ul>
 			</Section>
 
@@ -378,13 +383,16 @@ module.exports = function(attrs) {
 			</Section> : null}
 
 			<Section id="submit-section">
-				<button type="submit" class="blue-button">
-					{t("organization_update_page.update")}
-				</button>
+				<button type="submit" class="blue-button">{attrs.new
+					? t("organization_create_page.create")
+					: t("organization_update_page.update")
+				}</button>
 			</Section>
 		</Form>
 
-		{account.administrative ? <Section id="delete-section">
+		{account && account.administrative && !attrs.new ? <Section
+			id="delete-section"
+		>
 			<span>{t("organization_update_page.delete?")}</span>
 
 			<FormButton

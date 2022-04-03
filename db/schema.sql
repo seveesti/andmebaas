@@ -71,8 +71,7 @@ CREATE TABLE organization_registry_cards (
 	content_type TEXT NOT NULL,
 
 	PRIMARY KEY (registry_code, issued_at),
-	FOREIGN KEY (registry_code) REFERENCES organizations (registry_code),
-
+	
 	CONSTRAINT issued_at_format CHECK (issued_at GLOB '*-*-*T*:*:*Z'),
 	CONSTRAINT created_at_format CHECK (created_at GLOB '*-*-*T*:*:*Z'),
 	CONSTRAINT content_length CHECK (length(content) > 0),
@@ -184,4 +183,5 @@ INSERT INTO migrations VALUES('20211010133770');
 INSERT INTO migrations VALUES('20211010133780');
 INSERT INTO migrations VALUES('20220202181447');
 INSERT INTO migrations VALUES('20220326120704');
+INSERT INTO migrations VALUES('20220403185330');
 COMMIT;
