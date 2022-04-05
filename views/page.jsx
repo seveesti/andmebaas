@@ -38,8 +38,8 @@ function Page(attrs, children) {
 	var {page} = attrs
 	var {nav} = attrs
 
-	var headerMenu = HEADER_MENUS[req.lang] || HEADER_MENUS[DEFAULT_LANG]
-	var footerMenu = FOOTER_MENUS[req.lang] || FOOTER_MENUS[DEFAULT_LANG]
+	var headerMenu = HEADER_MENUS[t.lang] || HEADER_MENUS[DEFAULT_LANG]
+	var footerMenu = FOOTER_MENUS[t.lang] || FOOTER_MENUS[DEFAULT_LANG]
 
 	return <html lang="en" class={attrs.class}>
 		<head>

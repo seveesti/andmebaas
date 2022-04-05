@@ -40,7 +40,7 @@
 			"object_id": "32",
 			"object": "custom",
 			"type": "custom",
-			"type_label": "Kasutaja viide",
+			"type_label": "Custom Link",
 			"title": "Andmebaas",
 			"url": "https://sev.ee/andmebaas",
 			"target": "",
@@ -52,38 +52,38 @@
 			"xfn": ""
 		},
 		{
-			"ID": 201,
+			"ID": 1018,
 			"post_author": "1",
-			"post_date": "2022-03-24 20:33:08",
-			"post_date_gmt": "2022-01-31 11:03:43",
-			"post_content": " ",
-			"post_title": "",
+			"post_date": "2022-01-31 13:50:08",
+			"post_date_gmt": "2022-01-31 10:50:08",
+			"post_content": "",
+			"post_title": "Services",
 			"post_excerpt": "",
 			"post_status": "publish",
 			"comment_status": "closed",
 			"ping_status": "closed",
 			"post_password": "",
-			"post_name": "201",
+			"post_name": "teenused",
 			"to_ping": "",
 			"pinged": "",
-			"post_modified": "2022-03-24 20:33:08",
-			"post_modified_gmt": "2022-03-24 17:33:08",
+			"post_modified": "2022-03-31 10:24:33",
+			"post_modified_gmt": "2022-03-31 07:24:33",
 			"post_content_filtered": "",
 			"post_parent": 0,
-			"guid": "http://sev.test/?p=201",
+			"guid": "https://sev.ee/teenused/",
 			"menu_order": 2,
-			"post_type": "nav_menu_item",
+			"post_type": "page",
 			"post_mime_type": "",
 			"comment_count": "0",
 			"filter": "raw",
 			"db_id": 201,
 			"menu_item_parent": "0",
-			"object_id": "195",
+			"object_id": "1018",
 			"object": "page",
 			"type": "post_type",
-			"type_label": "Leht",
+			"type_label": "Page",
 			"url": "https://sev.ee/teenused/",
-			"title": "Teenused",
+			"title": "Services",
 			"target": "",
 			"attr_title": "",
 			"description": "",
@@ -91,127 +91,152 @@
 				""
 			],
 			"xfn": "",
-			"slug": "teenused",
-			"child_items": [
-				{
-					"ID": 410,
-					"post_author": "2",
-					"post_date": "2022-03-24 20:33:08",
-					"post_date_gmt": "2022-02-19 09:15:35",
-					"post_content": " ",
-					"post_title": "",
-					"post_excerpt": "",
-					"post_status": "publish",
-					"comment_status": "closed",
-					"ping_status": "closed",
-					"post_password": "",
-					"post_name": "410",
-					"to_ping": "",
-					"pinged": "",
-					"post_modified": "2022-03-24 20:33:08",
-					"post_modified_gmt": "2022-03-24 17:33:08",
-					"post_content_filtered": "",
-					"post_parent": 195,
-					"guid": "https://sev.kanso.ee/?p=410",
-					"menu_order": 3,
-					"post_type": "nav_menu_item",
-					"post_mime_type": "",
-					"comment_count": "0",
-					"filter": "raw",
-					"db_id": 410,
-					"menu_item_parent": "201",
-					"object_id": "403",
-					"object": "page",
-					"type": "post_type",
-					"type_label": "Leht",
-					"url": "https://sev.ee/teenused/koolitused/",
-					"title": "Koolitused",
-					"target": "",
-					"attr_title": "",
-					"description": "",
-					"classes": [
-						""
-					],
-					"xfn": "",
-					"slug": "koolitused"
-				},
-				{
-					"ID": 213,
-					"post_author": "1",
-					"post_date": "2022-03-24 20:33:08",
-					"post_date_gmt": "2022-01-31 11:44:27",
-					"post_content": " ",
-					"post_title": "",
-					"post_excerpt": "",
-					"post_status": "publish",
-					"comment_status": "closed",
-					"ping_status": "closed",
-					"post_password": "",
-					"post_name": "213",
-					"to_ping": "",
-					"pinged": "",
-					"post_modified": "2022-03-24 20:33:08",
-					"post_modified_gmt": "2022-03-24 17:33:08",
-					"post_content_filtered": "",
-					"post_parent": 195,
-					"guid": "http://sev.test/?p=213",
-					"menu_order": 4,
-					"post_type": "nav_menu_item",
-					"post_mime_type": "",
-					"comment_count": "0",
-					"filter": "raw",
-					"db_id": 213,
-					"menu_item_parent": "201",
-					"object_id": "211",
-					"object": "page",
-					"type": "post_type",
-					"type_label": "Leht",
-					"url": "https://sev.ee/teenused/konsultatsioon/",
-					"title": "Konsultatsioon",
-					"target": "",
-					"attr_title": "",
-					"description": "",
-					"classes": [
-						""
-					],
-					"xfn": "",
-					"slug": "konsultatsioon"
-				}
-			]
+			"acf": {
+				"content_modules": [
+					{
+						"acf_fc_layout": "highlights_on_blue_background",
+						"highlights": [
+							{
+								"icon": "handshake",
+								"highlight": "10+",
+								"label": "aastat tegutsenud",
+								"context": ""
+							},
+							{
+								"icon": "people",
+								"highlight": "50+",
+								"label": "Maailmamuutvat liiget",
+								"context": ""
+							},
+							{
+								"icon": "round",
+								"highlight": "175+",
+								"label": "liiget kogukonnas",
+								"context": ""
+							}
+						]
+					},
+					{
+						"acf_fc_layout": "simple_content_block",
+						"id": "",
+						"section_title": "Aitame sul enda positiivset mõju suurendada",
+						"content": "<p>Olla sotsiaalne ettevõtja võib olla raske. Eriti Eestis &#8211; sektor on uus, vähesed teavad mis on sotsiaalne ettevõtlus ning inimesi, kellelt nõu küsida ja kes on sama asja läbi teinud, on veel kordades vähem. Lisaks raskusele ettevõtet alustada ja käimas hoida, on innovatiivselt tegutseva ettevõtte loomine veel kordades keerulisem.</p>\n<p>Sul on võimalus meie abiga saada nendest esimestest kitsaskohtadest üle. Kuigi sektor ja tegevus võivad olla uued, siis sellest hoolimata on sinu ümber inimesi, kes on sarnaseid situatsioone juba kogenud. Saad meilt ammutada teadmisi ja oskusi, mida aastate jooksul juba sajad on rakendanud. Konsultatsiooni või koolitusega on sul võimalus astuda samm-kaks edasi ka enda ettevõtluse teekonnal, loomaks suuremat mõju ühiskonnale ja keskkonnale meie ümber.</p>\n"
+					},
+					{
+						"acf_fc_layout": "content_cards_with_images",
+						"id": "",
+						"cards": [
+							{
+								"card_title": "Kuidas saame sind aidata?",
+								"image": {
+									"ID": 735,
+									"id": 735,
+									"title": "Sotsiaalne_ettevõtlikkus",
+									"filename": "Sotsiaalne_ettevotlikkus.jpeg",
+									"filesize": 156800,
+									"url": "https://sev.ee/wp-content/uploads/2022/03/Sotsiaalne_ettevotlikkus.jpeg",
+									"link": "https://sev.ee/en/teenused/sotsiaalne_ettevotlikkus/",
+									"alt": "",
+									"author": "3",
+									"description": "",
+									"caption": "",
+									"name": "sotsiaalne_ettevotlikkus",
+									"status": "inherit",
+									"uploaded_to": 195,
+									"date": "2022-03-04 09:57:26",
+									"modified": "2022-03-04 09:57:26",
+									"menu_order": 0,
+									"mime_type": "image/jpeg",
+									"type": "image",
+									"subtype": "jpeg",
+									"icon": "https://sev.ee/wp-includes/images/media/default.png",
+									"width": 1880,
+									"height": 1253,
+									"sizes": {
+										"thumbnail": "https://sev.ee/wp-content/uploads/2022/03/Sotsiaalne_ettevotlikkus-200x133.jpeg",
+										"thumbnail-width": 200,
+										"thumbnail-height": 133,
+										"medium": "https://sev.ee/wp-content/uploads/2022/03/Sotsiaalne_ettevotlikkus-1024x682.jpeg",
+										"medium-width": 1024,
+										"medium-height": 682,
+										"medium_large": "https://sev.ee/wp-content/uploads/2022/03/Sotsiaalne_ettevotlikkus-768x512.jpeg",
+										"medium_large-width": 768,
+										"medium_large-height": 512,
+										"large": "https://sev.ee/wp-content/uploads/2022/03/Sotsiaalne_ettevotlikkus.jpeg",
+										"large-width": 1880,
+										"large-height": 1253,
+										"1536x1536": "https://sev.ee/wp-content/uploads/2022/03/Sotsiaalne_ettevotlikkus-1536x1024.jpeg",
+										"1536x1536-width": 1536,
+										"1536x1536-height": 1024,
+										"2048x2048": "https://sev.ee/wp-content/uploads/2022/03/Sotsiaalne_ettevotlikkus.jpeg",
+										"2048x2048-width": 1880,
+										"2048x2048-height": 1253
+									}
+								},
+								"content": "<ul>\n<li><strong>Individuaalsus</strong> &#8211; kuna iga situatsioon on erinev, siis individuaalse konsultatsiooni abil võtame ette just sinu ettevõtte unikaalse olukorra ja lahendame sinu vajalikud kitsaskohtad.</li>\n<li><strong>Rahvusvaheline teadmus</strong> &#8211; kogud meilt teadmust ettevõtetest ja nende praktikatest nii Eestis, Baltikumis, Põhjamaades kui mujalt Euroopast. Sinu saadavad teadmised ja praktikad on omandatud nii Eesti kui välismaa parimaid praktikaid uurides ning katsetades.</li>\n<li><strong>Rakendatavus</strong> &#8211; oleme ka ise sotsiaalsed ettevõtjad, kelle ettevõtetel on olnud nii edukamaid kui vähem edukaid aegu. Jagame sinuga asju, mis aitab sul ka meie läbi tegemistest, eksimustest ja õnnestumistest õppida.</li>\n</ul>\n"
+							}
+						]
+					},
+					{
+						"acf_fc_layout": "two_column_content",
+						"id": "",
+						"section_title": "",
+						"column_one_label": "",
+						"column_two_label": "",
+						"column_one_title": "Koolitused",
+						"column_two_title": "Konsultatsioon",
+						"column_one_content": "<p>Soovid aidata enda ja enda tiimi arusaama uuele tasemele? Sisekoolitusega saame aidata sind just sulle vajamineval teemal.</p>\n",
+						"column_two_content": "<p>Soovid mingi teema osas üks-ühele tööd teha ja tulla kanda pitsitava väljakutsega toime? Konsultatsiooniga saad toime tulla just selle takistusega, mis enim tagasi hoiab.</p>\n",
+						"column_one_button": {
+							"title": "Loe rohkem",
+							"url": "https://sev.ee/teenused/koolitused/",
+							"target": ""
+						},
+						"column_two_button": {
+							"title": "Vaata lisaks",
+							"url": "https://sev.ee/teenused/konsultatsioon/",
+							"target": ""
+						}
+					}
+				],
+				"header_cta_button": "",
+				"hide_footer_cta_block": false
+			},
+			"slug": "teenused"
 		},
 		{
-			"ID": 172,
+			"ID": 938,
 			"post_author": "1",
-			"post_date": "2022-03-24 20:33:08",
-			"post_date_gmt": "2022-01-25 13:57:43",
-			"post_content": " ",
-			"post_title": "",
+			"post_date": "2022-01-25 16:57:17",
+			"post_date_gmt": "2022-01-25 13:57:17",
+			"post_content": "",
+			"post_title": "Useful materials",
 			"post_excerpt": "",
 			"post_status": "publish",
 			"comment_status": "closed",
 			"ping_status": "closed",
 			"post_password": "",
-			"post_name": "172",
+			"post_name": "kasulikku",
 			"to_ping": "",
 			"pinged": "",
-			"post_modified": "2022-03-24 20:33:08",
-			"post_modified_gmt": "2022-03-24 17:33:08",
+			"post_modified": "2022-03-31 09:52:10",
+			"post_modified_gmt": "2022-03-31 06:52:10",
 			"post_content_filtered": "",
 			"post_parent": 0,
-			"guid": "http://sev.test/?p=172",
+			"guid": "https://sev.ee/kasulikku/",
 			"menu_order": 5,
-			"post_type": "nav_menu_item",
+			"post_type": "page",
 			"post_mime_type": "",
 			"comment_count": "0",
 			"filter": "raw",
 			"db_id": 172,
 			"menu_item_parent": "0",
-			"object_id": "170",
+			"object_id": "938",
 			"object": "page",
 			"type": "post_type",
-			"type_label": "Leht",
+			"type_label": "Page",
 			"url": "https://sev.ee/kasulikku/",
-			"title": "Kasulikku",
+			"title": "Useful materials",
 			"target": "",
 			"attr_title": "",
 			"description": "",
@@ -219,169 +244,105 @@
 				""
 			],
 			"xfn": "",
-			"slug": "kasulikku",
-			"child_items": [
-				{
-					"ID": 422,
-					"post_author": "2",
-					"post_date": "2022-03-24 20:33:08",
-					"post_date_gmt": "2022-02-19 09:36:47",
-					"post_content": " ",
-					"post_title": "",
-					"post_excerpt": "",
-					"post_status": "publish",
-					"comment_status": "closed",
-					"ping_status": "closed",
-					"post_password": "",
-					"post_name": "422",
-					"to_ping": "",
-					"pinged": "",
-					"post_modified": "2022-03-24 20:33:08",
-					"post_modified_gmt": "2022-03-24 17:33:08",
-					"post_content_filtered": "",
-					"post_parent": 170,
-					"guid": "https://sev.kanso.ee/?p=422",
-					"menu_order": 6,
-					"post_type": "nav_menu_item",
-					"post_mime_type": "",
-					"comment_count": "0",
-					"filter": "raw",
-					"db_id": 422,
-					"menu_item_parent": "172",
-					"object_id": "418",
-					"object": "page",
-					"type": "post_type",
-					"type_label": "Leht",
-					"url": "https://sev.ee/kasulikku/tooriistad/",
-					"title": "Tööriistad",
-					"target": "",
-					"attr_title": "",
-					"description": "",
-					"classes": [
-						""
-					],
-					"xfn": "",
-					"slug": "tooriistad"
-				},
-				{
-					"ID": 413,
-					"post_author": "2",
-					"post_date": "2022-03-24 20:33:08",
-					"post_date_gmt": "2022-02-19 09:17:33",
-					"post_content": " ",
-					"post_title": "",
-					"post_excerpt": "",
-					"post_status": "publish",
-					"comment_status": "closed",
-					"ping_status": "closed",
-					"post_password": "",
-					"post_name": "413",
-					"to_ping": "",
-					"pinged": "",
-					"post_modified": "2022-03-24 20:33:08",
-					"post_modified_gmt": "2022-03-24 17:33:08",
-					"post_content_filtered": "",
-					"post_parent": 170,
-					"guid": "https://sev.kanso.ee/?p=413",
-					"menu_order": 7,
-					"post_type": "nav_menu_item",
-					"post_mime_type": "",
-					"comment_count": "0",
-					"filter": "raw",
-					"db_id": 413,
-					"menu_item_parent": "172",
-					"object_id": "411",
-					"object": "page",
-					"type": "post_type",
-					"type_label": "Leht",
-					"url": "https://sev.ee/kasulikku/sotsiaalne-ettevotlus/",
-					"title": "Sotsiaalne ettevõtlus",
-					"target": "",
-					"attr_title": "",
-					"description": "",
-					"classes": [
-						""
-					],
-					"xfn": "",
-					"slug": "sotsiaalne-ettevotlus"
-				}
-			]
+			"acf": {
+				"content_modules": [
+					{
+						"acf_fc_layout": "two_column_content",
+						"id": "",
+						"section_title": "",
+						"column_one_label": "",
+						"column_two_label": "",
+						"column_one_title": "As a social entrepreneur",
+						"column_two_title": "As a ecosystem organization",
+						"column_one_content": "<p>you can find all the information, materials and tools you need to start and grow your own social enterprise.</p>\n",
+						"column_two_content": "<p>you can read about how to help social enterprises succeed.</p>\n",
+						"column_one_button": "",
+						"column_two_button": ""
+					},
+					{
+						"acf_fc_layout": "cards_on_light_blue_background",
+						"id": "",
+						"section_title": "",
+						"section_intro": "",
+						"cards": [
+							{
+								"title": "Social entrepreneurship",
+								"title_logo": false,
+								"content": "Find out what social entrepreneurship is and how it differs from other forms of enterprise.",
+								"link": {
+									"title": "Read more",
+									"url": "https://sev.ee/kasulikku/sotsiaalne-ettevotlus/",
+									"target": ""
+								}
+							},
+							{
+								"title": "Database",
+								"title_logo": false,
+								"content": "Who are Estonian social enterprises, what are they about and how many people are involved? You can find all this out in the database on social enterprises.",
+								"link": {
+									"title": "Explore the database",
+									"url": "https://sev.ee/andmebaas",
+									"target": ""
+								}
+							},
+							{
+								"title": "Useful tools",
+								"title_logo": false,
+								"content": "You'll find valuable files, reviews and recommendations for your own social enterprise.",
+								"link": {
+									"title": "Look materials",
+									"url": "https://sev.ee/kasulikku/tooriistad/",
+									"target": ""
+								}
+							}
+						]
+					},
+					{
+						"acf_fc_layout": "highlighted_content",
+						"show_custom_highlighted_content": false,
+						"custom_highlighted_content_section_title": "",
+						"custom_highlighted_content_section_info_link": "",
+						"custom_highlighted_content": ""
+					}
+				],
+				"header_cta_button": "",
+				"hide_footer_cta_block": false
+			},
+			"slug": "kasulikku"
 		},
 		{
-			"ID": 108,
+			"ID": 1014,
 			"post_author": "1",
-			"post_date": "2022-03-24 20:33:08",
-			"post_date_gmt": "2022-01-23 10:34:58",
-			"post_content": " ",
-			"post_title": "",
+			"post_date": "2022-01-25 14:07:43",
+			"post_date_gmt": "2022-01-25 11:07:43",
+			"post_content": "",
+			"post_title": "About us",
 			"post_excerpt": "",
 			"post_status": "publish",
 			"comment_status": "closed",
 			"ping_status": "closed",
 			"post_password": "",
-			"post_name": "108",
+			"post_name": "meist",
 			"to_ping": "",
 			"pinged": "",
-			"post_modified": "2022-03-24 20:33:08",
-			"post_modified_gmt": "2022-03-24 17:33:08",
+			"post_modified": "2022-03-31 11:10:22",
+			"post_modified_gmt": "2022-03-31 08:10:22",
 			"post_content_filtered": "",
 			"post_parent": 0,
-			"guid": "http://sev.test/?p=108",
-			"menu_order": 8,
-			"post_type": "nav_menu_item",
-			"post_mime_type": "",
-			"comment_count": "0",
-			"filter": "raw",
-			"db_id": 108,
-			"menu_item_parent": "0",
-			"object_id": "106",
-			"object": "page",
-			"type": "post_type",
-			"type_label": "Leht",
-			"url": "https://sev.ee/blogi/",
-			"title": "Blogi",
-			"target": "",
-			"attr_title": "",
-			"description": "",
-			"classes": [
-				""
-			],
-			"xfn": "",
-			"slug": "blogi"
-		},
-		{
-			"ID": 166,
-			"post_author": "1",
-			"post_date": "2022-03-24 20:33:08",
-			"post_date_gmt": "2022-01-25 13:50:45",
-			"post_content": " ",
-			"post_title": "",
-			"post_excerpt": "",
-			"post_status": "publish",
-			"comment_status": "closed",
-			"ping_status": "closed",
-			"post_password": "",
-			"post_name": "166",
-			"to_ping": "",
-			"pinged": "",
-			"post_modified": "2022-03-24 20:33:08",
-			"post_modified_gmt": "2022-03-24 17:33:08",
-			"post_content_filtered": "",
-			"post_parent": 0,
-			"guid": "http://sev.test/?p=166",
+			"guid": "https://sev.ee/meist/",
 			"menu_order": 9,
-			"post_type": "nav_menu_item",
+			"post_type": "page",
 			"post_mime_type": "",
 			"comment_count": "0",
 			"filter": "raw",
 			"db_id": 166,
 			"menu_item_parent": "0",
-			"object_id": "121",
+			"object_id": "1014",
 			"object": "page",
 			"type": "post_type",
-			"type_label": "Leht",
+			"type_label": "Page",
 			"url": "https://sev.ee/meist/",
-			"title": "Meist",
+			"title": "About us",
 			"target": "",
 			"attr_title": "",
 			"description": "",
@@ -389,41 +350,296 @@
 				""
 			],
 			"xfn": "",
+			"acf": {
+				"content_modules": [
+					{
+						"acf_fc_layout": "highlights_on_blue_background",
+						"highlights": [
+							{
+								"icon": "leaf",
+								"highlight": "Jätkusuutlikkus",
+								"label": "",
+								"context": "Valime pikaajalisi lahendusi lühiajaliste tulemuste asemel. Tegutseme strateegiliselt ning süsteemselt, et tagada pikaajaline toimimine nii SEVs kui ka sotsiaalse ettevõtluse valdkonnas. Töötame selle nimel, et sotsiaalse ettevõtluse jaoks oleks Eestis jätkusuutlik ja arengut toetav tegutsemiskeskkond."
+							},
+							{
+								"icon": "lightbulb",
+								"highlight": "Innovaatilisus",
+								"label": "",
+								"context": "Kohandume ühiskonna muutuste ja vajadustega. Vaatame tulevikku, rakendame ja loome uusi lahendusi ning toetame ja arendame innovatiivset mõtteviisi ja tegutsemist."
+							},
+							{
+								"icon": "transparency",
+								"highlight": "Läbipaistvus",
+								"label": "",
+								"context": "Oleme ausad ja avatud nii oma suhtlemises kui tegutsemises."
+							}
+						]
+					},
+					{
+						"acf_fc_layout": "two_column_content",
+						"id": "",
+						"section_title": "",
+						"column_one_label": "Meie missioon",
+						"column_two_label": "Meie visioon",
+						"column_one_title": "Aitame areneda ettevõtlusel, mis loob positiivset mõju ühiskonnas.",
+						"column_two_title": "Loome Eestit, kus sotsiaalne ettevõtlus on normaalsus, mitte nišš.",
+						"column_one_content": "",
+						"column_two_content": "",
+						"column_one_button": "",
+						"column_two_button": ""
+					},
+					{
+						"acf_fc_layout": "simple_content_block",
+						"id": "meie",
+						"section_title": "Kes me oleme ja millega tegeleme?",
+						"content": "<p>Loome ja arendame Eesti sotsiaalse ettevõtluse ökosüsteemi. Selle jaoks korraldame Impact Day festivali, koolitame, osaleme erinevates komisjonides ning otsime konstantselt erinevaid viise kuidas aidata sotsiaalse ettevõtluse sektoril kasvada.</p>\n"
+					},
+					{
+						"acf_fc_layout": "cards_with_icons_on_blue_background",
+						"id": "",
+						"section_title": "",
+						"cards": [
+							{
+								"icon": "stationery",
+								"content": "Arendame sotsiaalse ettevõtluse tegevuskeskkonda, et Eesti oleks suurepärane koht sotsiaalse ettevõtlusega tegelemiseks.",
+								"link": ""
+							},
+							{
+								"icon": "heart",
+								"content": "Suurendame teadlikkust sotsiaalsest ettevõtlusest ja selles valdkonnas tegutsemise võimalustest.",
+								"link": {
+									"title": "",
+									"url": "https://sev.ee/blogi/",
+									"target": ""
+								}
+							},
+							{
+								"icon": "people-alt",
+								"content": "Nõustame ja koolitame tegutsevaid sotsiaalseid ettevõtteid ja alustada soovivaid ettevõtlikke inimesi.",
+								"link": {
+									"title": "",
+									"url": "https://sev.ee/teenused/",
+									"target": ""
+								}
+							},
+							{
+								"icon": "checked",
+								"content": "Viime ellu ja oleme partnerid üle-eestilistes ja rahvusvahelistes projektides arendamaks ökosüsteemi kus tegutseme.",
+								"link": ""
+							}
+						]
+					},
+					{
+						"acf_fc_layout": "accordion",
+						"id": "",
+						"section_title": "",
+						"accordion_item": [
+							{
+								"accordion_row_title": "Käimasolevad projektid",
+								"accordion_row_content": "<ul>\n<li><strong>Sotsiaalse innovatsiooni kompetentsikeskuse (SIKK) loomine</strong> &#8211; Eesti loob sotsiaalse innovatsiooni kompetentsikeskuse (SIKK), millel on valdkonda koordineeriv ja toetav roll. Kompetenetsikeskus kujuneb võrgustikupõhisena ja toob kokku osapooled – poliitikakujundajad, eksperdid ja praktikud, et koos kujundada Eesti sotsiaalse innovatsiooni (SI) ökosüsteemi raamistik ning toetada SI arengut Eestis.<br />\nProjekti käigus kaardistatakse Eesti SI hetkeolukord ning luuakse kompetentsikeskuse kontseptsioon ja tegevusplaan, et see oleks jätkusuutlik ka pärast projekti 24 kuud. Lisaks valdkonna edendamisele Eestis, on eesmärk ka toetada rahvuvahelise võrgustiku arengut ja tihedat koostööd erinevate riikide kompetentsikeskuste vahel.</li>\n<li><strong>Ühiskondlikult vastustundlike ettevõtete rahastusvõimaluste arendamine Eestis (SoFiMa) &#8211; </strong>Projekti põhieesmärk on jõuda laiapõhjalise koostööni erinevate sektorite ja osapoolte vahel arendamaks sotsiaalse ettevõtluse hetkeolukorda Eestis. Projekt kaasab oma tegevustesse eraettevõtteid, mittetulundusühinguid, teadlasi, investoreid, pankade esindajaid kui ka kohaliku- ja riigitasandi poliitikakujundajaid. Projekti lõpptulemiks on nende osapoolte vahelise vastastikuse mõistmise memorandumi allkirjastamine Eesti turu vajadustele vastava uue sotsiaalse finantsinstrumendi loomiseks<br />\nProjektil on kolm peamist tegevussuunda: uuringud ja analüüs; võimekuse loomine; teadmiste vahetamine ning suhete loomine.</li>\n<li><strong>Põhja- ja Baltimaade koostöö roheliste ja kaasavate ühiskondade nimel &#8211; </strong>Projekt pakub parimate tavade kogemuste vahetamist Eesti, Läti ja Leedu sotsiaalse ettevõtluse ühingute ja liikmesorganisatsioonide vahel, kes korraldavad vabaühenduste ja sotsiaalsete ettevõtete suutlikkuse suurendamise tegevust keskkonnamõjule, kliimamuutustele ja ringmajandusele. Selle projektiga töötatakse välja raamistik ja tööriistad liikmete vahelise koostöö ja ühisloome edendamiseks, mis toob kaasa pikaajalise partnerluse ja terviklikumad lahendused kliimamuutuste ja muude keskkonnaprobleemide lahendamiseks.</li>\n</ul>\n"
+							}
+						]
+					},
+					{
+						"acf_fc_layout": "two_column_content",
+						"id": "",
+						"section_title": "Kogukond ja liikmed",
+						"column_one_label": "",
+						"column_two_label": "",
+						"column_one_title": "",
+						"column_two_title": "",
+						"column_one_content": "<p>SEV kaasab kõiki Eesti sotsiaalseid ettevõtteid. Kogukonda kuuluvad sotsiaalse ettevõtluse ökosüsteemi eestvedajad, tegutsejad ja huvilised.</p>\n",
+						"column_two_content": "<p>SEVi kuuluvad ka ametlikud liikmed. Ametlikud liikmed saavad soodsamalt kontsultatsioone ja on kaasatud SEVi iga-aastastele üldkoosolekutele, kus saab panustada SEVi arengusse. Liikmed tasuvad iga-aastast liikmemaksu.</p>\n",
+						"column_one_button": {
+							"title": "Liitu kogukonnaga",
+							"url": "https://sev.ee/liitu-kogukonnaga/",
+							"target": "_blank"
+						},
+						"column_two_button": {
+							"title": "Tutvu liikmetega andmebaasis",
+							"url": "https://sev.ee/andmebaas/",
+							"target": "_blank"
+						}
+					},
+					{
+						"acf_fc_layout": "people_list",
+						"id": "",
+						"section_title": "Tiim",
+						"people": [
+							{
+								"ID": 961,
+								"post_author": "1",
+								"post_date": "2022-01-25 15:57:39",
+								"post_date_gmt": "2022-01-25 12:57:39",
+								"post_content": "",
+								"post_title": "Merili Ginter",
+								"post_excerpt": "",
+								"post_status": "publish",
+								"comment_status": "closed",
+								"ping_status": "closed",
+								"post_password": "",
+								"post_name": "merili-ginter",
+								"to_ping": "",
+								"pinged": "",
+								"post_modified": "2022-03-31 09:29:42",
+								"post_modified_gmt": "2022-03-31 06:29:42",
+								"post_content_filtered": "",
+								"post_parent": 0,
+								"guid": "https://sev.ee/inimene/merili-ginter/",
+								"menu_order": 0,
+								"post_type": "person",
+								"post_mime_type": "",
+								"comment_count": "0",
+								"filter": "raw"
+							},
+							{
+								"ID": 986,
+								"post_author": "1",
+								"post_date": "2022-01-25 15:56:38",
+								"post_date_gmt": "2022-01-25 12:56:38",
+								"post_content": "",
+								"post_title": "Kätlyn Jürisaar",
+								"post_excerpt": "",
+								"post_status": "publish",
+								"comment_status": "closed",
+								"ping_status": "closed",
+								"post_password": "",
+								"post_name": "katlyn-jurisaar",
+								"to_ping": "",
+								"pinged": "",
+								"post_modified": "2022-03-31 09:31:38",
+								"post_modified_gmt": "2022-03-31 06:31:38",
+								"post_content_filtered": "",
+								"post_parent": 0,
+								"guid": "https://sev.ee/inimene/katlyn-jurisaar/",
+								"menu_order": 0,
+								"post_type": "person",
+								"post_mime_type": "",
+								"comment_count": "0",
+								"filter": "raw"
+							},
+							{
+								"ID": 987,
+								"post_author": "1",
+								"post_date": "2022-01-25 15:57:14",
+								"post_date_gmt": "2022-01-25 12:57:14",
+								"post_content": "",
+								"post_title": "Erkki Kubber",
+								"post_excerpt": "",
+								"post_status": "publish",
+								"comment_status": "closed",
+								"ping_status": "closed",
+								"post_password": "",
+								"post_name": "erkki-kubber",
+								"to_ping": "",
+								"pinged": "",
+								"post_modified": "2022-03-31 09:33:05",
+								"post_modified_gmt": "2022-03-31 06:33:05",
+								"post_content_filtered": "",
+								"post_parent": 0,
+								"guid": "https://sev.ee/inimene/erkki-kubber/",
+								"menu_order": 0,
+								"post_type": "person",
+								"post_mime_type": "",
+								"comment_count": "0",
+								"filter": "raw"
+							}
+						]
+					},
+					{
+						"acf_fc_layout": "accordion",
+						"id": "",
+						"section_title": "Lõppenud projektid",
+						"accordion_item": [
+							{
+								"accordion_row_title": "2016-2021",
+								"accordion_row_content": "<ul>\n<li><strong>Teenusedisain koosloomes &#8211; </strong>toetas Kodanikuühiskonna Sihtkapital. Kodanikuühiskonna Sihtkapitali toetusel ja Rasmus Pedaniku eestvedamisel arendame SEVis välja teenusedisaini koosloometeenuse. Maakeeles: aitame klientidel arendada uusi (eelkõige sotsiaal)teenuseid ja muuta paremaks olemasolevaid. Eesmärk oli ka disainida kliendi jaoks arendatavale teenusele toimiv ärimudel. Kestvus: september 2016 –  detsember 2017.</li>\n<li><strong><strong>Praktiline koosloome arenguprogramm &#8211; </strong></strong>Arenguprogramm on ülesehituselt väga praktiline, selle jooksul disainitakse koosloome meetodil kuus uut sotsiaalteenust. Koosloome ja teenusedisain on kontseptsioonid, mida üha rohkem rakendatakse uuenduslike (avalike) teenuste planeerimisel ja pakkumisel, et paremini vastata ühiskonna ootustele sotsiaalsete probleemide ennetamisel, leevendamisel ja lahendamisel. Kestvus: 1.01.2016 kuni 31.12.2016.</li>\n<li><strong>SEVi juhtimis- ja kommunikatsioonitaristu uuendamine vajadustele vastavaks &#8211; </strong>Tänu sellele arendusprojektile saime võimaluse uuendada nii sotsiaalse ettevõtluse valdkondlikku arengukava kui ka meie enda strateegiat organisatsioonina. Sealjuures korrastasime SEVi andmehaldus- ja kommunikatsioonikanaleid ning muutsime organisatsiooni rahvusvaheliselt nähtavamaks. Kestvus: 01.10.2016 – 31.05.2017.</li>\n<li><strong>Noorte sotsiaalse ettevõtluse arendamine Läänemerepiirkonnas &#8211; </strong>Rahastaja: EUSBSR – Seed Money Facility. Projekt annab nn seemneraha, et koos rahvusvaheliste partneritega ette valmistada lahendus koos rahastusvõimalusega 15-25-aastaste noorte (st eelkõige õpilaste ja tudengite) seas sotsiaalse ettevõtlikkuse ja ettevõtluse toetamiseks. Kestvus: veebruar 2016 – aprill 2017.</li>\n<li><strong>Tunne oma mõju &#8211; </strong>Rahastaja: Euroopa Liidu programm Erasmus+ („KA 2: innovatsiooni- ja heade praktikate vahetamise koostöö“). Projekti eesmärgiks oli noorte sotsiaalsete ettevõtjate võimekuse tõstmine ühiskondliku mõju eesmärgistamise ja kaardistamise osas. Olulisim silmast-silma tegevus oli mõju hindamise treeninglaager Türgis augustis 2016, millele järgnes pooleaastane mentorlus koos vahesündmustega. Eestist osalesid programmis 13 noort sotsiaalset ettevõtjat. Kestvus: 01.08.2015 – 30.09.2017</li>\n<li><strong>Sotsiaalne ettevõtlus kestliku tuleviku heaks &#8211; </strong>rahastas Põhjamaade Ministrite Nõukogu. Eesti, Läti ja Taani vahetavad uurisid Euroopa riikide kogemusi sotsiaalse ettevõtluse (turundus)märgiste ja juriidilise regulatsiooni loomisel. Teiseks õnnestus viia grupi Eesti ja Läti riigiametnikke tutvuma Taani sotsiaalse ettevõtluse seadusandluse kogemusega. Kolmandaks sidusime projekti tulemused ja kontaktid ära SEVi igapäevase huvikaitsetööga. Kestvus: 01.08.2016 – 01.02.2017.</li>\n<li><strong>SEVi teenused selgepiirilisteks, nähtavateks ja atraktiivseteks &#8211; </strong>Selles projektis keskendusime organisatsiooni kompetentside ja oskusteabe paketeerimisel teenusteks ning digiturunduse arendamisele. Projekti raames loodi SEVle uus visuaalne identiteet ja tänapäevane kodulehekülg. Kestvus: 01.04.2018 – 30.04.2019</li>\n<li><strong>Vabaühendused julgelt turundama &#8211; </strong>projekti üldeesmärk: suurendada vabaühenduste ja sotsiaalsete ettevõtete finantsilist elujõulisust, toetades nende turundusvõimekuse kasvamist ja seekaudu müügitulu suurenemist eraisikutest (sh turistid) ja äriettevõtetest klientide suunal. Projekti rahastas Kodanikuühiskonna Sihtkapital SA. Projekti kestvus:  1. august 2017  –  31. august 2018.</li>\n<li><strong>Community Learning for Local Change</strong> &#8211; Projekti käigus töötavad koos ülikoolid Eestist, Hollandist, Saksamaalt ja Rumeeniast ning kohalikud partnerid, et võimestada nii kohalikke kogukondi kui ka ülikooliõpilasi oskusega aidata kogukondi.</li>\n</ul>\n"
+							},
+							{
+								"accordion_row_title": "2014-2016",
+								"accordion_row_content": "<ul>\n<li><strong>SEVi hüpe maakondadesse &#8211; </strong>rahastas Kodanikuühiskonna Sihtkapital vabaühenduste arenguhüppe toetamise taotlusvooru raames. Projekti jooksul otsis SEV 9 maakonnast kohalikke sotsiaalseid ettevõtteid ja koostööpartnereid. Kestvus: 1.04.2014 – 31.03.2015.</li>\n<li><strong>Sotsiaalvaldkonnas avalikke teenuseid osutavate vabaühenduste võimekuse tõstmine vabatahtlike kaasamise kaudu &#8211; </strong>rahastas Siseministeerium ja Kodanikuühiskonna Sihtkapital. Programmi eesmärk oli, et osalenud ühendused on võimekad erinevate vabatahtlike kaasamisel ja juhtimisel, teenuse koosloomes, kommunikatsioonis ning koostöö tegemisel äriorganisatsioonidega. Kestvus: 01.06.2014 kuni 30.11.2015.</li>\n<li><strong>Action Learning pilootprojekt &#8211; </strong>Siseministeeriumi ja Kodanikuühiskonna Sihtkapitali rahastatud pilootprojekti lõppeesmärk oli juurutada võimalikult paljudes vabaühendustes tõenduspõhine ja kuluefektiivne inimeste arendamise, keeruliste probleemide lahendamise ja muudatuste elluviimise metoodika. Projekti kestvus 03.07.2014 kuni 31.01.2016.</li>\n<li><strong>Ühiskondliku mõju kaardistamise veebilahenduse loomine &#8211; </strong>projekt oli suunatud Eesti avalikes huvides tegutsevatele vabaühendustele, mida rahastas Siseministeerium ja Kodanikuühiskonna Sihtkapital. Vastav metoodika oli edasiarendus sotsiaalsete ettevõtete tulemuste ja mõju raportitest. Kestvus: 1.01.2015 kuni 30.11.2015.</li>\n<li><strong>Sotsiaalse ettevõtluse arendamine Läänemere regioonis &#8211; </strong>Rahastaja: Erasmus+ (“Social entrepreneurship development in Baltic Sea region”). Projekti abil vahetame kogemusi ja leiame koostööpunkte naaberriikide sarnaste sihtidega meeskondadega. Senised väljundid: ülevaade sotsiaalsete ettevõtete toetajatest Lääneremere regioonis (sh eestikeelne ülevaade “Haridusalane toetus sotsiaalsetele ettevõtetele“), video-õppematerjal sotsiaalse ettevõtluse ärimudelitest (koos kahe põneva Eesti näitega), kompaktne Sotsiaalse-ettevõtte-ühiskondliku-mõju-kaardistamise-käsiraamat_2015 (1), lätlaste koostatud ärimudelite õppe-materjal ja poolakate koostatud sotsiaalsete iduettevõtete teemalised “Soovitused kohalikele omavalitsustele” (sh eestikeelne lühikokkuvõte). Kestvus: sügis 2014 kuni suvi 2016.</li>\n<li><strong>Arenguprogramm „Kuidas rohkem müüa? &#8211; </strong>rahastas EMP toetuste Vabaühenduste Fond Avatud Eesti Fondi vahendusel. Projekti eesmärgiks oli tõsta 4 väiketootmisega tegeleva sotsiaalse ettevõtte müügisuutlikkust ja seeläbi suurendada nende positiivset mõju ühiskonnas. Lisaks oli plaanis testida arenguprogrammi, mida Sotsiaalsete Ettevõtete Võrgustik saab tulevikus kasutada oma liikmete arendamiseks ja omatulu teenimiseks. Kestvus: 1.04.2015 kuni 1.01.2016.</li>\n<li><strong>Sotsiaalse ettevõtluse arenguprogramm &#8211; </strong>rahastas Sotsiaalministeerium läbi Hasartmängumaksu Nõukogu. Eesmärgiks 10 maakonnas Sotsiaalministeeriumi strateegilistes valdkondades 10 uue sotsiaalse ettevõtte loomine, mis aitavad kaasa sotsiaalsete probleemide lahendamisele ja tööhõive suurendamisele. Kestvus: 01.01.2015 kuni 31.12.2015.</li>\n<li><strong>Avalikke teenuseid osutavate vabaühenduste huvikaitse koostöövõrgustik &#8211; </strong>huvikaitse mudeli / mõttekoja käivitamine, mida rahastab Siseministeerium ja Kodanikuühiskonna Sihtkapital. Projekti tulemuseks on aktiivselt käivitatud huvikaitse mudel / mõttekoda, mille eesmärgiks on toetada avalikke teenuseid pakkuvate vabaühenduste huvikaitset ja teenuste pakkujate võimekuse tõusu. Samuti arendame valdkondade sisest koostööd ning tõstame sealjuures teenuste sisulist kvaliteeti. Kestvus: 1.09.2015-31.05.2016 ja 01.08-12.12.2016.</li>\n</ul>\n"
+							},
+							{
+								"accordion_row_title": "2011-2014",
+								"accordion_row_content": "<ul>\n<li><strong>Sotsiaalse ettevõtluse eestkostevõrgustiku loomine &#8211; </strong>loodi alus Sotsiaalsete Ettevõtete Võrgustikule Eestis. Projekti rahastas Kodanikuühiskonna Sihtkapital. Kestvus: September 2011 – aprill 2012.</li>\n<li><strong>Sotsiaalse ettevõtluse arenguhüpe Eestis &#8211; </strong>eesmärgiks oli anda sotsiaalse ettevõtluse arendamisele senisest suurem hoog. Projekti rahastas regionaalministri valitsemisala ja Kodanikuühiskonna Sihtkapital. Kestvus: Augustist 2012 –  mai 2013.</li>\n<li><strong>Sotsiaalse ettevõtluse venekeelne infovärav</strong> &#8211; peamine eesmärk oli pakkuda sotsiaalse ettevõtluse huvilistele valdkonda ja osalusvõimalusi puudutavat informatsiooni veebilehel www.sev.ee ka vene keeles. Projekti toetas Kultuuriministeerium integratsioonivaldkonna meediaprogrammist. Kestvus: oktoober 2013 – jaanuar 2014.</li>\n<li><strong>Sotsiaalse ettevõtluse sektori statistika &#8211; </strong>eesmärk oli luua lahendus Eesti sotsiaalse ettevõtluse sektori statistiliste andmete kogumiseks. Projekti rahastas Euroopa Komisjon. Kestvus: 3.05.2013 – 2.06.2014.</li>\n<li><strong>Regional networking on social entrepreneurship development &#8211; </strong>toimus koos Soome ja Läti partneritega, seda rahastas Põhjamaade Ministrite Nõukogu Põhja- ja Baltimaade mittetulundusühenduste programmist. Projekti peamine eesmärk oli vahetada kogemusi ja teha sisulist koostööd märgise loomisel sotsiaalsete ettevõtete eristamiseks ühiskonnas. Kestvus: september 2013 – juuni 2014.</li>\n<li><strong>Sotsiaalse ettevõtluse valdkondliku eestkoste arenguhüpe</strong> &#8211; rahastas EMP toetuste Vabaühenduste Fond Avatud Eesti Fondi vahendusel. Kestvus: 1.09.2013 – 31.10.2014.</li>\n</ul>\n"
+							}
+						]
+					},
+					{
+						"acf_fc_layout": "links_list",
+						"id": "",
+						"remove_section_top_spacing": false,
+						"section_title": "SEV kuulub katusorganisatsioonina järgmistesse ühendustesse",
+						"links": [
+							{
+								"link": {
+									"title": "Vabaühenduste Liit",
+									"url": "https://heakodanik.ee/emsli-tutvustus/",
+									"target": "_blank"
+								}
+							},
+							{
+								"link": {
+									"title": "BoP Global Network",
+									"url": "https://www.bopglobalnetwork.org/",
+									"target": "_blank"
+								}
+							},
+							{
+								"link": {
+									"title": "Euclid koostöövõrgustik",
+									"url": "https://euclidnetwork.eu/",
+									"target": "_blank"
+								}
+							},
+							{
+								"link": {
+									"title": "Eesti Väike- ja Keskmiste Ettevõtete Assotsiatsioon",
+									"url": "https://evea.ee/",
+									"target": "_blank"
+								}
+							}
+						]
+					}
+				],
+				"header_cta_button": "",
+				"hide_footer_cta_block": false
+			},
 			"slug": "meist"
 		},
 		{
-			"ID": 222,
+			"ID": 954,
 			"post_author": "1",
-			"post_date": "2022-03-24 20:33:08",
-			"post_date_gmt": "2022-02-01 11:14:02",
-			"post_content": " ",
-			"post_title": "",
+			"post_date": "2022-02-01 13:22:56",
+			"post_date_gmt": "2022-02-01 10:22:56",
+			"post_content": "",
+			"post_title": "Contact",
 			"post_excerpt": "",
 			"post_status": "publish",
 			"comment_status": "closed",
 			"ping_status": "closed",
 			"post_password": "",
-			"post_name": "222",
+			"post_name": "kontakt",
 			"to_ping": "",
 			"pinged": "",
-			"post_modified": "2022-03-24 20:33:08",
-			"post_modified_gmt": "2022-03-24 17:33:08",
+			"post_modified": "2022-03-31 10:23:39",
+			"post_modified_gmt": "2022-03-31 07:23:39",
 			"post_content_filtered": "",
 			"post_parent": 0,
-			"guid": "http://sev.test/?p=222",
+			"guid": "https://sev.ee/kontakt/",
 			"menu_order": 10,
-			"post_type": "nav_menu_item",
+			"post_type": "page",
 			"post_mime_type": "",
 			"comment_count": "0",
 			"filter": "raw",
 			"db_id": 222,
 			"menu_item_parent": "0",
-			"object_id": "216",
+			"object_id": "954",
 			"object": "page",
 			"type": "post_type",
-			"type_label": "Leht",
+			"type_label": "Page",
 			"url": "https://sev.ee/kontakt/",
-			"title": "Kontakt",
+			"title": "Contact",
 			"target": "",
 			"attr_title": "",
 			"description": "",
@@ -431,6 +647,104 @@
 				""
 			],
 			"xfn": "",
+			"acf": {
+				"location_on_map": {
+					"address": "Vintage Beauty OÜ, Telliskivi, Tallinn, Eesti",
+					"lat": 59.43982370000001,
+					"lng": 24.7296785,
+					"zoom": 19,
+					"place_id": "ChIJS4pp8H2TkkYRVYtzDVhBnfU",
+					"name": "Vintage Beauty OÜ",
+					"street_number": "60a",
+					"street_name": "Telliskivi",
+					"city": "Tallinn",
+					"state": "Harju maakond",
+					"post_code": "10412",
+					"country": "Eesti",
+					"country_short": "EE"
+				},
+				"team_section_title": "Our team",
+				"team": [
+					{
+						"ID": 961,
+						"post_author": "1",
+						"post_date": "2022-01-25 15:57:39",
+						"post_date_gmt": "2022-01-25 12:57:39",
+						"post_content": "",
+						"post_title": "Merili Ginter",
+						"post_excerpt": "",
+						"post_status": "publish",
+						"comment_status": "closed",
+						"ping_status": "closed",
+						"post_password": "",
+						"post_name": "merili-ginter",
+						"to_ping": "",
+						"pinged": "",
+						"post_modified": "2022-03-31 09:29:42",
+						"post_modified_gmt": "2022-03-31 06:29:42",
+						"post_content_filtered": "",
+						"post_parent": 0,
+						"guid": "https://sev.ee/inimene/merili-ginter/",
+						"menu_order": 0,
+						"post_type": "person",
+						"post_mime_type": "",
+						"comment_count": "0",
+						"filter": "raw"
+					},
+					{
+						"ID": 986,
+						"post_author": "1",
+						"post_date": "2022-01-25 15:56:38",
+						"post_date_gmt": "2022-01-25 12:56:38",
+						"post_content": "",
+						"post_title": "Kätlyn Jürisaar",
+						"post_excerpt": "",
+						"post_status": "publish",
+						"comment_status": "closed",
+						"ping_status": "closed",
+						"post_password": "",
+						"post_name": "katlyn-jurisaar",
+						"to_ping": "",
+						"pinged": "",
+						"post_modified": "2022-03-31 09:31:38",
+						"post_modified_gmt": "2022-03-31 06:31:38",
+						"post_content_filtered": "",
+						"post_parent": 0,
+						"guid": "https://sev.ee/inimene/katlyn-jurisaar/",
+						"menu_order": 0,
+						"post_type": "person",
+						"post_mime_type": "",
+						"comment_count": "0",
+						"filter": "raw"
+					},
+					{
+						"ID": 987,
+						"post_author": "1",
+						"post_date": "2022-01-25 15:57:14",
+						"post_date_gmt": "2022-01-25 12:57:14",
+						"post_content": "",
+						"post_title": "Erkki Kubber",
+						"post_excerpt": "",
+						"post_status": "publish",
+						"comment_status": "closed",
+						"ping_status": "closed",
+						"post_password": "",
+						"post_name": "erkki-kubber",
+						"to_ping": "",
+						"pinged": "",
+						"post_modified": "2022-03-31 09:33:05",
+						"post_modified_gmt": "2022-03-31 06:33:05",
+						"post_content_filtered": "",
+						"post_parent": 0,
+						"guid": "https://sev.ee/inimene/erkki-kubber/",
+						"menu_order": 0,
+						"post_type": "person",
+						"post_mime_type": "",
+						"comment_count": "0",
+						"filter": "raw"
+					}
+				]
+			},
 			"slug": "kontakt"
 		}
 	]
