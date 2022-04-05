@@ -485,15 +485,15 @@ function Filters(attrs) {
 			</details>
 
 			<div class="filter" id="sev-member-filter">
-				<label class="sev-checkbox">
-					<input
-						type="checkbox"
-						name="sev-member"
-						value="on"
-						checked={filters.sevMember}
-					/>
+				<input
+					type="checkbox"
+					id="sev-member-filter-toggle"
+					name="sev-member"
+					value="on"
+					checked={filters.sevMember}
+				/>
 
-					<img src={`${ROOT_PATH}/assets/sev-icon.svg`} alt="" />
+				<label class="sev-checkbox" for="sev-member-filter-toggle">
 					SEV liige
 				</label>
 			</div>
