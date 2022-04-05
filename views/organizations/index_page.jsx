@@ -91,6 +91,7 @@ function IndexPage(attrs) {
 					</label>
 
 					<input
+						class="page-form-input"
 						name="registry_code"
 						required
 						pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]"

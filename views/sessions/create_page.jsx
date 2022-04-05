@@ -40,6 +40,7 @@ module.exports = function(attrs) {
 				<input
 					name="email"
 					type="email"
+					class="page-form-input"
 					autocomplete="username"
 					value={email}
 					required
@@ -52,6 +53,7 @@ module.exports = function(attrs) {
 				<input
 					name="password"
 					type="password"
+					class="page-form-input"
 					autocomplete="current-password"
 					value={password}
 					required

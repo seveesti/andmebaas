@@ -93,7 +93,8 @@ module.exports = function(attrs) {
 					<label class="page-form-label">
 						{t("organization_members_page.form.name")}
 					</label>
-					<input name="name" />
+
+					<input name="name" class="page-form-input" />
 				</fieldset>
 
 				<fieldset>
@@ -101,7 +102,7 @@ module.exports = function(attrs) {
 						{t("organization_members_page.form.email")}
 					</label>
 
-					<input name="email" type="email" />
+					<input name="email" type="email" class="page-form-input" />
 				</fieldset>
 
 				<fieldset>

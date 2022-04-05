@@ -91,7 +91,7 @@ module.exports = function(attrs) {
 						<th>{t("accounts_page.form.name")}</th>
 					</label>
 
-					<input name="name" />
+					<input name="name" class="page-form-input" />
 				</fieldset>
 
 				<fieldset>
@@ -99,7 +99,7 @@ module.exports = function(attrs) {
 						<th>{t("accounts_page.form.email")}</th>
 					</label>
 
-					<input name="email" type="email" required />
+					<input name="email" type="email" class="page-form-input" required />
 				</fieldset>
 
 				<fieldset>

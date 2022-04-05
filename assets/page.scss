@@ -14,6 +14,7 @@ $table-header-background: $nav-background;
 $table-separator: $nav-background;
 $subtitle-grey: #878787;
 $sort-button-padding: 2rem;
+$button-border-radius: 0.5rem;
 
 html,
 body {
@@ -169,8 +170,31 @@ strong { font-weight: bold; }
 	margin-bottom: 0.5rem;
 
 	& ~ .page-form-label,
-	& ~ .page-form-submit { margin-top: 1.5rem; }
+	& ~ .page-form-submit { margin-top: 1.5rem; 
+		vertical-align: top;
+	}
 }
+
+.page-form-input {
+	font-size: 1.6rem;
+	color: black;
+	line-height: 2.1rem;
+	padding: 0.6rem 1rem;
+	border: .1rem solid #ddd;
+	border-radius: $button-border-radius;
+
+	&:focus {
+		border-color: $sev-blue;
+		outline-color: $sev-blue;
+		outline-width: 0.1rem;
+	}
+}
+
+textarea.page-form-input {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+
 
 .page-post-table-form {
 	background-color: $table-header-background;
@@ -191,10 +215,11 @@ strong { font-weight: bold; }
 
 %button {
 	display: inline-block;
-	padding: 0.9rem 1.5rem;
-	border: none;
-	border-radius: 0.8rem;
-	line-height: 1.2;
+	padding: 0.8rem 1.5rem;
+	border-width: .1rem;
+	border-style: solid;
+	border-radius: $button-border-radius;
+	line-height: 1.7rem;
 	font-weight: 600;
 	text-transform: uppercase;
 	font-size: 1.3rem;
@@ -210,7 +235,7 @@ strong { font-weight: bold; }
 	@extend %button;
 
 	color: $sev-blue;
-	border: 1px solid $sev-blue;
+	border-color: $sev-blue;
 
 	&:focus { outline: 1px dashed $sev-blue; }
 }
@@ -218,6 +243,7 @@ strong { font-weight: bold; }
 .blue-button {
 	@extend %button;
 
+	border-color: $sev-blue;
 	background: $sev-blue;
 	color: white;
 
@@ -228,7 +254,7 @@ strong { font-weight: bold; }
 	@extend %button;
 
 	color: white;
-	border: 1px solid white;
+	border-color: white;
 
 	&:focus { outline: 1px dashed white; }
 }
@@ -237,6 +263,7 @@ strong { font-weight: bold; }
 	@extend %button;
 
 	background: $red;
+	border-color: $red;
 	color: white;
 
 	&:focus { outline: 1px dashed $red; }
@@ -314,7 +341,9 @@ strong { font-weight: bold; }
 
 	input {
 		margin-right: 0.8rem;
-		vertical-align: sub;
+		width: 1.6rem;
+		height: 1.6rem;
+		vertical-align: text-bottom;
 	}
 }
 
@@ -669,6 +698,12 @@ main {
 				min-width: 16rem;
 				border-top-left-radius: 0;
 			}
+
+			input[type=checkbox] {
+				height: 1.4rem;
+				width: 1.4rem;
+				vertical-align: middle;
+			}
 		}
 
 		.submit-button {
@@ -702,12 +737,6 @@ main {
 				margin-right: 0.8rem;
 				position: relative;
 				top: -1px;
-			}
-
-			input {
-				height: 1.4rem;
-				width: 1.4rem;
-				vertical-align: middle;
 			}
 		}
 
@@ -890,15 +919,22 @@ main {
 
 		fieldset {
 			display: inline-block;
+			vertical-align: bottom;
 			margin-right: 2rem;
 			margin-bottom: 1rem;
 		}
 
-		input {
-			color: black;
+		.page-form-label { color: white; }
+
+		.page-form-input {
+			border-color: white;
+			outline-offset: 0.2rem;
+			-moz-outline-radius: 0.7rem;
+
+			&:focus { outline: 1px dashed white; }
 		}
 
-		.page-form-label { color: white; }
+		button { vertical-align: bottom; margin-bottom: 1rem; }
 	}
 }
 
@@ -1114,7 +1150,7 @@ main {
 		}
 
 		h1 input {
-			padding: 0.8rem 0.8rem;
+			padding: 0.8rem 2rem;
 			width: 100%;
 
 			font-weight: 600;
@@ -1240,9 +1276,7 @@ main {
 			display: inline-block;
 			margin-left: 1rem;
 
-			button {
-				padding: 0.7rem 1rem;
-			}
+			button { padding: 0.7rem 1rem; }
 		}
 	}
 }

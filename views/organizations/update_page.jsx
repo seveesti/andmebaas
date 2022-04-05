@@ -65,6 +65,7 @@ module.exports = function(attrs) {
 						name="name"
 						value={org.name}
 						required
+						class="page-form-input"
 						placeholder={t("organization_update_page.name_placeholder")}
 					/>
 				</h1>
@@ -91,7 +92,10 @@ module.exports = function(attrs) {
 							{t("organization_update_page.description_translation_empty")}
 						</p> : null}
 
-						<textarea name={`short_descriptions[${lang}]`}>
+						<textarea
+							name={`short_descriptions[${lang}]`}
+							class="page-form-input"
+						>
 							{org.short_descriptions[lang]}
 						</textarea>
 					</li>)}
@@ -107,7 +111,10 @@ module.exports = function(attrs) {
 							{t("organization_update_page.description_translation_empty")}
 						</p> : null}
 
-						<textarea name={`long_descriptions[${lang}]`}>
+						<textarea
+							name={`long_descriptions[${lang}]`}
+							class="page-form-input"
+						>
 							{org.long_descriptions[lang]}
 						</textarea>
 					</li>)}
@@ -134,7 +141,12 @@ module.exports = function(attrs) {
 							{t("organization_update_page.url")}
 						</label>
 
-						<input name="url" type="url" value={org.url} />
+						<input
+							name="url"
+							type="url"
+							value={org.url}
+							class="page-form-input"
+						/>
 					</li>
 
 					<li class="field-row">
@@ -142,7 +154,12 @@ module.exports = function(attrs) {
 							{t("organization_update_page.email")}
 						</label>
 
-						<input name="email" type="email" value={org.email} />
+						<input
+							name="email"
+							type="email"
+							value={org.email}
+							class="page-form-input"
+						/>
 					</li>
 
 					<li id="other-urls-row" class="field-row">
@@ -153,6 +170,7 @@ module.exports = function(attrs) {
 						<textarea
 							name="other_urls"
 							placeholder={OTHER_URLS_PLACEHOLDER}
+							class="page-form-input"
 						>{org.other_urls.join("\n")}</textarea>
 					</li>
 
@@ -323,6 +341,7 @@ module.exports = function(attrs) {
 								<input
 									type="number"
 									name={`taxes[${periodName}][revenue]`}
+									class="page-form-input"
 									step="0.01"
 									value={period.revenue}
 									required
@@ -337,6 +356,7 @@ module.exports = function(attrs) {
 								<input
 									type="number"
 									name={`taxes[${period.year}Q${period.quarter}][taxes]`}
+									class="page-form-input"
 									min="0"
 									step="0.01"
 									value={period.taxes}
@@ -352,6 +372,7 @@ module.exports = function(attrs) {
 								<input
 									type="number"
 									name={`taxes[${period.year}Q${period.quarter}][employee_count]`}
+									class="page-form-input"
 									min="0"
 									step="1"
 									value={period.employee_count}
@@ -367,6 +388,7 @@ module.exports = function(attrs) {
 								<input
 									type="number"
 									name={`taxes[${period.year}Q${period.quarter}][employment_taxes]`}
+									class="page-form-input"
 									step="0.01"
 									min="0"
 									value={period.employment_taxes}
