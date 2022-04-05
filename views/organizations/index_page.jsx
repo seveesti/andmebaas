@@ -533,7 +533,8 @@ function Filters(attrs) {
 					var hasFilters = (
 						query.get("employee-count") ||
 						query.get("business-model[]") ||
-						query.get("sdg[]")
+						query.get("sdg[]") ||
+						query.get("sev-member")
 					)
 
 					var res = fetch(url, {
