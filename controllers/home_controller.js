@@ -10,7 +10,9 @@ exports.router.put("/language", function(req, res) {
 	var lang = req.body.language
 
 	if (LANGS.includes(lang)) res.cookie(LANG_COOKIE, lang, {
-		httpOnly: true,
+		// WordPress seems to set its cookie with JavaScript and can't overwrite
+		// HTTP-only cookies.
+		httpOnly: false,
 		secure: req.secure,
 		maxAge: 365 * 86400 * 1000
 	})
