@@ -7,7 +7,7 @@
 		"facebook_url": "https://www.facebook.com/SotsiaalseteEttev6teteV6rgustik",
 		"footer_cta_button": {
 			"title": "Join the community",
-			"url": "https://sev.ee/en/liitu-kogukonnaga/",
+			"url": "https://sev.ee/en/social-entrepreneurship-community/",
 			"target": ""
 		},
 		"footer_cta_intro": "We bring together all social enterprises in Estonia, as well as those involved and interested in social entrepreneurship.",
@@ -16,21 +16,21 @@
 			{
 				"link": {
 					"title": "Join the community",
-					"url": "https://sev.ee/en/liitu-kogukonnaga/",
+					"url": "https://sev.ee/en/social-entrepreneurship-community/",
 					"target": ""
 				}
 			},
 			{
 				"link": {
 					"title": "Services",
-					"url": "https://sev.ee/en/teenused/",
+					"url": "https://sev.ee/en/services/",
 					"target": ""
 				}
 			},
 			{
 				"link": {
 					"title": "Contact",
-					"url": "https://sev.ee/en/kontakt/",
+					"url": "https://sev.ee/en/contact/",
 					"target": ""
 				}
 			}
