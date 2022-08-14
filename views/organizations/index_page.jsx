@@ -103,6 +103,8 @@ function IndexPage(attrs) {
 				<button type="submit" class="white-button">
 					{t("organizations_page.create_organization.create")}
 				</button>
+
+				<p>{Jsx.html(t("organizations_page.create_organization.footer"))}</p>
 			</Form>
 		</Section>
 	</Page>

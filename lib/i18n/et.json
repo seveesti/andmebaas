@@ -122,6 +122,7 @@
 	"organizations_page.create_new_link": "Lisa uus",
 	"organizations_page.create_organization.already_exists": "Sellise registrikoodiga ettevõte on juba andmebaasis.\nKui oled ettevõtte esindaja ja soovid selle andmeid muuta, palun võta meiega ühendust.",
 	"organizations_page.create_organization.create": "Lisa uus ettevõte",
+	"organizations_page.create_organization.footer": "Soovid enda andmeid muuta? Saada soovitud muudatused <a href=\"mailto:info@sev.ee\">info@sev.ee</a>.",
 	"organizations_page.create_organization.name": "Nimi",
 	"organizations_page.create_organization.not_in_registry": "Kahjuks ei leidnud sellise registrikoodiga ettevõtet Äriregistrist.\nKui arvad, et tegemist on meiepoolse veaga, palun anna sellest teada!",
 	"organizations_page.create_organization.registry_code": "Registrikood",
