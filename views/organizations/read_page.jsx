@@ -15,8 +15,7 @@ var {isAdminOrMember} = require("root/controllers/organizations_controller")
 var {ROOT_PATH} = Page
 var BUSINESS_MODELS = require("root/lib/business_models")
 var EMTAK = require("root/lib/emtak")
-var REGIONS = require("root/lib/regions")
-var COUNTIES = require("root/lib/estonian_counties")
+var {COUNTIES} = require("root/lib/regions")
 
 module.exports = function(attrs) {
 	var {req} = attrs
@@ -121,7 +120,11 @@ module.exports = function(attrs) {
 
 					<ul>{Array.from(org.regions, function(id) {
 						if (id in COUNTIES && org.regions.has("estonia")) return null
-						return <li>{REGIONS[id]}</li>
+
+						return <li>{id in COUNTIES
+							? COUNTIES[id] + "maa"
+							: t("organization_page.regions." + id)
+						}</li>
 					})}</ul>
 				</li> : null}
 

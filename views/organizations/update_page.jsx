@@ -10,7 +10,8 @@ var {FormButton} = Page
 var {SdgImage} = Page
 var {confirm} = require("root/lib/jsx")
 var SUSTAINABILITY_GOALS = require("root/lib/sustainability_goals")
-var COUNTIES = require("root/lib/estonian_counties")
+var {COUNTRIES} = require("root/lib/regions")
+var {COUNTIES} = require("root/lib/regions")
 var BUSINESS_MODELS = require("root/lib/business_models")
 var LANGS = require("root/config").languages
 var DEFAULT_LANG = LANGS[0]
@@ -200,27 +201,18 @@ module.exports = function(attrs) {
 						<input type="hidden" name="regions[]" value="off" />
 
 						<h3>Riigid</h3>
-						<label class="sev-checkbox">
-							<input
-								type="checkbox"
-								name="regions[]"
-								value="global"
-								checked={org.regions.has("global")}
-							/>
-								{t("organization_update_page.regions.global")}
-							</label>
-						<br />
 
-						<label class="sev-checkbox">
-							<input
-								type="checkbox"
-								name="regions[]"
-								value="estonia"
-								checked={org.regions.has("estonia")}
-							/>
-								{t("organization_update_page.regions.estonia")}
+						{_.intersperse(COUNTRIES.map(function(region) {
+							return <label class="sev-checkbox">
+								<input
+									type="checkbox"
+									name="regions[]"
+									value={region}
+									checked={org.regions.has(region)}
+								/>
+									{t("organization_page.regions." + region)}
 							</label>
-						<br />
+						}), <br />)}
 
 						<h3>{t("organization_update_page.regions.estonian_counties")}</h3>
 
