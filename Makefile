@@ -1,7 +1,7 @@
 ENV = development
 NODE = node
 NODE_OPTS = --use-strict --require j6pack/register
-NPM_REBUILD = npm --ignore-scripts false rebuild --build-from-source
+NPM = npm
 MOCHA = ./node_modules/.bin/_mocha
 JQ_OPTS = --tab
 TEST = $$(find test -name "*_test.js")
@@ -54,10 +54,11 @@ autospec:
 	@$(NODE) $(NODE_OPTS) $(MOCHA) -R spec --watch $(TEST)
 
 shrinkwrap:
-	npm shrinkwrap --dev
+	$(NPM) shrinkwrap --dev
 
 rebuild:
-	$(NPM_REBUILD) better-sqlite3
+	cd node_modules/better-sqlite3 && \
+	$(NPM) --ignore-scripts false run build-release
 
 config/%.sqlite3:
 	sqlite3 "$@" < db/schema.sql
