@@ -169,7 +169,12 @@ module.exports = function(attrs) {
 
 		{org.board_members.length > 0 ? <Section id="board-members">
 			<h2>{t("organization_page.board_members")}</h2>
-			<ul>{org.board_members.map((name) => <li>{name}</li>)}</ul>
+			<ul>{org.board_members.map(function(member) {
+				// Older, non-updated organization still have only names as members.
+				var name = _.isObject(member) ? member.name : member
+				var role = _.isObject(member) ? member.role : null
+				return <li data-role={role}>{name}</li>
+			})}</ul>
 		</Section> : null}
 
 		{org.taxes.length > 0 ? <Section id="taxes">

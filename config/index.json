@@ -6,6 +6,8 @@
 	"csrfCookieName": "db_csrf_token",
 	"languageCookieName": "wp-wpml_current_language",
 	"languages": ["et", "en"],
+	"estonianBusinessRegisterUser": null,
+	"estonianBusinessRegisterPassword": null,
 
 	"email": {
 		"from": "SEV <andmebaas@sev.ee>",

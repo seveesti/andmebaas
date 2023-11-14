@@ -1,5 +1,7 @@
 var _ = require("root/lib/underscore")
 var I18n = require("root/lib/i18n")
+var DateFns = require("date-fns")
+var RegisterXml = require("root/lib/estonian_business_register_xml")
 var ValidOrganization = require("root/test/valid_organization")
 var parseHtml = require("root/test/html").parse
 var parseCsv = require("csv-parse/lib/sync")
@@ -9,7 +11,6 @@ var registryCardsDb = require("root/db/organization_registry_cards_db")
 var updatesDb = require("root/db/organization_updates_db")
 var taxesDb = require("root/db/organization_taxes_db")
 var sql = require("sqlate")
-var wrapRegistryCardHtml = require("../lib/registry_card").wrapBoilerplate
 var LANGS = require("root/config").languages
 var DEFAULT_LANG = LANGS[0]
 var t = I18n.t.bind(null, DEFAULT_LANG)
@@ -246,179 +247,214 @@ describe("OrganizationsController", function() {
 		require("root/test/time")()
 		beforeEach(require("root/test/mitm").router)
 
-		it("must render form and not create organization given only registry code", async function() {
-			respondWithOrganizationFromBusinessRegister(
-				this.router,
-				"31337123",
-				"Example MTÜ"
-			)
+		describe("given only registry code", function() {
+			it("must render form and not create organization", async function() {
+				respondWithRegistryCard(
+					this.router,
+					"31337123",
+					"Example MTÜ"
+				)
 
-			var res = await this.request("/enterprises", {
-				method: "POST",
-				form: {registry_code: "31337123"}
+				var res = await this.request("/enterprises", {
+					method: "POST",
+					form: {registry_code: "31337123"}
+				})
+
+				res.statusCode.must.equal(200)
+				res.statusMessage.must.equal("Organization Creatable")
+				res.headers["content-type"].must.equal("text/html; charset=utf-8")
+
+				organizationsDb.search(sql`SELECT * FROM organizations`).must.be.empty()
+
+				var registryCards = registryCardsDb.search(sql`
+					SELECT * FROM organization_registry_cards
+				`)
+
+				registryCards.must.eql([{
+					registry_code: "31337123",
+					created_at: new Date,
+					issued_at: new Date,
+					content: registryCards[0].content,
+					content_type: "application/xml"
+				}])
+
+				RegisterXml.parse(registryCards[0].content).must.eql(_.assign(
+					RegisterXml.parse(serializeRegistryCardXml("31337123", "Example MTÜ")),
+					{encoding: "UTF-8", version: "1.0"}
+				))
 			})
 
-			res.statusCode.must.equal(200)
-			res.statusMessage.must.equal("Organization Creatable")
-			res.headers["content-type"].must.equal("text/html; charset=utf-8")
+			it("must reuse fetched registry card", async function() {
+				registryCardsDb.create({
+					registry_code: "31337123",
+					created_at: new Date,
+					issued_at: DateFns.addSeconds(DateFns.addDays(new Date, -7), 1),
+					content: serializeRegistryCardXml("31337123", "Example MTÜ"),
+					content_type: "application/xml"
+				})
 
-			organizationsDb.search(sql`SELECT * FROM organizations`).must.be.empty()
+				var res = await this.request("/enterprises", {
+					method: "POST",
+					form: {registry_code: "31337123"}
+				})
+
+				res.statusCode.must.equal(200)
+				res.statusMessage.must.equal("Organization Creatable")
+				res.headers["content-type"].must.equal("text/html; charset=utf-8")
+				res.body.must.include("Example MTÜ")
+
+				organizationsDb.search(sql`SELECT * FROM organizations`).must.be.empty()
+			})
+
+			it("must not reuse fetched registry card older than a week", async function() {
+				respondWithRegistryCard(
+					this.router,
+					"31337123",
+					"New Example MTÜ"
+				)
+
+				registryCardsDb.create({
+					registry_code: "31337123",
+					created_at: new Date,
+					issued_at: DateFns.addDays(new Date, -7),
+					content: serializeRegistryCardXml("31337123", "Old Example MTÜ"),
+					content_type: "application/xml"
+				})
+
+				var res = await this.request("/enterprises", {
+					method: "POST",
+					form: {registry_code: "31337123"}
+				})
+
+				res.statusCode.must.equal(200)
+				res.statusMessage.must.equal("Organization Creatable")
+				res.headers["content-type"].must.equal("text/html; charset=utf-8")
+				res.body.must.include("New Example MTÜ")
+
+				organizationsDb.search(sql`SELECT * FROM organizations`).must.be.empty()
+			})
+
+			it("must err if registry responds with no registry card",
+				async function() {
+				respondWithNoRegistryCards(this.router)
+
+				var res = await this.request("/enterprises", {
+					method: "POST",
+					form: {registry_code: "31337123"}
+				})
+
+				res.statusCode.must.equal(422)
+
+				res.statusMessage.must.equal(
+					"Organization Not In Business Register"
+				)
+
+				organizationsDb.search(sql`SELECT * FROM organizations`).must.be.empty()
+			})
+
+			it("must redirect if organization already exists and published",
+				async function() {
+				var org = organizationsDb.create({
+					registry_code: "31337123",
+					name: "Example OÜ",
+					published_at: new Date
+				})
+
+				var res = await this.request("/enterprises", {
+					method: "POST",
+					form: {registry_code: "31337123"}
+				})
+
+				res.statusCode.must.equal(302)
+				res.statusMessage.must.equal("Organization Already Exists")
+				res.headers.location.must.equal("/enterprises/" + org.registry_code)
+			})
+
+			it("must err if organization already exists and not published",
+				async function() {
+				organizationsDb.create({registry_code: "31337123", name: "Example OÜ"})
+
+				var res = await this.request("/enterprises", {
+					method: "POST",
+					form: {registry_code: "31337123"}
+				})
+
+				res.statusCode.must.equal(422)
+				res.statusMessage.must.equal("Organization Already Exists")
+			})
 		})
 
-		it("must reuse fetched registry card", async function() {
-			registryCardsDb.create({
-				registry_code: "31337123",
-				created_at: new Date,
-				issued_at: new Date,
-				content: newRegistryCardHtml("31337123", "Example MTÜ"),
-				content_type: "text/html"
-			})
+		describe("given all attributes", function() {
+			it("must create organization", async function() {
+				registryCardsDb.create({
+					registry_code: "31337123",
+					created_at: new Date,
+					issued_at: new Date,
+					content: serializeRegistryCardXml("31337123", "Example MTÜ"),
+					content_type: "application/xml"
+				})
 
-			var res = await this.request("/enterprises", {
-				method: "POST",
-				form: {registry_code: "31337123"}
-			})
+				var res = await this.request("/enterprises", {
+					method: "POST",
+					form: {
+						registry_code: "31337123",
+						name: "Example Now OÜ",
+						url: "http://example.com",
+						email: "now@example.com",
+						"short_descriptions[et]": "Hea firma!",
+						"short_descriptions[en]": "Good company.",
+						"long_descriptions[et]": "Tõesti hea firma!",
+						"long_descriptions[en]": "Really good company.",
+						"business_models[]": "b2c",
+						"regions[0]": "harju",
+						"regions[1]": "tartu",
+						"sustainability_goals[0]": "4",
+						"sustainability_goals[1]": "8",
+						"sustainability_goals[2]": "culture",
 
-			res.statusCode.must.equal(200)
-			res.statusMessage.must.equal("Organization Creatable")
-			res.headers["content-type"].must.equal("text/html; charset=utf-8")
+						other_urls: outdent`
+							http://facebook.com/example
+							http://twitter.com/example
+							http://linkedin.com/example
+						`
+					}
+				})
 
-			organizationsDb.search(sql`SELECT * FROM organizations`).must.be.empty()
-		})
+				res.statusCode.must.equal(303)
+				res.statusMessage.must.equal("Organization Created")
+				res.headers.location.must.equal("/enterprises")
 
-		it("must create organization", async function() {
-			registryCardsDb.create({
-				registry_code: "31337123",
-				created_at: new Date,
-				issued_at: new Date,
-				content: newRegistryCardHtml("31337123", "Example MTÜ"),
-				content_type: "text/html"
-			})
-
-			var res = await this.request("/enterprises", {
-				method: "POST",
-				form: {
+				organizationsDb.read(sql`
+					SELECT * FROM organizations
+				`).must.eql(new ValidOrganization({
 					registry_code: "31337123",
 					name: "Example Now OÜ",
+					official_name: "Example MTÜ",
+					founded_on: new Date(2015, 5, 18),
+
+					short_descriptions: {
+						et: "Hea firma!",
+						en: "Good company."
+					},
+
+					long_descriptions: {
+						et: "Tõesti hea firma!",
+						en: "Really good company."
+					},
+
 					url: "http://example.com",
 					email: "now@example.com",
-					"short_descriptions[et]": "Hea firma!",
-					"short_descriptions[en]": "Good company.",
-					"long_descriptions[et]": "Tõesti hea firma!",
-					"long_descriptions[en]": "Really good company.",
-					"business_models[]": "b2c",
-					"regions[0]": "harju",
-					"regions[1]": "tartu",
-					"sustainability_goals[0]": "4",
-					"sustainability_goals[1]": "8",
-					"sustainability_goals[2]": "culture",
+					business_models: new Set(["b2c"]),
+					regions: new Set(["harju", "tartu"]),
+					sustainability_goals: new Set(["4", "8", "culture"]),
 
-					other_urls: outdent`
-						http://facebook.com/example
-						http://twitter.com/example
-						http://linkedin.com/example
-					`
-				}
+					other_urls: [
+						"http://facebook.com/example",
+						"http://twitter.com/example",
+						"http://linkedin.com/example"
+					]
+				}))
 			})
-
-			res.statusCode.must.equal(303)
-			res.statusMessage.must.equal("Organization Created")
-			res.headers.location.must.equal("/enterprises")
-
-			organizationsDb.read(sql`
-				SELECT * FROM organizations
-			`).must.eql(new ValidOrganization({
-				registry_code: "31337123",
-				name: "Example Now OÜ",
-				official_name: "Example MTÜ",
-
-				short_descriptions: {
-					et: "Hea firma!",
-					en: "Good company."
-				},
-
-				long_descriptions: {
-					et: "Tõesti hea firma!",
-					en: "Really good company."
-				},
-
-				url: "http://example.com",
-				email: "now@example.com",
-				business_models: new Set(["b2c"]),
-				regions: new Set(["harju", "tartu"]),
-				sustainability_goals: new Set(["4", "8", "culture"]),
-
-				other_urls: [
-					"http://facebook.com/example",
-					"http://twitter.com/example",
-					"http://linkedin.com/example"
-				]
-			}))
-		})
-
-		it("must redirect if organization already exists and published",
-			async function() {
-			var org = organizationsDb.create({
-				registry_code: "31337123",
-				name: "Example OÜ",
-				published_at: new Date
-			})
-
-			var res = await this.request("/enterprises", {
-				method: "POST",
-				form: {registry_code: "31337123"}
-			})
-
-			res.statusCode.must.equal(302)
-			res.statusMessage.must.equal("Organization Already Exists")
-			res.headers.location.must.equal("/enterprises/" + org.registry_code)
-		})
-
-		it("must err if organization already exists and not published",
-			async function() {
-			organizationsDb.create({registry_code: "31337123", name: "Example OÜ"})
-
-			var res = await this.request("/enterprises", {
-				method: "POST",
-				form: {registry_code: "31337123"}
-			})
-
-			res.statusCode.must.equal(422)
-			res.statusMessage.must.equal("Organization Already Exists")
-		})
-
-		it("must err if registry responds with 303", async function() {
-			respondWith303FromBusinessRegister(this.router, "31337123")
-
-			var res = await this.request("/enterprises", {
-				method: "POST",
-				form: {registry_code: "31337123"}
-			})
-
-			res.statusCode.must.equal(422)
-
-			res.statusMessage.must.equal(
-				"Organization Not In Business Register"
-			)
-
-			organizationsDb.search(sql`SELECT * FROM organizations`).must.be.empty()
-		})
-
-		it("must err if registry responds with 404", async function() {
-			respondWith404FromBusinessRegister(this.router, "31337123")
-
-			var res = await this.request("/enterprises", {
-				method: "POST",
-				form: {registry_code: "31337123"}
-			})
-
-			res.statusCode.must.equal(422)
-
-			res.statusMessage.must.equal(
-				"Organization Not In Business Register"
-			)
-
-			organizationsDb.search(sql`SELECT * FROM organizations`).must.be.empty()
 		})
 	})
 
@@ -648,67 +684,52 @@ describe("OrganizationsController", function() {
 	})
 })
 
-function newRegistryCardHtml(registryCode, name) {
-	return wrapRegistryCardHtml(outdent`
-		<div>Mittetulundusühingute ja sihtasutuste registri kehtivate andmete väljatrükk seisuga  08.11.2021 kell 13:09</div>
+function respondWithRegistryCard(router, registryCode, name) {
+	router.post("/", (req, res) => {
+		req.headers.host.must.equal("ariregxmlv6.rik.ee")
+		req.headers["content-type"].must.equal("text/xml")
+		req.headers.accept.must.equal("text/xml")
 
-		<TABLE>
-			<TR><TD colspan='2'>&nbsp;</TD></TR>
+		res.setHeader("Content-Type", "text/xml")
 
-			<TR><TD colspan="2"><span>${name} (registrikood ${registryCode}) kohta on avatud Tartu Maakohtu registriosakonna mittetulundusühingu registrikaart&nbsp;nr&nbsp;1:</span></TD></TR>
-
-			<TR><TD colspan='2'>&nbsp;</TD></TR><TR><TD colspan="2"><span>Nimi ja aadress</span></TD></TR>
-
-			<TR>
-				<TD><span>1. kanne:</span></TD>
-				<TD><span>Nimi on ${name}</span></TD>
-			</TR>
-		</TABLE>
-	`)
-}
-
-function respondWithOrganizationFromBusinessRegister(
-	router,
-	registryCode,
-	name
-) {
-	router.get(`/est/company/${registryCode}/tab/registry_card`, (req, res) => {
-		req.headers.host.must.equal("ariregister.rik.ee")
-		req.headers["x-requested-with"].must.equal("XMLHttpRequest")
-		res.setHeader("Content-Type", "application/json")
-
-		res.end(JSON.stringify({
-			status: "OK",
-			data: {html: newRegistryCardHtml(registryCode, name)}
-		}))
+		res.end(wrapSoap(serializeBusinessRegisterResponseXml(
+			serializeRegistryCardXml(registryCode, name)
+		)))
 	})
 }
 
-function respondWith303FromBusinessRegister(router, registryCode) {
-	router.get(`/est/company/${registryCode}/tab/registry_card`, (req, res) => {
-		req.headers.host.must.equal("ariregister.rik.ee")
-
-		// Content-Type is still set in their 303 response.
-		res.setHeader("Content-Type", "text/html; charset=UTF-8")
-		res.statusCode = 303
-		res.setHeader("Location", "https://ariregister.rik.ee/est?wmsg=...")
-		res.end()
+function respondWithNoRegistryCards(router) {
+	router.post("/", (req, res) => {
+		req.headers.host.must.equal("ariregxmlv6.rik.ee")
+		res.setHeader("Content-Type", "text/xml")
+		res.end(wrapSoap(serializeBusinessRegisterResponseXml("")))
 	})
 }
 
-function respondWith404FromBusinessRegister(router, registryCode) {
-	router.get(`/est/company/${registryCode}/tab/registry_card`, (req, res) => {
-		req.headers.host.must.equal("ariregister.rik.ee")
-		res.setHeader("Content-Type", "text/html; charset=UTF-8")
-		res.statusCode = 404
+function serializeRegistryCardXml(registryCode, name) {
+	return `<item xmlns="http://arireg.x-road.eu/producer/">
+		<ariregistri_kood>${registryCode}</ariregistri_kood>
+		<nimi>${name}</nimi>
 
-		res.end(outdent`
-			<!DOCTYPE html>
-			<html lang="et">
-				<head>
-					<title>e-Äriregister &ndash; Lehekülge ei leitud</title>
-				</head>
-			</html>
-		`)
-	})
+		<yldandmed>
+			<esmaregistreerimise_kpv>2015-06-18Z</esmaregistreerimise_kpv>
+		</yldandmed>
+
+		<isikuandmed><kaardile_kantud_isikud /></isikuandmed>
+	</item>`
+}
+
+function serializeBusinessRegisterResponseXml(xml) {
+	return outdent`
+		<detailandmed_v3Response xmlns="http://arireg.x-road.eu/producer/">
+			<keha><ettevotjad>${xml}</ettevotjad></keha>
+		</detailandmed_v3Response>
+	`
+}
+
+function wrapSoap(xml) {
+	return outdent`<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+		<Header />
+		<Body>${xml}</Body>
+	</Envelope>`
 }

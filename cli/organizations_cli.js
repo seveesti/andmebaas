@@ -1,7 +1,8 @@
 var Neodoc = require("neodoc")
+var RegisterXml = require("root/lib/estonian_business_register_xml")
 var organizationsDb = require("root/db/organizations_db")
 var businessRegisterApi = require("root/lib/estonian_business_register_api")
-var parseRegistryCardHtml = require("root/lib/registry_card").parseHtml
+var parseRegistryCard = require("root/lib/estonian_registry_card").parse
 var registryCardsDb = require("root/db/organization_registry_cards_db")
 
 var USAGE_TEXT = `
@@ -20,8 +21,8 @@ module.exports = async function(argv) {
   if (args["--help"]) return void process.stdout.write(USAGE_TEXT.trimLeft())
 
 	if (args.create) await createOrganization(
-		String(args["<registry-code>"]),
-		String(args["<name>"])
+		args["<registry-code>"],
+		args["<name>"]
 	)
 	else process.stdout.write(USAGE_TEXT.trimLeft())
 }
@@ -34,9 +35,14 @@ async function createOrganization(registryCode, name) {
 		process.exit(2)
 	}
 
-	var html = await businessRegisterApi.readRegistryCardHtml(registryCode)
-	var card = parseRegistryCardHtml(html)
+	var cardEl = await businessRegisterApi.readRegistryCard(registryCode)
 
+	if (cardEl == null) {
+		console.error("Organization not in the Business Register: " + registryCode)
+		process.exit(2)
+	}
+
+	var card = parseRegistryCard(cardEl)
 	if (name == null) name = card.name
 	console.log("Creating %s (%s)…", name, card.registryCode)
 
@@ -49,11 +55,13 @@ async function createOrganization(registryCode, name) {
 		board_members: card.boardMembers.map((member) => member.name)
 	})
 
+	var now = new Date
+
 	registryCardsDb.create({
 		registry_code: card.registryCode,
-		created_at: new Date,
-		issued_at: card.issuedAt,
-		content: html,
-		content_type: "text/html"
+		created_at: now,
+		issued_at: now,
+		content: RegisterXml.serialize({item: cardEl}),
+		content_type: "application/xml"
 	})
 }

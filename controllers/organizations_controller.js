@@ -1,11 +1,12 @@
 var _ = require("root/lib/underscore")
 var I18n = require("root/lib/i18n")
 var Router = require("express").Router
+var DateFns = require("date-fns")
 var HttpError = require("standard-http-error")
-var FetchError = require("fetch-error")
 var Crypto = require("crypto")
 var Config = require("root/config")
 var Csv = require("root/lib/csv")
+var RegisterXml = require("root/lib/estonian_business_register_xml")
 var {parseOrder} = require("root/lib/filtering")
 var taxesDb = require("root/db/organization_taxes_db")
 var taxesUpdatesDb = require("root/db/organization_taxes_updates_db")
@@ -17,7 +18,7 @@ var registryCardsDb = require("root/db/organization_registry_cards_db")
 var accountsDb = require("root/db/accounts_db")
 var membersDb = require("root/db/organization_members_db")
 var updatesDb = require("root/db/organization_updates_db")
-var parseRegistryCardHtml = require("root/lib/registry_card").parseHtml
+var parseRegistryCard = require("root/lib/estonian_registry_card").parse
 var {assertAdmin} = require("root/lib/middleware/session_middleware")
 var sendEmail = require("root").sendEmail
 var renderTable = require("root/views/organizations/index_page").Table
@@ -236,22 +237,35 @@ exports.router.post("/", _.next(async function(req, res) {
 		return void res.redirect(302, req.baseUrl + "/" + registryCode)
 	}
 
+	// Reusing the registry card because adding an organization is a two-step
+	// process — first we ask for the registry code, fetch related data from the
+	// Business Register and display a prefilled form to add other details.
 	var card = registryCardsDb.read(sql`
 		SELECT * FROM organization_registry_cards
 		WHERE registry_code = ${registryCode}
-		AND content_type = 'text/html'
+		AND content_type = 'application/xml'
+		AND issued_at > ${DateFns.addDays(new Date, -7)}
 		ORDER BY created_at DESC
 		LIMIT 1
 	`), cardAttrs
 
 	if (card)
-		cardAttrs = parseRegistryCardHtml(card.content)
+		cardAttrs = parseRegistryCard(RegisterXml.parse(card.content).item)
 	else {
-		var cardHtml = await readRegistryCardHtmlFromBusinessRegister(registryCode)
+		var cardEl = await businessRegisterApi.readRegistryCard(registryCode)
 
-		if (cardHtml) {
-			cardAttrs = parseRegistryCardHtml(cardHtml)
-			createRegistryCard(cardAttrs, cardHtml)
+		if (cardEl) {
+			cardAttrs = parseRegistryCard(cardEl)
+
+			var now = new Date
+
+			registryCardsDb.create({
+				registry_code: cardAttrs.registryCode,
+				created_at: now,
+				issued_at: now,
+				content: RegisterXml.serialize({item: cardEl}),
+				content_type: "application/xml"
+			})
 		}
 		else throw new HttpError(422, "Organization Not In Business Register", {
 			description: req.t(
@@ -264,7 +278,7 @@ exports.router.post("/", _.next(async function(req, res) {
 		registry_code: cardAttrs.registryCode,
 		official_name: cardAttrs.name,
 		founded_on: cardAttrs.foundedOn,
-		board_members: cardAttrs.boardMembers.map((member) => member.name)
+		board_members: cardAttrs.boardMembers
 	})
 
 	if ("name" in attrs) {
@@ -644,26 +658,6 @@ function parse(org, account, obj, files) {
 		attrs.sev_member = _.parseBoolean(obj.sev_member)
 
 	return attrs
-}
-
-async function readRegistryCardHtmlFromBusinessRegister(registryCode) {
-	try { return await businessRegisterApi.readRegistryCardHtml(registryCode) }
-	catch (err) {
-		if (err instanceof FetchError && err.code >= 400 && err.code < 500)
-			return null
-		else
-			throw err
-	}
-}
-
-function createRegistryCard(card, html) {
-	registryCardsDb.create({
-		registry_code: card.registryCode,
-		created_at: new Date,
-		issued_at: card.issuedAt,
-		content: html,
-		content_type: "text/html"
-	})
 }
 
 function parseEmployeeCounts(countRanges) {
