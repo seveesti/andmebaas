@@ -123,7 +123,7 @@
 	"organizations_page.create_new_link": "Add New",
 	"organizations_page.create_organization.already_exists": "This enterprise is already in the database.\nIf you're a representative of this enterprise and wish to change its data, please contact us!",
 	"organizations_page.create_organization.create": "Add New Enterprise",
-	"organizations_page.create_organization.footer": "Wish to update your info? Send us an email at <a href=\"mailto:info@sev.ee\">info@sev.ee</a>.",
+	"organizations_page.create_organization.footer": "Wish to update your info? Send us an email at <a href=\"mailto:info@kell.ee\">info@kell.ee</a>.",
 	"organizations_page.create_organization.name": "Name",
 	"organizations_page.create_organization.not_in_registry": "Unfortunately didn't find this enterprise in the Business Register.\nIf you think this is a mistake, please let us know!",
 	"organizations_page.create_organization.registry_code": "Registry Code",

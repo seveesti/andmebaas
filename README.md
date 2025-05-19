@@ -1,6 +1,6 @@
 SEV Database
 ============
-A webapp to list and manage Estonian social enterprises for the Social Enterprise Estonia non-profit. The database app, available online at <https://sev.ee/andmebaas>, is built with JavaScript on Node.js, [JSX](https://github.com/moll/js-j6pack/) for templates and [Sass](https://sass-lang.com/) for CSS. It uses SQLite for its database, which comes bundled with the [Better Sqlite3][better-sqlite3] Node.js package. No external database servers required.
+A webapp to list and manage Estonian social enterprises for the Social Enterprise Estonia non-profit. The database app, available online at <https://kell.ee/andmebaas>, is built with JavaScript on Node.js, [JSX](https://github.com/moll/js-j6pack/) for templates and [Sass](https://sass-lang.com/) for CSS. It uses SQLite for its database, which comes bundled with the [Better Sqlite3][better-sqlite3] Node.js package. No external database servers required.
 
 [better-sqlite3]: https://github.com/JoshuaWise/better-sqlite3
 
@@ -143,7 +143,7 @@ The process to deploy and run on production is divided into two section — gene
     RewriteRule (.*) http://127.0.164.162:6090/$1 [proxy]
    ```
 
-   If you decided to run the app under a subdirectory, like the official SEV website does (at <https://sev.ee/andmebaas>, with the subdirectory being `/andmebaas`), you should also add a `Location` header override as currently all redirects presume the app is mounted at root (`/`):
+   If you decided to run the app under a subdirectory, like the official SEV website does (at <https://kell.ee/andmebaas>, with the subdirectory being `/andmebaas`), you should also add a `Location` header override as currently all redirects presume the app is mounted at root (`/`):
 
    ```htaccess
    Header edit Location ^(?:/andmebaas)?/(.*) /andmebaas/$1

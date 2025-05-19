@@ -109,7 +109,7 @@ function Page(attrs, children) {
 
 						<li class="join-button">
 							<a
-								href="https://sev.ee/liitu-kogukonnaga/"
+								href="https://kell.ee/liitu-kogukonnaga/"
 								class="blue-border-button"
 							>
 								{t("nav.join")}

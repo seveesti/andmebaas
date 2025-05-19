@@ -1,6 +1,6 @@
 {
-	"url": "https://sev.ee/andmebaas",
-	"siteUrl": "https://sev.ee",
+	"url": "https://kell.ee/andmebaas",
+	"siteUrl": "https://kell.ee",
 	"cookieSecret": null,
 	"sessionCookieName": "db_session_token",
 	"csrfCookieName": "db_csrf_token",
@@ -10,7 +10,7 @@
 	"estonianBusinessRegisterPassword": null,
 
 	"email": {
-		"from": "SEV <andmebaas@sev.ee>",
+		"from": "SEV <andmebaas@kell.ee>",
 		"host": null,
 		"port": 25,
 		"secure": true,

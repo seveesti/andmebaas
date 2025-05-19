@@ -128,7 +128,7 @@ deploy:
 		. \
 		"$(or $(RSYNC_TARGET), $(error "Please set RSYNC_TARGET"))/"
 
-production: RSYNC_TARGET = sev.ee:app/db
+production: RSYNC_TARGET = kell.ee:app/db
 production: deploy
 
 production/diff: RSYNC_OPTS += --dry-run

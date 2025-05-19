@@ -7,7 +7,7 @@
 		"facebook_url": "https://www.facebook.com/SotsiaalseteEttev6teteV6rgustik",
 		"footer_cta_button": {
 			"title": "Join the community",
-			"url": "https://sev.ee/en/social-entrepreneurship-community/",
+			"url": "https://kell.ee/en/social-entrepreneurship-community/",
 			"target": ""
 		},
 		"footer_cta_intro": "We bring together all social enterprises in Estonia, as well as those involved and interested in social entrepreneurship.",
@@ -16,28 +16,28 @@
 			{
 				"link": {
 					"title": "Join the community",
-					"url": "https://sev.ee/en/social-entrepreneurship-community/",
+					"url": "https://kell.ee/en/social-entrepreneurship-community/",
 					"target": ""
 				}
 			},
 			{
 				"link": {
 					"title": "Services",
-					"url": "https://sev.ee/en/services/",
+					"url": "https://kell.ee/en/services/",
 					"target": ""
 				}
 			},
 			{
 				"link": {
 					"title": "Contact",
-					"url": "https://sev.ee/en/contact/",
+					"url": "https://kell.ee/en/contact/",
 					"target": ""
 				}
 			}
 		],
 		"header_cta_button": {
 			"title": "Join the community",
-			"url": "https://sev.ee/en/liitu-kogukonnaga/",
+			"url": "https://kell.ee/en/liitu-kogukonnaga/",
 			"target": ""
 		},
 		"highlighted_content": "",
@@ -50,8 +50,8 @@
 			"title": "dylan-gillis-KdeqA3aTnBY-unsplash",
 			"filename": "dylan-gillis-KdeqA3aTnBY-unsplash.jpg",
 			"filesize": 355638,
-			"url": "https://sev.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash.jpg",
-			"link": "https://sev.ee/en/esileht/dylan-gillis-kdeqa3atnby-unsplash-2/",
+			"url": "https://kell.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash.jpg",
+			"link": "https://kell.ee/en/esileht/dylan-gillis-kdeqa3atnby-unsplash-2/",
 			"alt": "",
 			"author": "1",
 			"description": "",
@@ -65,32 +65,42 @@
 			"mime_type": "image/jpeg",
 			"type": "image",
 			"subtype": "jpeg",
-			"icon": "https://sev.ee/wp-includes/images/media/default.png",
+			"icon": "https://kell.ee/wp-includes/images/media/default.png",
 			"width": 2560,
 			"height": 1707,
 			"sizes": {
-				"thumbnail": "https://sev.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash-200x133.jpg",
+				"thumbnail": "https://kell.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash-200x133.jpg",
 				"thumbnail-width": 200,
 				"thumbnail-height": 133,
-				"medium": "https://sev.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash-1024x683.jpg",
+				"medium": "https://kell.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash-1024x683.jpg",
 				"medium-width": 1024,
 				"medium-height": 683,
-				"medium_large": "https://sev.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash-768x512.jpg",
+				"medium_large": "https://kell.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash-768x512.jpg",
 				"medium_large-width": 768,
 				"medium_large-height": 512,
-				"large": "https://sev.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash.jpg",
+				"large": "https://kell.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash.jpg",
 				"large-width": 2560,
 				"large-height": 1707,
-				"1536x1536": "https://sev.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash-1536x1024.jpg",
+				"1536x1536": "https://kell.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash-1536x1024.jpg",
 				"1536x1536-width": 1536,
 				"1536x1536-height": 1024,
-				"2048x2048": "https://sev.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash-2048x1366.jpg",
+				"2048x2048": "https://kell.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash-2048x1366.jpg",
 				"2048x2048-width": 2048,
-				"2048x2048-height": 1366
+				"2048x2048-height": 1366,
+				"gform-image-choice-sm": "https://kell.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash.jpg",
+				"gform-image-choice-sm-width": 300,
+				"gform-image-choice-sm-height": 200,
+				"gform-image-choice-md": "https://kell.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash.jpg",
+				"gform-image-choice-md-width": 400,
+				"gform-image-choice-md-height": 267,
+				"gform-image-choice-lg": "https://kell.ee/wp-content/uploads/2022/01/dylan-gillis-KdeqA3aTnBY-unsplash.jpg",
+				"gform-image-choice-lg-width": 600,
+				"gform-image-choice-lg-height": 400
 			}
 		},
 		"newsletter_section_intro": "You will have the opportunity to receive monthly emails for social entrepreneurship. What's the biggest news in this area? Who offers good opportunities to develop yourself or your business? What competitions are there to enter? Sign up to the newsletter and find out all about it!",
 		"newsletter_section_title": "Subscribe to the newsletter",
+		"related_blog_posts_section_title": "Related Posts",
 		"show_blog_posts_dates": false
 	}
 }
