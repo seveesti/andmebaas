@@ -117,7 +117,7 @@ deploy:
 		--exclude "/assets/***" \
 		--exclude "/test/***" \
 		--exclude "/scripts/***" \
-		--exclude "/node_modules/better-sqlite3/***" \
+		--exclude "/node_modules/better-sqlite3/build/***" \
 		--exclude "/node_modules/mocha/***" \
 		--exclude "/node_modules/must/***" \
 		--exclude "/node_modules/mitm/***" \
