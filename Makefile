@@ -130,6 +130,7 @@ deploy:
 		--exclude "/node_modules/sinon/***" \
 		--exclude "/node_modules/livereload/***" \
 		--exclude "/node_modules/jsdom/***" \
+		--exclude "/node_modules/sass/***" \
 		--exclude "/tmp/***" \
 		. \
 		"$(or $(RSYNC_TARGET), $(error "Please set RSYNC_TARGET"))/"
