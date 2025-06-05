@@ -89,21 +89,25 @@ module.exports = function(attrs) {
 						{t("taxes_page.form.year_and_quarter")}
 					</label>
 
-					<select name="year" required>{_.times(20).map(function(i) {
-						var year = currentYear - 10 + i
+					<select name="year" class="page-form-select" required>
+						{_.times(20).map(function(i) {
+							var year = currentYear - 10 + i
 
-						return <option value={year} selected={year == currentYear}>
-							{year}
-						</option>
-					})}</select>
+							return <option value={year} selected={year == currentYear}>
+								{year}
+							</option>
+						})}
+					</select>
 
-					<select name="quarter" required>{_.times(4).map(function(i) {
-						var quarter = i + 1
-						return <option
-							value={quarter}
-							selected={quarter == currentQuarter}
-						>{quarter}</option>
-					})}</select>
+					<select name="quarter" class="page-form-select" required>
+						{_.times(4).map(function(i) {
+							var quarter = i + 1
+							return <option
+								value={quarter}
+								selected={quarter == currentQuarter}
+							>{quarter}</option>
+						})}
+					</select>
 				</fieldset>
 
 				<fieldset>

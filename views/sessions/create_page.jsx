@@ -59,7 +59,7 @@ module.exports = function(attrs) {
 					required
 				/>
 
-				<button type="submit" class="page-form-submit blue-button">
+				<button type="submit" class="page-form-submit primary-button">
 					{t("create_session_page.form.create")}
 				</button>
 			</Form>

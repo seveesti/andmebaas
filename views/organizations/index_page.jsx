@@ -179,8 +179,8 @@ function Table(attrs) {
 						</li>) : null}
 
 						{filters.sevMember ? <li>
-							<img src={`${ROOT_PATH}/assets/sev-icon.svg`} alt="" />
-							{t("organizations_page.filters.current_filter_sev_member")}
+							<img src={`${ROOT_PATH}/assets/kell-icon.png`} alt="" />
+							{t("organizations_page.filters.current_filter_member")}
 						</li> : null}
 					</ul>
 				</div> : null}
@@ -226,7 +226,7 @@ function Table(attrs) {
 					class="sev-member-column"
 					title={t("organizations_page.sev_member")}
 				>
-					<img src={`${ROOT_PATH}/assets/sev-icon.svg`} alt="" />
+					<img src={`${ROOT_PATH}/assets/kell-icon-white.png`} alt="" />
 				</th>
 
 				<th class="name-column">
@@ -298,7 +298,7 @@ function Table(attrs) {
 						class="sev-member-column"
 						title={org.sev_member ? t("organizations_page.sev_member") : null}
 					>{org.sev_member
-						? <img src={`${ROOT_PATH}/assets/sev-icon.svg`} alt="" />
+						? <img src={`${ROOT_PATH}/assets/kell-icon.png`} alt="" />
 						: null
 					}</td>
 
@@ -496,7 +496,7 @@ function Filters(attrs) {
 				/>
 
 				<label class="sev-checkbox" for="sev-member-filter-toggle">
-					SEV liige
+					{t("organizations_page.filters.member")}
 				</label>
 			</div>
 
@@ -533,7 +533,7 @@ function Filters(attrs) {
 					var url = ${orgsPath} + "?" + query.toString()
 
 					var hasFilters = (
-						query.get("employee-count") ||
+						query.get("employee-count[]") ||
 						query.get("business-model[]") ||
 						query.get("sdg[]") ||
 						query.get("sev-member")

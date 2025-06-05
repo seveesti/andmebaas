@@ -32,9 +32,9 @@ module.exports = function(attrs) {
 					{t("invite_accept_page.organization_list")}:
 				</p>
 
-				<ul id="organizations">{organizations.map(function(org) {
-					return <li>{org.name}</li>
-				})}</ul>
+				<ul id="organizations">{organizations.map((org) => (
+					<li>{org.name}</li>
+				))}</ul>
 			</Fragment> : null}
 
 			<Form
@@ -59,6 +59,7 @@ module.exports = function(attrs) {
 				<input
 					name="password"
 					type="password"
+					class="page-form-input"
 					autocomplete="new-password"
 					required
 				/>

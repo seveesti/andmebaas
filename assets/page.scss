@@ -4,13 +4,15 @@ $page-padding: 6rem;
 $page-width: 128rem + $page-padding * 2;
 $body-font: Montserrat, Helvetica, Arial, sans-serif;
 $mono-font: monospace;
-$sev-blue: #3e00ff;
+$sev-blue: #7faef3;
 $sev-black: #2b2b2b;
+$sev-green: #004700;
 $red: tomato;
-$nav-background: #f2f5ff;
+$nav-background: #f2f2f2;
 $table-horizontal-padding: 1.5rem;
 $table-cell-horizontal-padding: 1rem;
-$table-header-background: $nav-background;
+$table-header-background: $sev-green;
+$table-header-color: white;
 $table-separator: $nav-background;
 $subtitle-grey: #878787;
 $sort-button-padding: 2rem;
@@ -106,9 +108,9 @@ strong { font-weight: bold; }
 		top: 0;
 
 		th {
-			color: $sev-black;
-			font-weight: 600;
 			background: $table-header-background;
+			color: $table-header-color;
+			font-weight: 600;
 
 			.column-name {
 				& + .column-name { margin-left: 2rem; }
@@ -121,6 +123,7 @@ strong { font-weight: bold; }
 				background-repeat: no-repeat;
 				background-size: contain;
 				padding-right: $sort-button-padding;
+        outline-offset: 0.2rem;
 
 				&.asc,
 				&.desc {
@@ -130,7 +133,8 @@ strong { font-weight: bold; }
 				&.asc { background-image: url("sort-asc.png"); }
 				&.desc { background-image: url("sort-desc.png"); }
 
-				@extend .hover-link-button;
+        &:hover { color: $sev-blue; }
+        &:focus { outline: 1px dashed $sev-blue; }
 			}
 
 			&:first-child { border-top-left-radius: 0.5rem; }
@@ -149,10 +153,17 @@ strong { font-weight: bold; }
 		td {
 			padding: 1rem 1rem;
 			background: $table-header-background;
+			color: $table-header-color;
 
 			&:first-child { border-bottom-left-radius: 0.5rem; }
 			&:last-child { border-bottom-right-radius: 0.5rem; }
 		}
+
+    .link-button {
+      color: white;
+      &:hover { color: $sev-blue; }
+      &:focus { outline-color: white; }
+    }
 	}
 }
 
@@ -195,11 +206,31 @@ textarea.page-form-input {
 	padding-bottom: 1rem;
 }
 
+.page-form-select {
+	line-height: 2.1rem;
+  color: black;
+	padding: 0.6rem 1rem;
+	border: .1rem solid #ddd;
+	border-radius: $button-border-radius;
+  background: linear-gradient(white, #f2f2f2);
+
+	&:focus {
+		outline-color: $sev-blue;
+		outline-width: 0.1rem;
+	}
+}
 
 .page-post-table-form {
 	background-color: $table-header-background;
+	color: $table-header-color;
 	padding: 1.5rem $table-horizontal-padding;
 	border-radius: 0.5rem;
+
+  .page-form-label { color: $table-header-color; }
+
+  select {
+    color: black;
+  }
 
 	fieldset {
 		display: inline-block;
@@ -231,13 +262,23 @@ textarea.page-form-input {
 	-moz-outline-radius: 0.7rem;
 }
 
-.blue-border-button {
+.primary-button {
 	@extend %button;
 
-	color: $sev-blue;
-	border-color: $sev-blue;
+	border-color: $sev-green;
+	background: $sev-green;
+	color: white;
 
-	&:focus { outline: 1px dashed $sev-blue; }
+	&:focus { outline: 1px dashed $sev-green; }
+}
+
+.primary-border-button {
+	@extend %button;
+
+	color: $sev-green;
+	border-color: $sev-green;
+
+	&:focus { outline: 1px dashed $sev-green; }
 }
 
 .blue-button {
@@ -270,7 +311,7 @@ textarea.page-form-input {
 }
 
 .link-button {
-	color: $sev-blue;
+	color: $sev-green;
 	text-decoration: underline;
 	cursor: pointer;
 
@@ -278,26 +319,20 @@ textarea.page-form-input {
 	outline-offset: 0.2rem;
 	-moz-outline-radius: 0.2rem;
 
-	&:focus { outline: 1px dashed $sev-blue; }
-}
-
-.hover-link-button {
-	outline-offset: 0.2rem;
-
-	&:hover { color: $sev-blue; }
-	&:focus { outline: 1px dashed $sev-blue; }
+  &:hover { color: $sev-blue; }
+	&:focus { outline: 1px dashed $sev-green; }
 }
 
 %dropdown-button {
 	summary {
 		@extend %button;
 
-		color: $sev-blue;
-		border: 1px solid $sev-blue;
+		color: $sev-green;
+		border: 1px solid $sev-green;
 		border-radius: 0.8rem;
 		cursor: pointer;
 
-		background-image: url("down-blue.png");
+		background-image: url("down-green.png");
 		background-position: 1.2rem center;
 		background-repeat: no-repeat;
 		background-size: 1.2rem;
@@ -307,18 +342,18 @@ textarea.page-form-input {
 		user-select: none;
 
 		&:focus-visible {
-			outline: 1px dashed $sev-blue;
+			outline: 1px dashed $sev-green;
 		}
 
 		&:hover:active {
-			background-color: $sev-blue;
+			background-color: $sev-green;
 			background-image: url("up-white.png");
 			color: white;
 		}
 	}
 
 	&[open] summary {
-		background-color: $sev-blue;
+		background-color: $sev-green;
 		background-image: url("up-white.png");
 		color: white;
 		border-bottom-left-radius: 0;
@@ -430,7 +465,7 @@ textarea.page-form-input {
 
 		& > li { display: inline-block; }
 
-		a:not(.blue-border-button),
+		a:not(.blue-button),
 		button.language {
 			text-transform: uppercase;
 			border-radius: 0.1rem;
@@ -585,7 +620,7 @@ textarea.page-form-input {
 #account-nav {
 	padding: 1.3rem 0;
 	line-height: 1.5;
-	background: $sev-blue;
+	background: $sev-green;
 	color: white;
 
 	.centered {
@@ -639,6 +674,7 @@ textarea.page-form-input {
 			}
 
 			&[href]:focus { outline: 1px dashed white; }
+      &:hover { color: $sev-blue; }
 		}
 	}
 
@@ -662,6 +698,7 @@ textarea.page-form-input {
 			-moz-outline-radius: 0.2rem;
 
 			&:focus { outline: 1px dashed white; }
+      &:hover { color: $sev-blue; }
 		}
 	}
 }
@@ -726,23 +763,23 @@ main {
 			label {
 				padding: 0.7rem 1.1rem 0.7rem 3.7rem;
 				border-radius: 0.8rem;
-				border: 1px solid $sev-blue;
+				border: 1px solid $sev-green;
 				font-weight: 500;
 				line-height: 1.2;
 				font-size: 1.5rem;
-				color: $sev-blue;
+				color: $sev-green;
 				line-height: 2rem;
 				cursor: pointer;
 
-				background: url("sev-icon.svg");
+				background: url("kell-icon.png");
 				background-repeat: no-repeat;
 				background-position: 1.3rem center;
 				background-size: 1.6rem;
 			}
 
 			input[type=checkbox]:checked + label {
-				background-color: $sev-blue;
-				background-image: url("sev-icon-white.svg");
+				background-color: $sev-green;
+				background-image: url("kell-icon-white.png");
 				color: white
 			}
 		}
@@ -849,13 +886,13 @@ main {
 
 			a {
 				font-weight: 500;
-				color: $sev-blue;
+				color: $sev-green;
 
 				border-radius: 0.2rem;
 				outline-offset: 0.2rem;
 				-moz-outline-radius: 0.2rem;
 
-				&:focus { outline: 1px dashed $sev-blue; }
+				&:focus { outline: 1px dashed $sev-green; }
 			}
 		}
 
@@ -919,7 +956,7 @@ main {
 		color: white;
 		padding: 3rem 4rem;
 		border-radius: 1rem;
-		background: url("footer-background.svg") $sev-blue;
+		background: url("footer-background.svg") $sev-green;
 		background-repeat: no-repeat;
 		background-position: right -150px;
 		background-position: calc(50% + 400px) -50px;
@@ -1305,10 +1342,13 @@ main {
 }
 
 #accept-account-invite-page main {
-	form {
+	#account-form {
 		background-color: $table-header-background;
+    color: $table-header-color;
 		padding: 1.5rem $table-horizontal-padding;
 		border-radius: 0.5rem;
+
+		.page-form-label { color: white; }
 	}
 
 	#organizations {

@@ -82,7 +82,7 @@ function Page(attrs, children) {
 			<div id="hero">
 				<nav id="nav"><Centered>
 					<a href="/" class="home"><img
-						src={`${ROOT_PATH}/assets/sev-logo.svg`}
+						src={`${ROOT_PATH}/assets/kell-logo.png`}
 						alt="SEV"
 						title={t("title")}
 					/></a>
@@ -110,7 +110,7 @@ function Page(attrs, children) {
 						<li class="join-button">
 							<a
 								href="https://kell.ee/liitu-kogukonnaga/"
-								class="blue-border-button"
+								class="blue-button"
 							>
 								{t("nav.join")}
 							</a>
@@ -179,7 +179,7 @@ function Page(attrs, children) {
 
 				<a href="/" class="logo">
 					<img
-						src={`${ROOT_PATH}/assets/sev-logo.svg`}
+						src={`${ROOT_PATH}/assets/kell-logo.png`}
 						alt="SEV"
 						title={t("title")}
 					/>
