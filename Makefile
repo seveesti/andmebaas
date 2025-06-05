@@ -103,12 +103,12 @@ menus: lib/i18n/et_footer_menu.json
 menus: lib/i18n/en_footer_menu.json
 
 lib/i18n/et_header_menu.json:
-	curl "$(SITE_URL)/wp-json/menus/v1/menus/primary" | jq $(JQ_OPTS) . > "$@"
+	curl "$(SITE_URL)/wp-json/wp/v2/menu?lang=et" | jq $(JQ_OPTS) . > "$@"
 lib/i18n/et_footer_menu.json:
 	curl "$(SITE_URL)/wp-json/acf/v3/options/options" | jq $(JQ_OPTS) . > "$@"
 
 lib/i18n/en_header_menu.json:
-	curl "$(SITE_URL)/en/wp-json/menus/v1/menus/primary" | jq $(JQ_OPTS) . > "$@"
+	curl "$(SITE_URL)/wp-json/wp/v2/menu?lang=en" | jq $(JQ_OPTS) . > "$@"
 lib/i18n/en_footer_menu.json:
 	curl "$(SITE_URL)/en/wp-json/acf/v3/options/options" | jq $(JQ_OPTS) . > "$@"
 
