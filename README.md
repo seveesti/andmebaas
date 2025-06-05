@@ -9,19 +9,18 @@ Development
 -----------
 After installing a stable version of [Node.js](https://nodejs.org) (so far tested against both Node.js v10 and Node.js v12, and NPM v6), follow these steps:
 
-1. Install the JavaScript modules necessary for the server and client-side components.
+1. Install the JavaScript modules necessary for the server.
 
    ```sh
    npm install
-   cd assets && npm install
    ```
 
-   There are `npm-shrinkwrap.json` files to ensure you get the same versions as originally developed with.
+   There's a `npm-shrinkwrap.json` to ensure you get the same versions as originally developed with.
 
 2. Compile the client-side stylesheets with Make:
 
    ```sh
-   make -C assets
+   make
    ```
 
    There are no client-side JavaScript files to generate. The few bits of JavaScript used are inlined in templates.
@@ -52,10 +51,10 @@ After installing a stable version of [Node.js](https://nodejs.org) (so far teste
 6. Open your local domain (e.g. <http://localhost:6090>) in your browser, accept the admin invite and proceed to click around.
 
 ### Autocompiling
-To have stylesheets be compiled automatically as you edit them, use `autocompile` in `assets/Makefile`:
+To have stylesheets be compiled automatically as you edit them, use `autostylesheets` in `Makefile`:
 
 ```sh
-make -C assets autocompile
+make autostylesheets
 ```
 
 ### LiveReloading
@@ -72,12 +71,12 @@ The process to deploy and run on production is divided into two section — gene
 
 1. Install the JavaScript modules necessary for stylesheet generation:
    ```sh
-   cd assets && npm install
+   cd assets
    ```
 
 2. Compile the client-side stylesheets with Make:
    ```sh
-   make -C assets
+   make
    ```
 
 3. Deploy to production via Rsync:

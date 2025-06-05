@@ -4,6 +4,7 @@ NODE_OPTS = --use-strict --require j6pack/register
 NPM = npm
 MOCHA = ./node_modules/.bin/_mocha
 JQ_OPTS = --tab
+SASS = $(NODE) ./node_modules/.bin/sass --style expanded --no-source-map
 TEST = $$(find test -name "*_test.js")
 SHANGE = vendor/shange -d db/migrations -f "config/$(ENV).sqlite3"
 LIVERELOAD_PORT = 35738
@@ -30,8 +31,13 @@ RSYNC_OPTS = \
 	--prune-empty-dirs \
 	--delete
 
-love:
-	@$(MAKE) -C assets
+love: stylesheets
+
+stylesheets:
+	@$(SASS) assets:public/assets
+
+autostylesheets: stylesheets
+	@$(MAKE) SASS="$(SASS) --watch" "$<"
 
 web: PORT = 6090
 web:
@@ -137,6 +143,7 @@ production/diff: production
 .PHONY: love
 .PHONY: web
 .PHONY: livereload
+.PHONY: stylesheets autostylesheets
 .PHONY: test spec autotest autospec
 .PHONY: translations menus
 .PHONY: shrinkwrap rebuild
